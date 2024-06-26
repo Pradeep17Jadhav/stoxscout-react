@@ -1,0 +1,36 @@
+.tableContainer {
+    padding: 0;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.portfolio {
+    max-height: calc(100vh - 84px);
+    overflow-y: scroll;
+}
+
+.holdingInfo {
+    height: 84px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 800px;
+    margin: auto;
+}
+
+.holdingInfoItem {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.profit {
+    color: #10b983 !important;
+}
+
+.loss {
+    color: #f35631 !important;
+}
