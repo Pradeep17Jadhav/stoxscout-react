@@ -1,8 +1,4 @@
 const main = async () => {
-  if (window.location.hostname === "localhost") {
-    return;
-  }
-
   let symbolsDataNSE = [];
   let symbolsDataBSE = [];
   if (window.location.hostname === "www.nseindia.com") {
@@ -12,15 +8,15 @@ const main = async () => {
         return extractPriceInfoNSE(data);
       })
     );
-  }
-
-  if (window.location.hostname === "www.moneycontrol.com") {
+  } else if (window.location.hostname === "www.moneycontrol.com") {
     symbolsDataBSE = await Promise.all(
       stocksListBSE.map(async (symbolInfo) => {
         const data = await loadSymbol(symbolInfo.code, "BSE");
         return extractPriceInfoBSE(data);
       })
     );
+  } else {
+    return;
   }
 
   const symbolsData = [...symbolsDataNSE, ...symbolsDataBSE];
