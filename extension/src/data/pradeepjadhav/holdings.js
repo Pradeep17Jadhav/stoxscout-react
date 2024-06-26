@@ -1,3 +1,37 @@
+const stocksListNSE = [
+  "ASTRAL",
+  "AUBANK",
+  "AXISBANK",
+  "BALKRISIND",
+  "DEEPAKNTR",
+  "DIXON",
+  "DMART",
+  "EICHERMOT",
+  "ESCORTS",
+  "HDFCBANK",
+  "HINDUNILVR",
+  "IEX",
+  "IRCTC",
+  "JIOFIN",
+  "JUBLFOOD",
+  "MUTHOOTFIN",
+  "SBICARD",
+  "TATAMOTORS",
+  "TITAN",
+];
+
+const stocksListBSE = [
+  { symbol: "ASIANPAINT", code: "API" },
+  { symbol: "BAJFINANCE", code: "BAF" },
+  { symbol: "ICICIBANK", code: "ICI02" },
+  { symbol: "JUBLINGREA", code: "JI12" },
+  { symbol: "KOTAKBANK", code: "KMF" },
+  { symbol: "LTIM", code: "LI09" },
+  { symbol: "RELIANCE", code: "RI" },
+  { symbol: "TCS", code: "TCS" },
+  { symbol: "WIPRO", code: "W" },
+];
+
 const stocksList = [
   "ASIANPAINT",
   "ASTRAL",

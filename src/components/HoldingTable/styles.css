@@ -1,0 +1,8 @@
+.tableHeaderCell {
+    cursor: pointer;
+}
+
+.tableHeaderCell:hover {
+    background: #f2f2f2;
+    cursor: pointer;
+}

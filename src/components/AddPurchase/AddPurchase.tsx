@@ -1,4 +1,11 @@
-import { Button, TextField } from "@mui/material";
+import {
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  SelectChangeEvent,
+  TextField,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import stocks from "../../data/pradeepjadhav/holdings.json";
 import "./styles.css";
@@ -8,6 +15,7 @@ export const AddPurchase = () => {
   const [dateAdded, setDateAdded] = useState("");
   const [quantity, setQuantity] = useState("");
   const [avgPrice, setAvgPrice] = useState("");
+  const [exchange, setExchange] = useState("NSE");
   const [stockInfo, setStockInfo] = useState<any>(stocks.holdings);
 
   useEffect(() => {
@@ -16,7 +24,11 @@ export const AddPurchase = () => {
 
   const isValidForm = () => {
     return (
-      symbol !== "" && dateAdded !== "" && quantity !== "" && avgPrice !== ""
+      symbol !== "" &&
+      dateAdded !== "" &&
+      quantity !== "" &&
+      avgPrice !== "" &&
+      exchange !== ""
     );
   };
 
@@ -40,6 +52,7 @@ export const AddPurchase = () => {
                 dateAdded: dateAddedEpoch,
                 quantity: parseInt(quantity),
                 avgPrice: parseFloat(avgPriceCleaned),
+                exchange,
               },
             ],
           };
@@ -101,6 +114,15 @@ export const AddPurchase = () => {
           value={avgPrice}
           onChange={(e) => setAvgPrice(e.target.value)}
         />
+        <RadioGroup
+          value={exchange}
+          onChange={(event: SelectChangeEvent) =>
+            setExchange((event.target as HTMLInputElement).value)
+          }
+        >
+          <FormControlLabel value="NSE" control={<Radio />} label="NSE" />
+          <FormControlLabel value="BSE" control={<Radio />} label="BSE" />
+        </RadioGroup>
         <Button type="submit" variant="contained" disabled={!isValidForm()}>
           Add More
         </Button>

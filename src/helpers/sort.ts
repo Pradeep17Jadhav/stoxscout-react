@@ -3,22 +3,22 @@ import { COLUMNS, Order, StockInformation } from "../types/transaction";
 const sortByProperty = (
   array: StockInformation[],
   prop: string,
-  order: Order = "asc"
+  order: Order = Order.ASC
 ) => {
   const slicedArray = array.slice();
   const sortedArray = slicedArray.sort(
     (a: StockInformation, b: StockInformation) =>
       // @ts-ignore
-      order === "asc" ? a[prop] - b[prop] : b[prop] - a[prop]
+      order === Order.ASC ? a[prop] - b[prop] : b[prop] - a[prop]
   );
   return sortedArray;
 };
 
-const sortBySymbol = (array: StockInformation[], order: Order = "asc") =>
+const sortBySymbol = (array: StockInformation[], order: Order = Order.ASC) =>
   array
     .slice()
     .sort((a, b) =>
-      order === "asc"
+      order === Order.ASC
         ? a.symbol.localeCompare(b.symbol)
         : b.symbol.localeCompare(a.symbol)
     );
@@ -30,13 +30,18 @@ const sortByPnlPercent = (array: StockInformation[], order: Order) =>
 const sortByLtp = (array: StockInformation[], order: Order) =>
   sortByProperty(array, "ltp", order);
 
-const sortByDayChange = (array: StockInformation[], order: Order = "asc") =>
+const sortByDayChange = (array: StockInformation[], order: Order = Order.ASC) =>
   sortByProperty(array, "totalDayChange", order);
 
 const sortByDayChangePercent = (
   array: StockInformation[],
-  order: Order = "asc"
+  order: Order = Order.ASC
 ) => sortByProperty(array, "percentDayChange", order);
+
+const sortByDayChangePercentOnInvestment = (
+  array: StockInformation[],
+  order: Order = Order.ASC
+) => sortByProperty(array, "percentDayChangeOnInvestment", order);
 
 const sortByDaysMax = (array: StockInformation[], order: Order) =>
   sortByProperty(array, "daysMax", order);
@@ -56,16 +61,19 @@ const sortByQuantity = (array: StockInformation[], order: Order) =>
 const sort = (
   stocksInfo: StockInformation[],
   column: string,
-  order: Order = "asc"
+  order: Order = Order.DESC
 ): StockInformation[] => {
   if (column === COLUMNS.SYMBOL) {
     return sortBySymbol(stocksInfo, order);
   }
-  if (column === COLUMNS.TOTAL_DAY_CHANGE) {
+  if (column === COLUMNS.DAY_PNL) {
     return sortByDayChange(stocksInfo, order);
   }
-  if (column === COLUMNS.TOTAL_DAY_CHANGE_PERCENT) {
+  if (column === COLUMNS.DAY_PNL_PERCENT) {
     return sortByDayChangePercent(stocksInfo, order);
+  }
+  if (column === COLUMNS.DAY_PNL_PERCENT_INVESTMENT) {
+    return sortByDayChangePercentOnInvestment(stocksInfo, order);
   }
   if (column === COLUMNS.INVESTED_VALUE) {
     return sortByInvestedValue(stocksInfo, order);
@@ -73,10 +81,10 @@ const sort = (
   if (column === COLUMNS.LTP) {
     return sortByLtp(stocksInfo, order);
   }
-  if (column === COLUMNS.PNL) {
+  if (column === COLUMNS.NET_PNL) {
     return sortByPnl(stocksInfo, order);
   }
-  if (column === COLUMNS.PNL_PERCENT) {
+  if (column === COLUMNS.NET_PNL_PERCENT) {
     return sortByPnlPercent(stocksInfo, order);
   }
   if (column === COLUMNS.MAX_DAYS) {

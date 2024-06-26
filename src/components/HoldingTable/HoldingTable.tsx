@@ -8,67 +8,119 @@ import {
   TableRow,
 } from "@mui/material";
 import { formatPrice } from "../../helpers/price";
-import { COLUMNS, StockInformation } from "../../types/transaction";
+import { COLUMNS, Order, StockInformation } from "../../types/transaction";
+import "./styles.css";
+import { useState } from "react";
 
 type Props = {
   stocksInfo: StockInformation[];
-  onSort: (column: string) => void;
+  onSort: (column: string, order: Order) => void;
 };
 export const HoldingTable = ({ stocksInfo, onSort }: Props) => {
+  const [sortedBy, setSortedBy] = useState<string>(COLUMNS.SYMBOL);
+  const [orderBy, setOrderBy] = useState<Order>(Order.DESC);
+
+  const sortByColumn = (column: string) => {
+    if (sortedBy === column) {
+      if (orderBy === Order.ASC) {
+        setOrderBy(Order.DESC);
+      } else {
+        setOrderBy(Order.ASC);
+      }
+    } else {
+      setSortedBy(column);
+      setOrderBy(Order.ASC);
+    }
+    onSort(column, orderBy);
+  };
+
   return (
     <TableContainer className="tableContainer" component={Paper}>
       <Table sx={{ minWidth: 100 }} aria-label="Portfolio" stickyHeader>
         <TableHead>
           <TableRow>
             <TableCell
-              sx={{ minWidth: 200 }}
-              onClick={() => onSort(COLUMNS.SYMBOL)}
+              className="tableHeaderCell"
+              sx={{ minWidth: 100 }}
+              onClick={() => sortByColumn(COLUMNS.SYMBOL)}
             >
               {COLUMNS.SYMBOL}
             </TableCell>
-            <TableCell align="right" onClick={() => onSort(COLUMNS.QUANTITY)}>
+            <TableCell
+              className="tableHeaderCell"
+              align="right"
+              onClick={() => sortByColumn(COLUMNS.QUANTITY)}
+            >
               {COLUMNS.QUANTITY}
             </TableCell>
-            <TableCell align="right" onClick={() => onSort(COLUMNS.AVG_PRICE)}>
+            <TableCell
+              className="tableHeaderCell"
+              align="right"
+              onClick={() => sortByColumn(COLUMNS.AVG_PRICE)}
+            >
               {COLUMNS.AVG_PRICE}
             </TableCell>
-            <TableCell align="right" onClick={() => onSort(COLUMNS.LTP)}>
+            <TableCell
+              className="tableHeaderCell"
+              align="right"
+              onClick={() => sortByColumn(COLUMNS.LTP)}
+            >
               {COLUMNS.LTP}
             </TableCell>
             <TableCell
+              className="tableHeaderCell"
               align="right"
-              onClick={() => onSort(COLUMNS.INVESTED_VALUE)}
+              onClick={() => sortByColumn(COLUMNS.INVESTED_VALUE)}
             >
               {COLUMNS.INVESTED_VALUE}
             </TableCell>
             <TableCell
+              className="tableHeaderCell"
               align="right"
-              onClick={() => onSort(COLUMNS.CURRENT_VALUE)}
+              onClick={() => sortByColumn(COLUMNS.CURRENT_VALUE)}
             >
               {COLUMNS.CURRENT_VALUE}
             </TableCell>
             <TableCell
+              className="tableHeaderCell"
               align="right"
-              onClick={() => onSort(COLUMNS.TOTAL_DAY_CHANGE)}
+              onClick={() => sortByColumn(COLUMNS.NET_PNL)}
             >
-              {COLUMNS.TOTAL_DAY_CHANGE}
+              {COLUMNS.NET_PNL}
             </TableCell>
             <TableCell
+              className="tableHeaderCell"
               align="right"
-              onClick={() => onSort(COLUMNS.TOTAL_DAY_CHANGE_PERCENT)}
+              onClick={() => sortByColumn(COLUMNS.NET_PNL_PERCENT)}
             >
-              {COLUMNS.TOTAL_DAY_CHANGE_PERCENT}
-            </TableCell>
-            <TableCell align="right" onClick={() => onSort(COLUMNS.PNL)}>
-              {COLUMNS.PNL}
+              {COLUMNS.NET_PNL_PERCENT}
             </TableCell>
             <TableCell
+              className="tableHeaderCell"
               align="right"
-              onClick={() => onSort(COLUMNS.PNL_PERCENT)}
+              onClick={() => sortByColumn(COLUMNS.DAY_PNL)}
             >
-              {COLUMNS.PNL_PERCENT}
+              {COLUMNS.DAY_PNL}
             </TableCell>
-            <TableCell align="right" onClick={() => onSort(COLUMNS.MAX_DAYS)}>
+            <TableCell
+              className="tableHeaderCell"
+              align="right"
+              onClick={() => sortByColumn(COLUMNS.DAY_PNL_PERCENT)}
+            >
+              {COLUMNS.DAY_PNL_PERCENT}
+            </TableCell>
+            <TableCell
+              className="tableHeaderCell"
+              align="right"
+              onClick={() => sortByColumn(COLUMNS.DAY_PNL_PERCENT_INVESTMENT)}
+            >
+              {COLUMNS.DAY_PNL_PERCENT_INVESTMENT}
+            </TableCell>
+            <TableCell
+              className="tableHeaderCell"
+              align="right"
+              onClick={() => sortByColumn(COLUMNS.MAX_DAYS)}
+            >
               {COLUMNS.MAX_DAYS}
             </TableCell>
           </TableRow>
@@ -94,6 +146,18 @@ export const HoldingTable = ({ stocksInfo, onSort }: Props) => {
                 {formatPrice(stockInfo.currentValue)}
               </TableCell>
               <TableCell
+                className={stockInfo.pnl >= 0 ? "profit" : "loss"}
+                align="right"
+              >
+                {formatPrice(stockInfo.pnl)}
+              </TableCell>
+              <TableCell
+                className={stockInfo.pnlpercent >= 0 ? "profit" : "loss"}
+                align="right"
+              >
+                {stockInfo.pnlpercent.toFixed(2)}%
+              </TableCell>
+              <TableCell
                 className={stockInfo.totalDayChange >= 0 ? "profit" : "loss"}
                 align="right"
               >
@@ -103,19 +167,17 @@ export const HoldingTable = ({ stocksInfo, onSort }: Props) => {
                 className={stockInfo.percentDayChange >= 0 ? "profit" : "loss"}
                 align="right"
               >
-                {formatPrice(stockInfo.percentDayChange)}
+                {formatPrice(stockInfo.percentDayChange)}%
               </TableCell>
               <TableCell
-                className={stockInfo.pnl >= 0 ? "profit" : "loss"}
+                className={
+                  stockInfo.percentDayChangeOnInvestment >= 0
+                    ? "profit"
+                    : "loss"
+                }
                 align="right"
               >
-                {formatPrice(stockInfo.pnl)}
-              </TableCell>
-              <TableCell
-                className={stockInfo.pnl >= 0 ? "profit" : "loss"}
-                align="right"
-              >
-                {stockInfo.pnlpercent.toFixed(2)}
+                {formatPrice(stockInfo.percentDayChangeOnInvestment)}%
               </TableCell>
               <TableCell align="right">{stockInfo.daysMax}</TableCell>
             </TableRow>

@@ -17,6 +17,7 @@ export type StockInformation = {
   ltp: number;
   totalDayChange: number;
   percentDayChange: number;
+  percentDayChangeOnInvestment: number;
 };
 
 export type DateWiseStockInformation = {
@@ -45,7 +46,10 @@ export type HoldingInfo = {
   totalDayChangePercentage: string;
 };
 
-export type Order = "asc" | "desc" | "unordered";
+export enum Order {
+  ASC = "ASC",
+  DESC = "DESC",
+}
 
 export const COLUMNS = {
   SYMBOL: "SYMBOL",
@@ -54,9 +58,10 @@ export const COLUMNS = {
   LTP: "LTP",
   INVESTED_VALUE: "INVESTED VALUE",
   CURRENT_VALUE: "CURRENT VALUE",
-  TOTAL_DAY_CHANGE: "TOTAL DAY CHANGE",
-  TOTAL_DAY_CHANGE_PERCENT: "TOTAL DAY CHANGE %",
-  PNL: "P&L",
-  PNL_PERCENT: "P&L %",
+  DAY_PNL: "DAY P&L",
+  DAY_PNL_PERCENT: "DAY P&L %",
+  DAY_PNL_PERCENT_INVESTMENT: "DAY P&L % INV",
+  NET_PNL: "NET P&L",
+  NET_PNL_PERCENT: "NET P&L %",
   MAX_DAYS: "MAX DAYS",
 };

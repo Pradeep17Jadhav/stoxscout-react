@@ -8,16 +8,17 @@ import { useEffect, useState } from "react";
 import stocks from "../../data/pradeepjadhav/holdings.json";
 import "./styles.css";
 import { sort } from "../../helpers/sort";
-import { HoldingInfo, StockInformation } from "../../types/transaction";
+import {
+  COLUMNS,
+  HoldingInfo,
+  Order,
+  StockInformation,
+} from "../../types/transaction";
 import { removeQueryParamsFromURL } from "../../helpers/utils";
 import { HoldingTable } from "../HoldingTable/HoldingTable";
 import { HoldingInformation } from "../HoldingInformation/HoldingInformation";
 
-type Props = {
-  stocks?: any;
-};
-
-export const Portfolio = ({}: Props) => {
+export const Portfolio = () => {
   const location = useLocation();
   const stocksData = transformTypes(stocks);
   const [stocksInfo, setStocksInfo] = useState<StockInformation[]>([]);
@@ -34,11 +35,28 @@ export const Portfolio = ({}: Props) => {
     const parseQueryParams = () => {
       const searchParams = new URLSearchParams(location.search);
       const dataString = searchParams.get("data");
-      let decodedData = "";
+      let newFetchedData = "";
       if (dataString) {
         try {
-          decodedData = decodeURIComponent(dataString);
-          localStorage.setItem("lastFetched", decodedData);
+          newFetchedData = decodeURIComponent(dataString);
+          let lastFetchedData = localStorage.getItem("lastFetched");
+          let savedMarketData = {};
+          if (lastFetchedData) {
+            const lastFetchedParsed = JSON.parse(lastFetchedData);
+            const newFetchedParsed = JSON.parse(newFetchedData);
+            const uniqueDataMap = new Map();
+            newFetchedParsed.forEach((item: any) => {
+              uniqueDataMap.set(item.symbol, item);
+            });
+            lastFetchedParsed.forEach((item: any) => {
+              if (!uniqueDataMap.has(item.symbol)) {
+                uniqueDataMap.set(item.symbol, item);
+              }
+            });
+            savedMarketData = Array.from(uniqueDataMap.values());
+            newFetchedData = JSON.stringify(savedMarketData);
+          }
+          localStorage.setItem("lastFetched", newFetchedData);
         } catch (error) {
           console.error("Error parsing data:", error);
         }
@@ -46,15 +64,15 @@ export const Portfolio = ({}: Props) => {
         try {
           const data = localStorage.getItem("lastFetched");
           if (data) {
-            decodedData = data;
+            newFetchedData = data;
           }
         } catch (error) {
           console.error("Error fetching localstorage data:", error);
         }
       }
-      if (!!decodedData) {
+      if (!!newFetchedData) {
         removeQueryParamsFromURL();
-        const marketData = JSON.parse(decodedData);
+        const marketData = JSON.parse(newFetchedData);
         const stockInfo = stockInfoGeneratorAll(
           stocksData.holdings,
           marketData
@@ -65,10 +83,10 @@ export const Portfolio = ({}: Props) => {
     };
     parseQueryParams();
     removeQueryParamsFromURL();
-  }, [location.search]);
+  }, []);
 
-  const onSort = (column: string) =>
-    setStocksInfo(sort(stocksInfo, column, "asc"));
+  const onSort = (column: string, order: Order) =>
+    setStocksInfo(sort(stocksInfo, column, order));
 
   return (
     <>

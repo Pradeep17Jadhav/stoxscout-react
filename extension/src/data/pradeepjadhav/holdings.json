@@ -7,6 +7,7 @@
                     "dateAdded": "1635206400000",
                     "quantity": 1,
                     "avgPrice": 2918.1,
+                    "exchange": "BSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -15,6 +16,7 @@
                     "dateAdded": "1716508800000",
                     "quantity": 4,
                     "avgPrice": 2897,
+                    "exchange": "BSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -28,6 +30,7 @@
                     "dateAdded": "1635206400000",
                     "quantity": 1,
                     "avgPrice": 2150.45,
+                    "exchange": "NSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -36,6 +39,21 @@
                     "dateAdded": "1635984000000",
                     "quantity": 1,
                     "avgPrice": 2265,
+                    "exchange": "NSE",
+                    "portfolioId": [
+                        "default"
+                    ]
+                }
+            ]
+        },
+        {
+            "symbol": "AUBANK",
+            "transactions": [
+                {
+                    "dateAdded": "1632096000000",
+                    "quantity": 6,
+                    "avgPrice": 559.37,
+                    "exchange": "NSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -49,6 +67,7 @@
                     "dateAdded": "1651795200000",
                     "quantity": 2,
                     "avgPrice": 675.75,
+                    "exchange": "NSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -62,6 +81,7 @@
                     "dateAdded": "1651795200000",
                     "quantity": 2,
                     "avgPrice": 6000,
+                    "exchange": "BSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -70,6 +90,7 @@
                     "dateAdded": "1639958400000",
                     "quantity": 2,
                     "avgPrice": 6555,
+                    "exchange": "BSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -78,6 +99,7 @@
                     "dateAdded": "1618185600000",
                     "quantity": 2,
                     "avgPrice": 4464,
+                    "exchange": "BSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -91,6 +113,7 @@
                     "dateAdded": "1635984000000",
                     "quantity": 2,
                     "avgPrice": 2459.45,
+                    "exchange": "NSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -104,6 +127,7 @@
                     "dateAdded": "1638489600000",
                     "quantity": 2,
                     "avgPrice": 2318,
+                    "exchange": "NSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -112,6 +136,7 @@
                     "dateAdded": "1635984000000",
                     "quantity": 3,
                     "avgPrice": 2295.7,
+                    "exchange": "NSE",
                     "portfolioId": [
                         "default"
                     ]
@@ -124,12 +149,20 @@
                 {
                     "dateAdded": "1643328000000",
                     "quantity": 1,
-                    "avgPrice": 4463.65
+                    "avgPrice": 4463.65,
+                    "exchange": "NSE",
+                    "portfolioId": [
+                        "default"
+                    ]
                 },
                 {
                     "dateAdded": "1629849600000",
                     "quantity": 1,
-                    "avgPrice": 3957.4
+                    "avgPrice": 3957.4,
+                    "exchange": "NSE",
+                    "portfolioId": [
+                        "default"
+                    ]
                 }
             ]
         },
@@ -139,7 +172,8 @@
                 {
                     "dateAdded": "1635206400000",
                     "quantity": 1,
-                    "avgPrice": 4573.7
+                    "avgPrice": 4573.7,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -149,12 +183,14 @@
                 {
                     "dateAdded": "1615334400000",
                     "quantity": 1,
-                    "avgPrice": 2668.5
+                    "avgPrice": 2668.5,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1614038400000",
                     "quantity": 1,
-                    "avgPrice": 2497.65
+                    "avgPrice": 2497.65,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -164,7 +200,8 @@
                 {
                     "dateAdded": "1614211200000",
                     "quantity": 2,
-                    "avgPrice": 1317
+                    "avgPrice": 1317,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -174,22 +211,26 @@
                 {
                     "dateAdded": "1716508800000",
                     "quantity": 8,
-                    "avgPrice": 1500.85
+                    "avgPrice": 1500.85,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1705622400000",
                     "quantity": 4,
-                    "avgPrice": 1473.35
+                    "avgPrice": 1473.35,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1651795200000",
                     "quantity": 1,
-                    "avgPrice": 1317.25
+                    "avgPrice": 1317.25,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1638489600000",
                     "quantity": 3,
-                    "avgPrice": 1527.7
+                    "avgPrice": 1527.7,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -199,17 +240,20 @@
                 {
                     "dateAdded": "1716508800000",
                     "quantity": 2,
-                    "avgPrice": 2372.7
+                    "avgPrice": 2372.7,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1635206400000",
                     "quantity": 1,
-                    "avgPrice": 2433.3
+                    "avgPrice": 2433.3,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1634515200000",
                     "quantity": 2,
-                    "avgPrice": 2667
+                    "avgPrice": 2667,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -219,7 +263,8 @@
                 {
                     "dateAdded": "1638489600000",
                     "quantity": 5,
-                    "avgPrice": 728.25
+                    "avgPrice": 728.25,
+                    "exchange": "BSE"
                 }
             ]
         },
@@ -229,7 +274,8 @@
                 {
                     "dateAdded": "1635984000000",
                     "quantity": 12,
-                    "avgPrice": 246.22
+                    "avgPrice": 246.22,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -239,7 +285,8 @@
                 {
                     "dateAdded": "1635984000000",
                     "quantity": 4,
-                    "avgPrice": 827
+                    "avgPrice": 827,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -249,7 +296,8 @@
                 {
                     "dateAdded": "1604620800000",
                     "quantity": 6,
-                    "avgPrice": 97.23
+                    "avgPrice": 97.23,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -259,17 +307,20 @@
                 {
                     "dateAdded": "1635186600000",
                     "quantity": 5,
-                    "avgPrice": 736.52
+                    "avgPrice": 736.52,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1716508800000",
                     "quantity": 30,
-                    "avgPrice": 470.95
+                    "avgPrice": 470.95,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1705622400000",
                     "quantity": 4,
-                    "avgPrice": 530.4
+                    "avgPrice": 530.4,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -279,7 +330,8 @@
                 {
                     "dateAdded": "1638489600000",
                     "quantity": 2,
-                    "avgPrice": 581.75
+                    "avgPrice": 581.75,
+                    "exchange": "BSE"
                 }
             ]
         },
@@ -289,17 +341,20 @@
                 {
                     "dateAdded": "1716508800000",
                     "quantity": 8,
-                    "avgPrice": 1709.75
+                    "avgPrice": 1709.75,
+                    "exchange": "BSE"
                 },
                 {
                     "dateAdded": "1619568000000",
                     "quantity": 1,
-                    "avgPrice": 1799.7
+                    "avgPrice": 1799.7,
+                    "exchange": "BSE"
                 },
                 {
                     "dateAdded": "1617840000000",
                     "quantity": 2,
-                    "avgPrice": 1797.6
+                    "avgPrice": 1797.6,
+                    "exchange": "BSE"
                 }
             ]
         },
@@ -309,17 +364,20 @@
                 {
                     "dateAdded": "1716508800000",
                     "quantity": 4,
-                    "avgPrice": 4844.25
+                    "avgPrice": 4844.25,
+                    "exchange": "BSE"
                 },
                 {
                     "dateAdded": "1623110400000",
                     "quantity": 1,
-                    "avgPrice": 4033
+                    "avgPrice": 4033,
+                    "exchange": "BSE"
                 },
                 {
                     "dateAdded": "1622592000000",
                     "quantity": 1,
-                    "avgPrice": 3818.95
+                    "avgPrice": 3818.95,
+                    "exchange": "BSE"
                 }
             ]
         },
@@ -329,12 +387,14 @@
                 {
                     "dateAdded": "1651795200000",
                     "quantity": 1,
-                    "avgPrice": 1204.6
+                    "avgPrice": 1204.6,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1638489600000",
                     "quantity": 5,
-                    "avgPrice": 1499.5
+                    "avgPrice": 1499.5,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -344,7 +404,8 @@
                 {
                     "dateAdded": "1604601000000",
                     "quantity": 6,
-                    "avgPrice": 1980.42
+                    "avgPrice": 1980.42,
+                    "exchange": "BSE"
                 }
             ]
         },
@@ -354,27 +415,32 @@
                 {
                     "dateAdded": "1716508800000",
                     "quantity": 17,
-                    "avgPrice": 712.35
+                    "avgPrice": 712.35,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1705622400000",
                     "quantity": 8,
-                    "avgPrice": 749.9
+                    "avgPrice": 749.9,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1651795200000",
                     "quantity": 1,
-                    "avgPrice": 759.25
+                    "avgPrice": 759.25,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1626998400000",
                     "quantity": 5,
-                    "avgPrice": 959.4
+                    "avgPrice": 959.4,
+                    "exchange": "NSE"
                 },
                 {
                     "dateAdded": "1626998400000",
                     "quantity": 1,
-                    "avgPrice": 959.4
+                    "avgPrice": 959.4,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -384,7 +450,8 @@
                 {
                     "dateAdded": "1627603200000",
                     "quantity": 16,
-                    "avgPrice": 298.5
+                    "avgPrice": 298.5,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -394,7 +461,8 @@
                 {
                     "dateAdded": "1634169600000",
                     "quantity": 2,
-                    "avgPrice": 3632.8
+                    "avgPrice": 3632.8,
+                    "exchange": "BSE"
                 }
             ]
         },
@@ -404,7 +472,8 @@
                 {
                     "dateAdded": "1651795200000",
                     "quantity": 1,
-                    "avgPrice": 2204.4
+                    "avgPrice": 2204.4,
+                    "exchange": "NSE"
                 }
             ]
         },
@@ -414,32 +483,26 @@
                 {
                     "dateAdded": "1716508800000",
                     "quantity": 1,
-                    "avgPrice": 468.75
+                    "avgPrice": 468.75,
+                    "exchange": "BSE"
                 },
                 {
                     "dateAdded": "1716508800000",
                     "quantity": 25,
-                    "avgPrice": 469.75
+                    "avgPrice": 469.75,
+                    "exchange": "BSE"
                 },
                 {
                     "dateAdded": "1651795200000",
                     "quantity": 3,
-                    "avgPrice": 481.85
+                    "avgPrice": 481.85,
+                    "exchange": "BSE"
                 },
                 {
                     "dateAdded": "1638489600000",
                     "quantity": 6,
-                    "avgPrice": 643.15
-                }
-            ]
-        },
-        {
-            "symbol": "AUBANK",
-            "transactions": [
-                {
-                    "dateAdded": "1632096000000",
-                    "quantity": 6,
-                    "avgPrice": 559.37
+                    "avgPrice": 643.15,
+                    "exchange": "BSE"
                 }
             ]
         }

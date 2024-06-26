@@ -1,4 +1,38 @@
-const stocksList = [
+export const stocksListNSE = [
+  "ASTRAL",
+  "AUBANK",
+  "AXISBANK",
+  "BALKRISIND",
+  "DEEPAKNTR",
+  "DIXON",
+  "DMART",
+  "EICHERMOT",
+  "ESCORTS",
+  "HDFCBANK",
+  "HINDUNILVR",
+  "IEX",
+  "IRCTC",
+  "JIOFIN",
+  "JUBLFOOD",
+  "MUTHOOTFIN",
+  "SBICARD",
+  "TATAMOTORS",
+  "TITAN",
+];
+
+export const stocksListBSE = [
+  "ASIANPAINT",
+  "BAJFINANCE",
+  "ICICIBANK",
+  "JUBLINGREA",
+  "KOTAKBANK",
+  "LTIM",
+  "RELIANCE",
+  "TCS",
+  "WIPRO",
+];
+
+export const stocksList = [
   "ASIANPAINT",
   "ASTRAL",
   "AXISBANK",

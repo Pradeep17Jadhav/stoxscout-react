@@ -28,11 +28,14 @@ export const stockInfoGenerator = (
   const symbolMarketData = marketData.filter(
     (data: any) => data.symbol === symbol
   )[0];
-  const ltp = symbolMarketData.lastPrice;
+  const ltp = symbolMarketData.close
+    ? symbolMarketData.close
+    : symbolMarketData.lastPrice;
   const dayChange = ltp - symbolMarketData.previousClose;
   const totalDayChange = dayChange * quantity;
   const previousClose = symbolMarketData.previousClose;
   const percentDayChange = getPercentChange(ltp, previousClose);
+  const percentDayChangeOnInvestment = (totalDayChange / investedValue) * 100;
   const currentValue = quantity * ltp;
   const avgPrice = investedValue / quantity;
   const pnl = currentValue - investedValue;
@@ -49,6 +52,7 @@ export const stockInfoGenerator = (
     ltp,
     totalDayChange,
     percentDayChange,
+    percentDayChangeOnInvestment,
   };
 };
 
