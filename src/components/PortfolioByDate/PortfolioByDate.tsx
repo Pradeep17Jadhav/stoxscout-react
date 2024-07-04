@@ -1,19 +1,20 @@
 import { getPnL, transformTypes } from "../../helpers/price";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { DateWiseStockInformation, HoldingInfo } from "../../types/transaction";
+import {
+  DateWiseStockInformation,
+  HoldingInfo,
+  Order,
+} from "../../types/transaction";
 import { removeQueryParamsFromURL } from "../../helpers/utils";
 import { dateWiseStockInfoGeneratorAll } from "./portfolioByDateUtils";
 import { HoldingTable } from "../HoldingTable/HoldingTable";
 import { HoldingInformation } from "../HoldingInformation/HoldingInformation";
 import stocks from "../../data/pradeepjadhav/holdings.json";
 import "./styles.css";
+import { sort, sortHoldingsByDate } from "../../helpers/sort";
 
-type Props = {
-  stocks?: any;
-};
-
-export const PortfolioByDate = ({}: Props) => {
+export const PortfolioByDate = () => {
   const location = useLocation();
   const stocksData = transformTypes(stocks);
   const [dateWiseStocksInfo, setDateWiseStocksInfo] =
@@ -56,7 +57,8 @@ export const PortfolioByDate = ({}: Props) => {
           stocksData.holdings,
           marketData
         );
-        setDateWiseStocksInfo(dateWiseStockInfo);
+        const sortedDateWiseStockInfo = sortHoldingsByDate(dateWiseStockInfo);
+        setDateWiseStocksInfo(sortedDateWiseStockInfo);
         // setHoldingInfo(getPnL(dateWiseStockInfo));
       }
     };
@@ -64,26 +66,51 @@ export const PortfolioByDate = ({}: Props) => {
     removeQueryParamsFromURL();
   }, [location.search]);
 
-  //   const onSort = (column: string) =>
-  //     setDateWiseStocksInfo(sort(dateWiseStocksInfo, column, "asc"));
+  const onSort = (column: string, order: Order, date?: string) => {
+    let index = -1;
+    if (!date) {
+      return;
+    }
+    const stocksInfoForDate = dateWiseStocksInfo.find((stockInfoForDate, i) => {
+      if (stockInfoForDate.date === date) {
+        index = i;
+        return true;
+      }
+      return false;
+    });
+    if (!stocksInfoForDate || index === -1) {
+      return;
+    }
+    const sortedStocksInfo = sort(stocksInfoForDate.stocksInfo, column, order);
+    setDateWiseStocksInfo(
+      (dateWiseStockInformation: DateWiseStockInformation) => {
+        const dateWiseStockInformationCopy = JSON.parse(
+          JSON.stringify(dateWiseStockInformation)
+        );
+        dateWiseStockInformationCopy[index].stocksInfo = sortedStocksInfo;
+        return dateWiseStockInformationCopy;
+      }
+    );
+  };
 
   return (
     <>
       {dateWiseStocksInfo.map((dateWiseStocksInfoItem) => (
-        <>
+        <div key={`${dateWiseStocksInfoItem.date}`}>
           <div className="datePurchased">{dateWiseStocksInfoItem.date}</div>
           <div>
             <div>
               <HoldingTable
                 stocksInfo={dateWiseStocksInfoItem.stocksInfo}
-                onSort={() => {}}
+                onSort={onSort}
+                date={dateWiseStocksInfoItem.date}
               />
             </div>
             <HoldingInformation
               holdingInfo={getPnL(dateWiseStocksInfoItem.stocksInfo)}
             />
           </div>
-        </>
+        </div>
       ))}
     </>
   );

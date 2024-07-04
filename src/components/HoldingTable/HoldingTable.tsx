@@ -14,9 +14,10 @@ import { useState } from "react";
 
 type Props = {
   stocksInfo: StockInformation[];
-  onSort: (column: string, order: Order) => void;
+  date?: string;
+  onSort: (column: string, order: Order, date?: string) => void;
 };
-export const HoldingTable = ({ stocksInfo, onSort }: Props) => {
+export const HoldingTable = ({ stocksInfo, date, onSort }: Props) => {
   const [sortedBy, setSortedBy] = useState<string>(COLUMNS.SYMBOL);
   const [orderBy, setOrderBy] = useState<Order>(Order.DESC);
 
@@ -31,7 +32,7 @@ export const HoldingTable = ({ stocksInfo, onSort }: Props) => {
       setSortedBy(column);
       setOrderBy(Order.ASC);
     }
-    onSort(column, orderBy);
+    onSort(column, orderBy, date);
   };
 
   return (
@@ -128,7 +129,7 @@ export const HoldingTable = ({ stocksInfo, onSort }: Props) => {
         <TableBody>
           {stocksInfo.map((stockInfo) => (
             <TableRow
-              key={stockInfo.symbol}
+              key={`${stockInfo.symbol}_${stockInfo.quantity}_${stockInfo.investedValue}`}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
@@ -137,7 +138,7 @@ export const HoldingTable = ({ stocksInfo, onSort }: Props) => {
               <TableCell align="right">{stockInfo.quantity}</TableCell>
               <TableCell align="right">
                 {formatPrice(stockInfo.avgPrice)}
-              </TableCell>{" "}
+              </TableCell>
               <TableCell align="right">{formatPrice(stockInfo.ltp)}</TableCell>
               <TableCell align="right">
                 {formatPrice(stockInfo.investedValue)}
@@ -155,7 +156,7 @@ export const HoldingTable = ({ stocksInfo, onSort }: Props) => {
                 className={stockInfo.pnlpercent >= 0 ? "profit" : "loss"}
                 align="right"
               >
-                {stockInfo.pnlpercent.toFixed(2)}%
+                {stockInfo.pnlpercent.toFixed(2)}%{" "}
               </TableCell>
               <TableCell
                 className={stockInfo.totalDayChange >= 0 ? "profit" : "loss"}
@@ -167,7 +168,7 @@ export const HoldingTable = ({ stocksInfo, onSort }: Props) => {
                 className={stockInfo.percentDayChange >= 0 ? "profit" : "loss"}
                 align="right"
               >
-                {formatPrice(stockInfo.percentDayChange)}%
+                {formatPrice(stockInfo.percentDayChange)}%{" "}
               </TableCell>
               <TableCell
                 className={
@@ -177,7 +178,7 @@ export const HoldingTable = ({ stocksInfo, onSort }: Props) => {
                 }
                 align="right"
               >
-                {formatPrice(stockInfo.percentDayChangeOnInvestment)}%
+                {formatPrice(stockInfo.percentDayChangeOnInvestment)}%{" "}
               </TableCell>
               <TableCell align="right">{stockInfo.daysMax}</TableCell>
             </TableRow>

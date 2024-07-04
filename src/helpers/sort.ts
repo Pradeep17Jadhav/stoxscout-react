@@ -1,4 +1,9 @@
-import { COLUMNS, Order, StockInformation } from "../types/transaction";
+import {
+  COLUMNS,
+  DateWiseStockInformation,
+  Order,
+  StockInformation,
+} from "../types/transaction";
 
 const sortByProperty = (
   array: StockInformation[],
@@ -102,4 +107,19 @@ const sort = (
   return stocksInfo;
 };
 
-export { sortBySymbol, sort };
+const sortHoldingsByDate = (dateWiseStockInfo: DateWiseStockInformation) => {
+  const epochWiseStockInfo = dateWiseStockInfo.map((stocksInfo) => {
+    const { date } = stocksInfo;
+    const [day, month, year] = date.split("-").map(Number);
+    const dateObject = new Date(year, month - 1, day);
+    const epochTimestamp = dateObject.getTime();
+    return { ...stocksInfo, epochTimestamp };
+  });
+  epochWiseStockInfo.sort((a, b) => b.epochTimestamp - a.epochTimestamp);
+  return epochWiseStockInfo.map((stocksInfo) => {
+    const { epochTimestamp, ...rest } = stocksInfo;
+    return { ...rest };
+  });
+};
+
+export { sortBySymbol, sort, sortHoldingsByDate };
