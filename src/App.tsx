@@ -4,6 +4,7 @@ import { AddPurchase } from "./components/AddPurchase/AddPurchase";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { PortfolioByDate } from "./components/PortfolioByDate/PortfolioByDate";
 import "./App.css";
+import { PortfolioByYear } from "./components/PortFolioByYear/PortfolioByYear";
 
 const theme = createTheme({
   typography: {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/addPurchase" element={<AddPurchase />} />
           <Route path="/" element={<Portfolio />}></Route>
           <Route path="/portfolioByDate" element={<PortfolioByDate />}></Route>
+          <Route path="/portfolioByYear" element={<PortfolioByYear />}></Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

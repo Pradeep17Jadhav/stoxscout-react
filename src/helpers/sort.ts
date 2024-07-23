@@ -3,6 +3,7 @@ import {
   DateWiseStockInformation,
   Order,
   StockInformation,
+  YearWiseStockInformation,
 } from "../types/transaction";
 
 const sortByProperty = (
@@ -108,18 +109,30 @@ const sort = (
 };
 
 const sortHoldingsByDate = (dateWiseStockInfo: DateWiseStockInformation) => {
-  const epochWiseStockInfo = dateWiseStockInfo.map((stocksInfo) => {
+  const StockInfoWithEpoch = dateWiseStockInfo.map((stocksInfo) => {
     const { date } = stocksInfo;
     const [day, month, year] = date.split("-").map(Number);
     const dateObject = new Date(year, month - 1, day);
     const epochTimestamp = dateObject.getTime();
     return { ...stocksInfo, epochTimestamp };
   });
-  epochWiseStockInfo.sort((a, b) => b.epochTimestamp - a.epochTimestamp);
-  return epochWiseStockInfo.map((stocksInfo) => {
+  StockInfoWithEpoch.sort((a, b) => b.epochTimestamp - a.epochTimestamp);
+  return StockInfoWithEpoch.map((stocksInfo) => {
     const { epochTimestamp, ...rest } = stocksInfo;
     return { ...rest };
   });
 };
 
-export { sortBySymbol, sort, sortHoldingsByDate };
+const sortHoldingsByYear = (yearWiseStockInfo: YearWiseStockInformation) =>
+  yearWiseStockInfo
+    .map((stocksInfo) => ({
+      ...stocksInfo,
+      year: parseInt(stocksInfo.year),
+    }))
+    .sort((a, b) => b.year - a.year)
+    .map(({ year, ...rest }) => ({
+      ...rest,
+      year: year.toString(),
+    }));
+
+export { sortBySymbol, sort, sortHoldingsByDate, sortHoldingsByYear };

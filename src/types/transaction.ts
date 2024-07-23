@@ -20,17 +20,26 @@ export type StockInformation = {
   percentDayChangeOnInvestment: number;
 };
 
-export type DateWiseStockInformation = {
-  date: string;
-  stocksInfo: StockInformation[];
-}[];
-
 export type Holdings = HoldingItem[];
 export type DateWiseHoldings = DateWiseHoldingItem[];
 export type DateWiseHoldingItem = {
   date: string;
   holdings: Holdings;
 };
+export type DateWiseStockInformation = {
+  date: string;
+  stocksInfo: StockInformation[];
+}[];
+
+export type YearWiseHoldings = YearWiseHoldingItem[];
+export type YearWiseHoldingItem = {
+  year: string;
+  holdings: Holdings;
+};
+export type YearWiseStockInformation = {
+  year: string;
+  stocksInfo: StockInformation[];
+}[];
 
 export type HoldingItem = {
   symbol: string;

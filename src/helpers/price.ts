@@ -116,6 +116,17 @@ export const daysSinceEpoch = (epochTime: number) => {
   return Math.floor(daysSinceEpoch);
 };
 
+export const calculateCAGR = (
+  days: number,
+  invested: number,
+  currentValue: number
+): number => {
+  const totalReturn = (currentValue - invested) / invested;
+  const annualizedReturn = Math.pow(1 + totalReturn, 365 / days) - 1;
+  const cagr = (Math.pow(1 + annualizedReturn, 1) - 1) * 100;
+  return parseFloat(cagr.toFixed(2));
+};
+
 export const formatPrice = (price: number) => {
   return price.toLocaleString("en-IN", {
     maximumFractionDigits: 2,

@@ -1,13 +1,16 @@
-import { daysSinceEpoch, getPercentChange } from "../../helpers/price";
+import { calculateCAGR, daysSinceEpoch, getPercentChange } from "./price";
 import {
-  DateWiseHoldingItem,
   DateWiseHoldings,
-  DateWiseStockInformation,
+  YearWiseStockInformation,
   HoldingItem,
   Holdings,
   StockInformation,
   Transaction,
-} from "../../types/transaction";
+  YearWiseHoldingItem,
+  YearWiseHoldings,
+  DateWiseHoldingItem,
+  DateWiseStockInformation,
+} from "../types/transaction";
 
 export const stockInfoGenerator = (
   holdingItem: HoldingItem,
@@ -40,6 +43,12 @@ export const stockInfoGenerator = (
   const avgPrice = investedValue / quantity;
   const pnl = currentValue - investedValue;
   const pnlpercent = (pnl / investedValue) * 100;
+  console.log(
+    symbol,
+    daysMax,
+    calculateCAGR(daysMax, investedValue, currentValue)
+  );
+
   return {
     symbol,
     quantity,
@@ -65,6 +74,21 @@ export const dateWiseStockInfoGeneratorAll = (
     return {
       date: dateWiseHoldingItem.date,
       stocksInfo: dateWiseHoldingItem.holdings.map((holdingItem: HoldingItem) =>
+        stockInfoGenerator(holdingItem, marketData)
+      ),
+    };
+  });
+};
+
+export const yearWiseStockInfoGeneratorAll = (
+  holdings: Holdings,
+  marketData: any
+): YearWiseStockInformation => {
+  const yearWiseHoldings = getYearWiseHoldings(holdings);
+  return yearWiseHoldings.map((yearWiseHoldingItem: YearWiseHoldingItem) => {
+    return {
+      year: yearWiseHoldingItem.year,
+      stocksInfo: yearWiseHoldingItem.holdings.map((holdingItem: HoldingItem) =>
         stockInfoGenerator(holdingItem, marketData)
       ),
     };
@@ -98,6 +122,34 @@ export const getDateWiseHoldings = (holdings: Holdings): DateWiseHoldings => {
     });
   });
   return dateWiseHoldings;
+};
+
+export const getYearWiseHoldings = (holdings: Holdings): YearWiseHoldings => {
+  const yearWiseHoldings: YearWiseHoldings = [];
+  holdings.forEach((holdingItem: HoldingItem) => {
+    const transactions = holdingItem.transactions;
+    transactions.forEach((transaction: Transaction) => {
+      const holdingItemCopy: HoldingItem = JSON.parse(
+        JSON.stringify(holdingItem)
+      );
+      holdingItemCopy.transactions = [transaction];
+      const date = epochToDate(transaction.dateAdded);
+      const year = date.split("-")[2];
+      const matchedYearWiseHolding = yearWiseHoldings.find(
+        (yearWiseHoldingItem: YearWiseHoldingItem) =>
+          yearWiseHoldingItem.year === year
+      );
+      if (matchedYearWiseHolding) {
+        matchedYearWiseHolding.holdings.push(holdingItemCopy);
+      } else {
+        yearWiseHoldings.push({
+          year,
+          holdings: [holdingItemCopy],
+        });
+      }
+    });
+  });
+  return yearWiseHoldings;
 };
 
 const epochToDate = (epochTime: number) => {
