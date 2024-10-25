@@ -73,7 +73,7 @@ export const AddPurchase = () => {
         ],
       };
       setStockInfo([...stockInfo, newStockInfo]);
-      console.log([...stockInfo, newStockInfo]);
+      console.log("New:", [...stockInfo, newStockInfo]);
     }
 
     console.log(symbolUpperCase + " added");
@@ -92,12 +92,14 @@ export const AddPurchase = () => {
           variant="outlined"
           value={symbol}
           onChange={(e) => setSymbol(e.target.value)}
+          placeholder="IRCTC"
         />
         <TextField
           label="Date Added"
           variant="outlined"
           type="text"
           value={dateAdded}
+          placeholder="2024-10-25"
           onChange={(e) => setDateAdded(e.target.value)}
         />
         <TextField
@@ -105,6 +107,7 @@ export const AddPurchase = () => {
           variant="outlined"
           type="number"
           value={quantity}
+          placeholder="5"
           onChange={(e) => setQuantity(e.target.value)}
         />
         <TextField
@@ -112,6 +115,7 @@ export const AddPurchase = () => {
           variant="outlined"
           type="number"
           value={avgPrice}
+          placeholder="1234.55"
           onChange={(e) => setAvgPrice(e.target.value)}
         />
         <RadioGroup

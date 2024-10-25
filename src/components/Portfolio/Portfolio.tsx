@@ -8,12 +8,7 @@ import { useEffect, useState } from "react";
 import stocks from "../../data/pradeepjadhav/holdings.json";
 import "./styles.css";
 import { sort } from "../../helpers/sort";
-import {
-  COLUMNS,
-  HoldingInfo,
-  Order,
-  StockInformation,
-} from "../../types/transaction";
+import { HoldingInfo, Order, StockInformation } from "../../types/transaction";
 import { removeQueryParamsFromURL } from "../../helpers/utils";
 import { HoldingTable } from "../HoldingTable/HoldingTable";
 import { HoldingInformation } from "../HoldingInformation/HoldingInformation";
@@ -90,9 +85,7 @@ export const Portfolio = () => {
 
   return (
     <>
-      <div className="portfolio">
-        <HoldingTable stocksInfo={stocksInfo} onSort={onSort} />
-      </div>
+      <HoldingTable stocksInfo={stocksInfo} onSort={onSort} />
       <HoldingInformation holdingInfo={holdingInfo} />
     </>
   );

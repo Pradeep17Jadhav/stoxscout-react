@@ -5,11 +5,6 @@
     max-width: 1600px;
 }
 
-.portfolio {
-    max-height: calc(100vh - 84px);
-    overflow-y: scroll;
-}
-
 .holdingInfo {
     height: 84px;
     display: flex;

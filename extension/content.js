@@ -130,6 +130,7 @@ const stocksListNSE = [
   "SBICARD",
   "TATAMOTORS",
   "TITAN",
+  "IRFC",
 ];
 
 const stocksListBSE = [
