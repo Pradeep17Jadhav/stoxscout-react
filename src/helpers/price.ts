@@ -27,9 +27,9 @@ export const stockInfoGeneratorNSE = (
   const ltp = symbolMarketData.close
     ? symbolMarketData.close
     : symbolMarketData.lastPrice;
-  const dayChange = ltp - symbolMarketData.previousClose;
-  const totalDayChange = dayChange * quantity;
   const previousClose = symbolMarketData.previousClose;
+  const dayChange = ltp - previousClose;
+  const totalDayChange = dayChange * quantity;
   const percentDayChange = getPercentChange(ltp, previousClose);
   const percentDayChangeOnInvestment = (totalDayChange / investedValue) * 100;
   const currentValue = quantity * ltp;

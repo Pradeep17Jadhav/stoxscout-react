@@ -27,6 +27,9 @@ export const Portfolio = () => {
   });
 
   useEffect(() => {
+    fetch("http://localhost:4000/holdings")
+      .then((response) => response.json())
+      .then((responseData) => console.log("API Response:", responseData));
     const parseQueryParams = () => {
       const searchParams = new URLSearchParams(location.search);
       const dataString = searchParams.get("data");
