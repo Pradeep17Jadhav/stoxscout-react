@@ -46,7 +46,7 @@ export type HoldingItem = {
   transactions: Transaction[];
 };
 
-export type HoldingInfo = {
+export type HoldingSummary = {
   totalInvestedValue: string;
   totalCurrentValue: string;
   totalPnl: string;

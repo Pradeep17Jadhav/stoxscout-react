@@ -1,58 +1,34 @@
-import { getPnL, transformTypes } from "../../helpers/price";
-import { useLocation } from "react-router-dom";
+import { getPnL } from "../../helpers/price";
 import { useEffect, useState } from "react";
 import { Order, YearWiseStockInformation } from "../../types/transaction";
-import { removeQueryParamsFromURL } from "../../helpers/utils";
 import { HoldingTable } from "../HoldingTable/HoldingTable";
 import { HoldingInformation } from "../HoldingInformation/HoldingInformation";
-import stocks from "../../data/pradeepjadhav/holdings.json";
 import { sort, sortHoldingsByYear } from "../../helpers/sort";
 import { yearWiseStockInfoGeneratorAll } from "../../helpers/portfolioByDateUtils";
 
 import "./styles.css";
+import useQueryParams from "../../hooks/useQueryParams";
+import useMarketData from "../../hooks/useMarketData";
+import useUserHoldings from "../../hooks/useUserHoldings";
 
 export const PortfolioByYear = () => {
-  const location = useLocation();
-  const stocksData = transformTypes(stocks);
   const [yearWiseStocksInfo, setYearWiseStocksInfo] =
     useState<YearWiseStockInformation>([]);
 
+  const { marketData } = useMarketData();
+  const { userHoldings } = useUserHoldings();
+  useQueryParams(userHoldings);
+
   useEffect(() => {
-    const parseQueryParams = () => {
-      const searchParams = new URLSearchParams(location.search);
-      const dataString = searchParams.get("data");
-      let decodedData = "";
-      if (dataString) {
-        try {
-          decodedData = decodeURIComponent(dataString);
-          localStorage.setItem("lastFetched", decodedData);
-        } catch (error) {
-          console.error("Error parsing data:", error);
-        }
-      } else {
-        try {
-          const data = localStorage.getItem("lastFetched");
-          if (data) {
-            decodedData = data;
-          }
-        } catch (error) {
-          console.error("Error fetching localstorage data:", error);
-        }
-      }
-      if (!!decodedData) {
-        removeQueryParamsFromURL();
-        const marketData = JSON.parse(decodedData);
-        const yearWiseStockInfo = yearWiseStockInfoGeneratorAll(
-          stocksData.holdings,
-          marketData
-        );
-        const sortedYearWiseStockInfo = sortHoldingsByYear(yearWiseStockInfo);
-        setYearWiseStocksInfo(sortedYearWiseStockInfo);
-      }
-    };
-    parseQueryParams();
-    removeQueryParamsFromURL();
-  }, [location.search]);
+    if (!userHoldings || !marketData) return;
+    const yearWiseStockInfo = yearWiseStockInfoGeneratorAll(
+      userHoldings,
+      marketData
+    );
+    const sortedYearWiseStockInfo = sortHoldingsByYear(yearWiseStockInfo);
+    setYearWiseStocksInfo(sortedYearWiseStockInfo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userHoldings, marketData]);
 
   const onSort = (column: string, order: Order, year?: string) => {
     let index = -1;

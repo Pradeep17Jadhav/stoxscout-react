@@ -8,4 +8,4 @@
 # To make changes in extension
 1. Make required code changes
 2. Run extension/mergeContent.bat
-3. Go to Chrome->Extensions and Update the PortfolioManager extension
+3. Go to Chrome->Extensions and Update the PortfolioManager extensionF.json

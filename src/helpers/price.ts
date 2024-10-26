@@ -1,5 +1,5 @@
 import {
-  HoldingInfo,
+  HoldingSummary,
   HoldingItem,
   Holdings,
   StockInformation,
@@ -7,7 +7,7 @@ import {
 
 export const stockInfoGeneratorNSE = (
   holdingItem: HoldingItem,
-  marketData: any
+  marketData: any[]
 ): StockInformation => {
   const transactions = holdingItem.transactions;
   const symbol = holdingItem.symbol;
@@ -57,7 +57,7 @@ export const getPercentChange = (newPrice: number, oldPrice: number) =>
 
 export const stockInfoGeneratorAll = (
   holdings: Holdings,
-  marketData: any
+  marketData: any[]
 ): StockInformation[] =>
   holdings.map((holdingItem) => stockInfoGeneratorNSE(holdingItem, marketData));
 
@@ -82,7 +82,7 @@ export const transformTypes = (res: any) => {
   };
 };
 
-export const getPnL = (stockInfo: StockInformation[]): HoldingInfo => {
+export const getPnL = (stockInfo: StockInformation[]): HoldingSummary => {
   let totalPnl = 0;
   let totalInvestedValue = 0;
   let totalCurrentValue = 0;

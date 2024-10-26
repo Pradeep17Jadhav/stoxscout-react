@@ -1,7 +1,7 @@
-import { HoldingInfo } from "../../types/transaction";
+import { HoldingSummary } from "../../types/transaction";
 
 type Props = {
-  holdingInfo: HoldingInfo;
+  holdingInfo: HoldingSummary;
 };
 
 export const HoldingInformation = ({ holdingInfo }: Props) => {

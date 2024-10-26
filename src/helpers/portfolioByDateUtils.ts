@@ -14,7 +14,7 @@ import {
 
 export const stockInfoGenerator = (
   holdingItem: HoldingItem,
-  marketData: any
+  marketData: any[]
 ): StockInformation => {
   const transactions = holdingItem.transactions;
   const symbol = holdingItem.symbol;
@@ -67,7 +67,7 @@ export const stockInfoGenerator = (
 
 export const dateWiseStockInfoGeneratorAll = (
   holdings: Holdings,
-  marketData: any
+  marketData: any[]
 ): DateWiseStockInformation => {
   const dateWiseHoldings = getDateWiseHoldings(holdings);
   return dateWiseHoldings.map((dateWiseHoldingItem) => {

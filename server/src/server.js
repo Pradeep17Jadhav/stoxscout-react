@@ -1,10 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const bodyParser = require("body-parser");
 const app = express();
 const path = require("path");
 
 app.use(cors());
+app.use(bodyParser.json());
 
 const jsonFilePath = path.join(
   __dirname,
@@ -12,7 +14,11 @@ const jsonFilePath = path.join(
 );
 const PORT = process.env.PORT || 4000;
 
-// Define the /holdings endpoint
+const marketDataController = require("./controllers/marketDataController");
+
+app.post("/marketData", marketDataController.setMarketData);
+app.get("/marketData", marketDataController.getMarketData);
+
 app.get("/holdings", (req, res) => {
   fs.readFile(jsonFilePath, "utf8", (err, data) => {
     if (err) {

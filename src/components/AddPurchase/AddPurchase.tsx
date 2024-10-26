@@ -6,9 +6,9 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import stocks from "../../data/pradeepjadhav/holdings.json";
+import { useState } from "react";
 import "./styles.css";
+import useUserHoldings from "../../hooks/useUserHoldings";
 
 export const AddPurchase = () => {
   const [symbol, setSymbol] = useState("");
@@ -16,11 +16,8 @@ export const AddPurchase = () => {
   const [quantity, setQuantity] = useState("");
   const [avgPrice, setAvgPrice] = useState("");
   const [exchange, setExchange] = useState("NSE");
-  const [stockInfo, setStockInfo] = useState<any>(stocks.holdings);
-
-  useEffect(() => {
-    console.log(stocks.holdings);
-  }, []);
+  const { userHoldings } = useUserHoldings();
+  const [stockInfo, setStockInfo] = useState<any>(userHoldings);
 
   const isValidForm = () => {
     return (
@@ -77,7 +74,6 @@ export const AddPurchase = () => {
     }
 
     console.log(symbolUpperCase + " added");
-    console.log(stocks.holdings);
     setSymbol("");
     setDateAdded("");
     setQuantity("");

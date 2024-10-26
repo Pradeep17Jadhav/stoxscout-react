@@ -1,0 +1,292 @@
+[
+  {
+    "symbol": "ASTRAL",
+    "lastPrice": 1801.45,
+    "change": 9.5,
+    "pChange": 0.5301487206674292,
+    "previousClose": 1791.95,
+    "open": 1800.95,
+    "close": 1799.3,
+    "basePrice": 1791.95
+  },
+  {
+    "symbol": "AUBANK",
+    "lastPrice": 602.25,
+    "change": -43.39999999999998,
+    "pChange": -6.721908154572907,
+    "previousClose": 645.65,
+    "open": 636.5,
+    "close": 604.5,
+    "basePrice": 645.65
+  },
+  {
+    "symbol": "AXISBANK",
+    "lastPrice": 1189,
+    "change": 21.65000000000009,
+    "pChange": 1.8546280035979006,
+    "previousClose": 1167.35,
+    "open": 1187,
+    "close": 1189.35,
+    "basePrice": 1167.35
+  },
+  {
+    "symbol": "BALKRISIND",
+    "lastPrice": 2880,
+    "change": -59.90000000000009,
+    "pChange": -2.0374842681723897,
+    "previousClose": 2939.9,
+    "open": 2939.9,
+    "close": 2907.55,
+    "basePrice": 2939.9
+  },
+  {
+    "symbol": "DEEPAKNTR",
+    "lastPrice": 2673,
+    "change": -44.09999999999991,
+    "pChange": -1.6230539913878734,
+    "previousClose": 2717.1,
+    "open": 2720.05,
+    "close": 2671.4,
+    "basePrice": 2717.1
+  },
+  {
+    "symbol": "DIXON",
+    "lastPrice": 13939,
+    "change": -1116.2999999999993,
+    "pChange": -7.4146646031630015,
+    "previousClose": 15055.3,
+    "open": 15900,
+    "close": 13937.2,
+    "basePrice": 15055.3
+  },
+  {
+    "symbol": "DMART",
+    "lastPrice": 4040,
+    "change": -20.09999999999991,
+    "pChange": -0.49506169798773203,
+    "previousClose": 4060.1,
+    "open": 4061.95,
+    "close": 4052.2,
+    "basePrice": 4060.1
+  },
+  {
+    "symbol": "EICHERMOT",
+    "lastPrice": 4601,
+    "change": -67.5,
+    "pChange": -1.4458605547820498,
+    "previousClose": 4668.5,
+    "open": 4650,
+    "close": 4591.6,
+    "basePrice": 4668.5
+  },
+  {
+    "symbol": "ESCORTS",
+    "lastPrice": 3510,
+    "change": 15.449999999999818,
+    "pChange": 0.4421170107739142,
+    "previousClose": 3494.55,
+    "open": 3489,
+    "close": 3500.4,
+    "basePrice": 3494.55
+  },
+  {
+    "symbol": "HDFCBANK",
+    "lastPrice": 1745.8,
+    "change": -3.8500000000001364,
+    "pChange": -0.22004400880176814,
+    "previousClose": 1749.65,
+    "open": 1755,
+    "close": 1743.4,
+    "basePrice": 1749.65
+  },
+  {
+    "symbol": "HINDUNILVR",
+    "lastPrice": 2530.3,
+    "change": 25.200000000000273,
+    "pChange": 1.0059478663526515,
+    "previousClose": 2505.1,
+    "open": 2502.3,
+    "close": 2528.05,
+    "basePrice": 2505.1
+  },
+  {
+    "symbol": "IEX",
+    "lastPrice": 180.34,
+    "change": -4.079999999999984,
+    "pChange": -2.212341394642655,
+    "previousClose": 184.42,
+    "open": 189.95,
+    "close": 180.76,
+    "basePrice": 184.42
+  },
+  {
+    "symbol": "IRCTC",
+    "lastPrice": 814.9,
+    "change": -15.25,
+    "pChange": -1.8370174064928024,
+    "previousClose": 830.15,
+    "open": 830.15,
+    "close": 812.1,
+    "basePrice": 830.15
+  },
+  {
+    "symbol": "JIOFIN",
+    "lastPrice": 311.9,
+    "change": -4.2000000000000455,
+    "pChange": -1.3286934514394322,
+    "previousClose": 316.1,
+    "open": 317.5,
+    "close": 311.2,
+    "basePrice": 316.1
+  },
+  {
+    "symbol": "JUBLFOOD",
+    "lastPrice": 583.7,
+    "change": -17.09999999999991,
+    "pChange": -2.846205059920092,
+    "previousClose": 600.8,
+    "open": 600.8,
+    "close": 585.25,
+    "basePrice": 600.8
+  },
+  {
+    "symbol": "MUTHOOTFIN",
+    "lastPrice": 1920.5,
+    "change": -9.650000000000091,
+    "pChange": -0.49996114291635835,
+    "previousClose": 1930.15,
+    "open": 1932.35,
+    "close": 1923.55,
+    "basePrice": 1930.15
+  },
+  {
+    "symbol": "SBICARD",
+    "lastPrice": 691,
+    "change": -21.200000000000045,
+    "pChange": -2.9766919404661674,
+    "previousClose": 712.2,
+    "open": 712.2,
+    "close": 691.45,
+    "basePrice": 712.2
+  },
+  {
+    "symbol": "TATAMOTORS",
+    "lastPrice": 864.05,
+    "change": -15.950000000000045,
+    "pChange": -1.812500000000005,
+    "previousClose": 880,
+    "open": 883.9,
+    "close": 864.3,
+    "basePrice": 880
+  },
+  {
+    "symbol": "TITAN",
+    "lastPrice": 3271.45,
+    "change": -59.45000000000027,
+    "pChange": -1.7848029061214767,
+    "previousClose": 3330.9,
+    "open": 3332,
+    "close": 3266.55,
+    "basePrice": 3330.9
+  },
+  {
+    "symbol": "IRFC",
+    "lastPrice": 134.95,
+    "change": -4.0800000000000125,
+    "pChange": -2.9346184276774885,
+    "previousClose": 139.03,
+    "open": 138.33,
+    "close": 134.43,
+    "basePrice": 139.03
+  },
+  {
+    "symbol": "ASIANPAINT",
+    "lastPrice": 2961.5,
+    "change": -9.8,
+    "pChange": -0.3298,
+    "previousClose": 2971.3,
+    "open": null,
+    "close": 2961.5,
+    "basePrice": 2961.5
+  },
+  {
+    "symbol": "BAJFINANCE",
+    "lastPrice": 6907.6,
+    "change": -133,
+    "pChange": -1.889,
+    "previousClose": 7040.6,
+    "open": null,
+    "close": 6907.6,
+    "basePrice": 6907.6
+  },
+  {
+    "symbol": "ICICIBANK",
+    "lastPrice": 1255.5,
+    "change": 2.9,
+    "pChange": 0.2315,
+    "previousClose": 1252.6,
+    "open": null,
+    "close": 1255.5,
+    "basePrice": 1255.5
+  },
+  {
+    "symbol": "JUBLINGREA",
+    "lastPrice": 654.05,
+    "change": -30.7,
+    "pChange": -4.4834,
+    "previousClose": 684.75,
+    "open": null,
+    "close": 654.05,
+    "basePrice": 654.05
+  },
+  {
+    "symbol": "KOTAKBANK",
+    "lastPrice": 1768.35,
+    "change": 5.55,
+    "pChange": 0.3148,
+    "previousClose": 1762.8,
+    "open": null,
+    "close": 1768.35,
+    "basePrice": 1768.35
+  },
+  {
+    "symbol": "LTIM",
+    "lastPrice": 5888,
+    "change": -85.8,
+    "pChange": -1.4363,
+    "previousClose": 5973.8,
+    "open": null,
+    "close": 5888,
+    "basePrice": 5888
+  },
+  {
+    "symbol": "RELIANCE",
+    "lastPrice": 2655.45,
+    "change": -24.5,
+    "pChange": -0.9142,
+    "previousClose": 2679.95,
+    "open": null,
+    "close": 2655.45,
+    "basePrice": 2655.45
+  },
+  {
+    "symbol": "TCS",
+    "lastPrice": 4057.9,
+    "change": 9.75,
+    "pChange": 0.2409,
+    "previousClose": 4048.15,
+    "open": null,
+    "close": 4057.9,
+    "basePrice": 4057.9
+  },
+  {
+    "symbol": "WIPRO",
+    "lastPrice": 543.2,
+    "change": -3.75,
+    "pChange": -0.6856,
+    "previousClose": 546.95,
+    "open": null,
+    "close": 543.2,
+    "basePrice": 543.2
+  }
+]

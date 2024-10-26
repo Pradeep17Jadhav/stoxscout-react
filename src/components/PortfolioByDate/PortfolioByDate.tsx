@@ -1,70 +1,35 @@
-import { getPnL, transformTypes } from "../../helpers/price";
-import { useLocation } from "react-router-dom";
+import { getPnL } from "../../helpers/price";
 import { useEffect, useState } from "react";
-import {
-  DateWiseStockInformation,
-  HoldingInfo,
-  Order,
-} from "../../types/transaction";
-import { removeQueryParamsFromURL } from "../../helpers/utils";
+import { DateWiseStockInformation, Order } from "../../types/transaction";
 import { dateWiseStockInfoGeneratorAll } from "../../helpers/portfolioByDateUtils";
 import { HoldingTable } from "../HoldingTable/HoldingTable";
 import { HoldingInformation } from "../HoldingInformation/HoldingInformation";
-import stocks from "../../data/pradeepjadhav/holdings.json";
+
 import "./styles.css";
 import { sort, sortHoldingsByDate } from "../../helpers/sort";
+import useMarketData from "../../hooks/useMarketData";
+import useUserHoldings from "../../hooks/useUserHoldings";
+import useQueryParams from "../../hooks/useQueryParams";
 
 export const PortfolioByDate = () => {
-  const location = useLocation();
-  const stocksData = transformTypes(stocks);
   const [dateWiseStocksInfo, setDateWiseStocksInfo] =
     useState<DateWiseStockInformation>([]);
-  const [holdingInfo, setHoldingInfo] = useState<HoldingInfo>({
-    totalPnl: "0",
-    totalInvestedValue: "0",
-    totalCurrentValue: "0",
-    totalPnlPercentage: "0",
-    totalDayChange: "0",
-    totalDayChangePercentage: "0",
-  });
+
+  const { marketData } = useMarketData();
+  const { userHoldings } = useUserHoldings();
+  useQueryParams(userHoldings);
 
   useEffect(() => {
-    const parseQueryParams = () => {
-      const searchParams = new URLSearchParams(location.search);
-      const dataString = searchParams.get("data");
-      let decodedData = "";
-      if (dataString) {
-        try {
-          decodedData = decodeURIComponent(dataString);
-          localStorage.setItem("lastFetched", decodedData);
-        } catch (error) {
-          console.error("Error parsing data:", error);
-        }
-      } else {
-        try {
-          const data = localStorage.getItem("lastFetched");
-          if (data) {
-            decodedData = data;
-          }
-        } catch (error) {
-          console.error("Error fetching localstorage data:", error);
-        }
-      }
-      if (!!decodedData) {
-        removeQueryParamsFromURL();
-        const marketData = JSON.parse(decodedData);
-        const dateWiseStockInfo = dateWiseStockInfoGeneratorAll(
-          stocksData.holdings,
-          marketData
-        );
-        const sortedDateWiseStockInfo = sortHoldingsByDate(dateWiseStockInfo);
-        setDateWiseStocksInfo(sortedDateWiseStockInfo);
-        // setHoldingInfo(getPnL(dateWiseStockInfo));
-      }
-    };
-    parseQueryParams();
-    removeQueryParamsFromURL();
-  }, [location.search]);
+    if (!userHoldings || !marketData || !marketData.length) return;
+
+    const dateWiseStockInfo = dateWiseStockInfoGeneratorAll(
+      userHoldings,
+      marketData
+    );
+    const sortedDateWiseStockInfo = sortHoldingsByDate(dateWiseStockInfo);
+    setDateWiseStocksInfo(sortedDateWiseStockInfo);
+    // setHoldingInfo(getPnL(dateWiseStockInfo));
+  }, [userHoldings, marketData]);
 
   const onSort = (column: string, order: Order, date?: string) => {
     let index = -1;
