@@ -5,6 +5,7 @@ const main = async () => {
     symbolsDataNSE = await Promise.all(
       stocksListNSE.map(async (symbol) => {
         const data = await loadSymbol(symbol, "NSE");
+
         return extractPriceInfoNSE(data);
       })
     );
@@ -12,6 +13,7 @@ const main = async () => {
     symbolsDataBSE = await Promise.all(
       stocksListBSE.map(async (symbolInfo) => {
         const data = await loadSymbol(symbolInfo.code, "BSE");
+
         return extractPriceInfoBSE(data);
       })
     );
@@ -43,6 +45,7 @@ const loadSymbol = async (symbol, exchange) => {
       throw new Error("Failed to fetch data");
     }
     const data = await response.json();
+
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);

@@ -6,7 +6,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import "./styles.css";
 import useUserHoldings from "../../hooks/useUserHoldings";
 
@@ -19,7 +19,7 @@ export const AddPurchase = () => {
   const { userHoldings } = useUserHoldings();
   const [stockInfo, setStockInfo] = useState<any>(userHoldings);
 
-  const isValidForm = () => {
+  const isValidForm = useMemo(() => {
     return (
       symbol !== "" &&
       dateAdded !== "" &&
@@ -27,7 +27,7 @@ export const AddPurchase = () => {
       avgPrice !== "" &&
       exchange !== ""
     );
-  };
+  }, [symbol, dateAdded, quantity, avgPrice, exchange]);
 
   const handleAddMore = (event: any) => {
     event.preventDefault();
@@ -87,7 +87,7 @@ export const AddPurchase = () => {
           label="Symbol"
           variant="outlined"
           value={symbol}
-          onChange={(e) => setSymbol(e.target.value)}
+          onChange={(e) => setSymbol(e.target.value.toUpperCase())}
           placeholder="IRCTC"
         />
         <TextField
@@ -123,8 +123,8 @@ export const AddPurchase = () => {
           <FormControlLabel value="NSE" control={<Radio />} label="NSE" />
           <FormControlLabel value="BSE" control={<Radio />} label="BSE" />
         </RadioGroup>
-        <Button type="submit" variant="contained" disabled={!isValidForm()}>
-          Add More
+        <Button type="submit" variant="contained" disabled={!isValidForm}>
+          Add Purchase
         </Button>
       </div>
     </form>
