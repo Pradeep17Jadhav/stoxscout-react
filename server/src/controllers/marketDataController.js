@@ -3,39 +3,28 @@ const path = require('path');
 
 const filePath = path.join(__dirname, '../../data/common/marketData.json');
 
-exports.setMarketData = async (req, res) => 
-{
+exports.setMarketData = async (req, res) => {
     const jsonData = req.body;
-    fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => 
-    {
-        if (err) 
-        {
-            return res.status(500).json({ message: 'Error saving data', error: err });
+    fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
+        if (err) {
+            return res.status(500).json({message: 'Error saving data', error: err});
         }
-        res.status(200).json({ message: 'Data saved successfully!' });
+        res.status(200).json({message: 'Data saved successfully!'});
     });
 };
 
-exports.getMarketData = async (req, res) => 
-{
-    fs.readFile(filePath, 'utf8', (err, data) => 
-    {
-        if (err) 
-        {
-            return res
-                .status(500)
-                .json({ message: 'Error reading data', error: err });
+exports.getMarketData = async (req, res) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({message: 'Error reading data', error: err});
         }
-        try 
-        {
+        try {
             const jsonData = JSON.parse(data);
             res.status(200).json(jsonData);
-        }
-        catch (parseError) 
-        {
+        } catch (parseError) {
             res.status(500).json({
                 message: 'Market data not available. Kindly load the data first.',
-                error: parseError,
+                error: parseError
             });
         }
     });

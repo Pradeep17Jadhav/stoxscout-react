@@ -14,10 +14,8 @@ const userHoldingsController = require('./controllers/userHoldingsController');
 app.get('/marketData', marketDataController.getMarketData);
 app.post('/marketData', marketDataController.setMarketData);
 app.get('/holdings', userHoldingsController.getHoldings);
-app.post('/holdings', userHoldingsController.addPurchase);
+app.post('/addPurchase', userHoldingsController.addPurchase);
 
-// Start the server
-app.listen(PORT, () => 
-{
+app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

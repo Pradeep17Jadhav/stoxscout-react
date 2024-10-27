@@ -5,36 +5,36 @@ const stockSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        trim: true,
+        trim: true
     },
     lastPrice: {
         type: Number,
-        required: true,
+        required: true
     },
     change: {
         type: Number,
-        required: true,
+        required: true
     },
     pChange: {
         type: Number,
-        required: true,
+        required: true
     },
     previousClose: {
         type: Number,
-        required: true,
+        required: true
     },
     open: {
         type: Number,
-        required: true,
+        required: true
     },
     close: {
         type: Number,
-        required: true,
+        required: true
     },
     basePrice: {
         type: Number,
-        required: true,
-    },
+        required: true
+    }
 });
 
 const Stock = mongoose.model('Stock', stockSchema);

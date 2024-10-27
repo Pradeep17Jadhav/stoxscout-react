@@ -18,19 +18,19 @@ const stocksListNSE = [
     'SBICARD',
     'TATAMOTORS',
     'TITAN',
-    'IRFC',
+    'IRFC'
 ];
 
 const stocksListBSE = [
-    { symbol: 'ASIANPAINT', code: 'API' },
-    { symbol: 'BAJFINANCE', code: 'BAF' },
-    { symbol: 'ICICIBANK', code: 'ICI02' },
-    { symbol: 'JUBLINGREA', code: 'JI12' },
-    { symbol: 'KOTAKBANK', code: 'KMF' },
-    { symbol: 'LTIM', code: 'LI09' },
-    { symbol: 'RELIANCE', code: 'RI' },
-    { symbol: 'TCS', code: 'TCS' },
-    { symbol: 'WIPRO', code: 'W' },
+    {symbol: 'ASIANPAINT', code: 'API'},
+    {symbol: 'BAJFINANCE', code: 'BAF'},
+    {symbol: 'ICICIBANK', code: 'ICI02'},
+    {symbol: 'JUBLINGREA', code: 'JI12'},
+    {symbol: 'KOTAKBANK', code: 'KMF'},
+    {symbol: 'LTIM', code: 'LI09'},
+    {symbol: 'RELIANCE', code: 'RI'},
+    {symbol: 'TCS', code: 'TCS'},
+    {symbol: 'WIPRO', code: 'W'}
 ];
 
 const stocksList = [
@@ -61,5 +61,5 @@ const stocksList = [
     'TCS',
     'TITAN',
     'WIPRO',
-    'AUBANK',
+    'AUBANK'
 ];

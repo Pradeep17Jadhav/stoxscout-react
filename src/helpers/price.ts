@@ -21,9 +21,17 @@ export const stockInfoGeneratorNSE = (
     daysMax = Math.max(daysMax, daysSinceEpoch(transaction.dateAdded));
   });
 
-  const symbolMarketData = marketData.filter(
+  let symbolMarketData = marketData.filter(
     (data: any) => data.symbol === symbol
   )[0];
+
+  if(!symbolMarketData) {
+    symbolMarketData = {
+      close: 0,
+      lastPrice: 0,
+      previousClose: 0
+    }
+  }
   const ltp = symbolMarketData.close
     ? symbolMarketData.close
     : symbolMarketData.lastPrice;
@@ -52,8 +60,10 @@ export const stockInfoGeneratorNSE = (
   };
 };
 
-export const getPercentChange = (newPrice: number, oldPrice: number) =>
-  ((newPrice - oldPrice) / oldPrice) * 100;
+export const getPercentChange = (newPrice: number, oldPrice: number) => {
+  if(!newPrice || !oldPrice) return 0;
+  return ((newPrice - oldPrice) / oldPrice) * 100;
+}
 
 export const stockInfoGeneratorAll = (
   holdings: Holdings,
