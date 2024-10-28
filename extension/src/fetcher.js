@@ -12,25 +12,11 @@ const main = async () => {
         return extractPriceInfoNSE(data);
       })
     );
-  } else if (window.location.hostname === "www.moneycontrol.com") {
-    symbolsDataBSE = await Promise.all(
-      stocksListBSE.map(async (symbolInfo) => {
-        const api = `https://priceapi.moneycontrol.com/pricefeed/bse/equitycash/${symbolInfo.code}`
-        const data = await loadSymbol(api);
-
-        return extractPriceInfoMC(data);
-      })
-    );
   } else if (window.location.hostname === "www.bseindia.com") {
-    const config = {
-      headers: {
-        "referer": "https://www.bseindia.com/",
-      },
-    };
     symbolsDataBSE = await Promise.all(
       userStockList.bse.map(async (symbol) => {
         const api = `https://api.bseindia.com/BseIndiaAPI/api/getScripHeaderData/w?Debtflag=&scripcode=${symbol}`
-        const data = await loadSymbol(api, config);
+        const data = await loadSymbol(api);
         return extractPriceInfoBSE(data);
       })
     );
