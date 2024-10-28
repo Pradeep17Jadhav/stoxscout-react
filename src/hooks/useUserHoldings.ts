@@ -6,10 +6,17 @@ const useUserHoldings = () => {
   const [userHoldings, setUserHoldings] = useState<any>();
 
   useEffect(() => {
-    getUserHoldings().then((response) => {
-      const transformed = transformTypes(response);
-      setUserHoldings(transformed.holdings);
-    });
+    const fetchUserHoldings = async () => {
+      try {
+        const response = await getUserHoldings();
+        const transformed = transformTypes(response);
+        console.log('Fetched holdings:', transformed.holdings);
+        setUserHoldings(transformed.holdings);
+      } catch (error) {
+        console.error('Error fetching user holdings:', error);
+      }
+    };
+    fetchUserHoldings();
   }, []);
 
   return { userHoldings };

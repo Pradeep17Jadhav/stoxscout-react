@@ -3,8 +3,11 @@ import { Portfolio } from "./components/Portfolio/Portfolio";
 import { AddPurchase } from "./components/AddPurchase/AddPurchase";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { PortfolioByDate } from "./components/PortfolioByDate/PortfolioByDate";
-import "./App.css";
 import { PortfolioByYear } from "./components/PortFolioByYear/PortfolioByYear";
+import { HeatMap } from "./components/Heatmap/Heatmap";
+import { HeatMapPNL } from "./components/HeatmapPNL/HeatmapPNL";
+
+import "./App.css";
 
 const theme = createTheme({
   typography: {
@@ -35,6 +38,8 @@ function App() {
           <Route path="/" element={<Portfolio />}></Route>
           <Route path="/portfolioByDate" element={<PortfolioByDate />}></Route>
           <Route path="/portfolioByYear" element={<PortfolioByYear />}></Route>
+          <Route path="/heatmap" element={<HeatMap />}></Route>
+          <Route path="/heatmapPNL" element={<HeatMapPNL />}></Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

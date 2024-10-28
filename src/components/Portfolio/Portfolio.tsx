@@ -34,7 +34,7 @@ export const Portfolio = () => {
     setStocksInfo(stockInfo);
     setHoldingSummary(getPnL(stockInfo));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [marketData, marketData]);
+  }, [marketData, userHoldings]);
 
   const onSort = (column: string, order: Order) =>
     setStocksInfo(sort(stocksInfo, column, order));
