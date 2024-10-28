@@ -14,6 +14,7 @@ const userHoldingsController = require('./controllers/userHoldingsController');
 app.get('/marketData', marketDataController.getMarketData);
 app.post('/marketData', marketDataController.setMarketData);
 app.get('/holdings', userHoldingsController.getHoldings);
+app.get('/userHoldingsList', userHoldingsController.getUserHoldingsList);
 app.post('/addPurchase', userHoldingsController.addPurchase);
 
 app.listen(PORT, () => {
