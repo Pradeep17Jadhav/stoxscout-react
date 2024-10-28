@@ -12,6 +12,7 @@
 # production
 /build
 /extension/src/data
+/server/data/
 /src/data
 
 # misc
