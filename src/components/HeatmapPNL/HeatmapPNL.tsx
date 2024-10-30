@@ -48,8 +48,7 @@ export const HeatMapPNL = () => {
     const { marketData } = useMarketData();
     const { userHoldings } = useUserHoldings();
 
-    useEffect(() => {
-        if (!userHoldings || !marketData || !marketData.length) return;
+    const updateChart = () => {
         const stockInfo = stockInfoGeneratorAll(userHoldings, marketData);
         let maxLossPercent = Infinity;
         let maxProfitPercent = -Infinity;
@@ -66,6 +65,15 @@ export const HeatMapPNL = () => {
             value: 1,
             stroke: "white"
         })));
+    }
+
+    useEffect(() => {
+        if (!userHoldings || !marketData || !marketData.length) return;
+        updateChart();
+        const intervalId = setInterval(() => {
+            updateChart();
+        }, 5000);
+        return () => clearInterval(intervalId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userHoldings, marketData]);
 

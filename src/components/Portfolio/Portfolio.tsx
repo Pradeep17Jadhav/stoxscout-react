@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { stockInfoGeneratorAll, getPnL } from "../../helpers/price";
-import "./styles.css";
 import { sort } from "../../helpers/sort";
 import {
   HoldingSummary,
@@ -9,9 +8,10 @@ import {
 } from "../../types/transaction";
 import { HoldingTable } from "../HoldingTable/HoldingTable";
 import { HoldingInformation } from "../HoldingInformation/HoldingInformation";
-import useQueryParams from "../../hooks/useQueryParams";
 import useMarketData from "../../hooks/useMarketData";
 import useUserHoldings from "../../hooks/useUserHoldings";
+
+import "./styles.css";
 
 export const Portfolio = () => {
   const [stocksInfo, setStocksInfo] = useState<StockInformation[]>([]);
@@ -26,13 +26,18 @@ export const Portfolio = () => {
 
   const { marketData } = useMarketData();
   const { userHoldings } = useUserHoldings();
-  useQueryParams(userHoldings);
 
-  useEffect(() => {
-    if (!userHoldings || !marketData || !marketData.length) return;
+  const updateTable = () => {
     const stockInfo = stockInfoGeneratorAll(userHoldings, marketData);
     setStocksInfo(stockInfo);
     setHoldingSummary(getPnL(stockInfo));
+  }
+
+  useEffect(() => {
+    if (!userHoldings || !marketData || !marketData.length) return;
+    updateTable();
+    const intervalId = setInterval(() => updateTable(), 60000);
+    return () => clearInterval(intervalId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [marketData, userHoldings]);
 

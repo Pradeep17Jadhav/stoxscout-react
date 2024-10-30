@@ -67,21 +67,21 @@ const readHoldings = async () => readFile(holdingsPath);
 const readScriptList = async () => readFile(scriptListPath);
 
 const readFile = (filePath) => {
-    console.log(`Reading file: ${filePath}`);
     return new Promise((resolve, reject) => {
         fs.readFile(filePath, 'utf8', (err, data) => {
             if (err) {
                 return reject({ error: 'Error reading file' });
             }
             try {
-                const holdingsData = JSON.parse(data);
-                resolve(holdingsData);
+                const res = JSON.parse(data);
+                resolve(res);
             } catch (parseErr) {
                 reject({ error: 'Error parsing JSON' });
             }
         });
     });
 }
+
 const addPurchase = (holdingsData, jsonData) => {
     const { symbol, dateAdded, quantity, avgPrice, exchange } = jsonData;
     const { holdings } = holdingsData;

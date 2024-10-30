@@ -1,3 +1,12 @@
+const FREQUENCY = 60000;
+
+const startFetching = () => {
+  main();
+  if (window.location.hostname === "www.nseindia.com" || window.location.hostname === "www.bseindia.com") {
+    setInterval(main, FREQUENCY);
+  }
+}
+
 const main = async () => {
   let symbolsDataNSE = [];
   let symbolsDataBSE = [];
@@ -25,15 +34,42 @@ const main = async () => {
   }
 
   const symbolsData = [...symbolsDataNSE, ...symbolsDataBSE];
-  const req = {
-    type: "STOCK_DATA",
-    owner: "Pradeep",
-    symbolsData,
+  setMarketData(symbolsData);
+};
+
+
+const setMarketData = (req) =>
+  request("http://localhost:4000/marketData", {
+    body: req,
+    method: 'POST',
+  });
+
+
+const request = async (url, options = {}) => {
+  const { body, headers, method = HttpMethod.GET } = options;
+
+  const config = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
   };
 
-  chrome.runtime.sendMessage(req, function (response) {
-    console.log("Message sent to background script");
-  });
+  if (method !== "GET" && body) {
+    config.body = JSON.stringify(body);
+  }
+
+  try {
+    const response = await fetch(url, config);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error during API request:", error);
+    throw error;
+  }
 };
 
 const loadSymbol = async (api, config) => {
@@ -147,5 +183,5 @@ const extractPriceInfoBSE = (apiResponse) => {
 };
 
 setTimeout(() => {
-  main();
+  startFetching();
 }, 1000);

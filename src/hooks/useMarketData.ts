@@ -4,7 +4,7 @@ import { request } from "../api/api";
 const useMarketData = () => {
   const [marketData, setMarketData] = useState([]);
 
-  useEffect(() => {
+  const fetchMarketData = () => {
     request("http://localhost:4000/marketData")
       .then((response) => {
         setMarketData(response);
@@ -12,6 +12,12 @@ const useMarketData = () => {
       .catch((error) => {
         console.error(error);
       });
+  }
+  useEffect(() => {
+    fetchMarketData();
+    setInterval(() => {
+      fetchMarketData();
+    }, 60000)
   }, []);
 
   return { marketData };

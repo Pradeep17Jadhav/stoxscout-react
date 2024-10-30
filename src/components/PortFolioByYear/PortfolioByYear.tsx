@@ -5,11 +5,10 @@ import { HoldingTable } from "../HoldingTable/HoldingTable";
 import { HoldingInformation } from "../HoldingInformation/HoldingInformation";
 import { sort, sortHoldingsByYear } from "../../helpers/sort";
 import { yearWiseStockInfoGeneratorAll } from "../../helpers/portfolioByDateUtils";
-
-import "./styles.css";
-import useQueryParams from "../../hooks/useQueryParams";
 import useMarketData from "../../hooks/useMarketData";
 import useUserHoldings from "../../hooks/useUserHoldings";
+
+import "./styles.css";
 
 export const PortfolioByYear = () => {
   const [yearWiseStocksInfo, setYearWiseStocksInfo] =
@@ -17,7 +16,6 @@ export const PortfolioByYear = () => {
 
   const { marketData } = useMarketData();
   const { userHoldings } = useUserHoldings();
-  useQueryParams(userHoldings);
 
   useEffect(() => {
     if (!userHoldings || !marketData) return;

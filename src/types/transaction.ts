@@ -31,6 +31,16 @@ export type DateWiseStockInformation = {
   stocksInfo: StockInformation[];
 }[];
 
+export type MonthWiseHoldings = MonthWiseHoldingItem[];
+export type MonthWiseHoldingItem = {
+  month: string;
+  holdings: Holdings;
+};
+export type MonthWiseStockInformation = {
+  monthYear: string;
+  stocksInfo: StockInformation[];
+}[];
+
 export type YearWiseHoldings = YearWiseHoldingItem[];
 export type YearWiseHoldingItem = {
   year: string;

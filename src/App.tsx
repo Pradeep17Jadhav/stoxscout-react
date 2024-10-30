@@ -8,6 +8,7 @@ import { HeatMap } from "./components/Heatmap/Heatmap";
 import { HeatMapPNL } from "./components/HeatmapPNL/HeatmapPNL";
 
 import "./App.css";
+import { PortfolioByMonth } from "./components/PortfolioByMonth/PortfolioByMonth";
 
 const theme = createTheme({
   typography: {
@@ -37,6 +38,7 @@ function App() {
           <Route path="/addPurchase" element={<AddPurchase />} />
           <Route path="/" element={<Portfolio />}></Route>
           <Route path="/portfolioByDate" element={<PortfolioByDate />}></Route>
+          <Route path="/portfolioByMonth" element={<PortfolioByMonth />}></Route>
           <Route path="/portfolioByYear" element={<PortfolioByYear />}></Route>
           <Route path="/heatmap" element={<HeatMap />}></Route>
           <Route path="/heatmapPNL" element={<HeatMapPNL />}></Route>

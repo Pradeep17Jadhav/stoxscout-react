@@ -808,6 +808,7 @@ const stocks = [
     { name: "Wipro", nse: "WIPRO", bse: "507685" },
     { name: "Whirlpool of India", nse: "WHIRLPOOL", bse: "500097" },
     { name: "Wabco India", nse: "WABCOINDIA", bse: "505400" },
+    { name: "Waaree Energies Ltd", nse: "WAAREEENER", bse: "544277" },
     { name: "Wellness Forever Medicare", nse: "WELLNESS", bse: "N/A" },
     { name: "Westlife Development", nse: "WESTLIFE", bse: "540135" },
     { name: "Walchandnagar Industries", nse: "WALCHANNAGAR", bse: "500384" },

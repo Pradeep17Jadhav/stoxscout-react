@@ -1,6 +1,7 @@
 import {
   COLUMNS,
   DateWiseStockInformation,
+  MonthWiseStockInformation,
   Order,
   StockInformation,
   YearWiseStockInformation,
@@ -109,15 +110,30 @@ const sort = (
 };
 
 const sortHoldingsByDate = (dateWiseStockInfo: DateWiseStockInformation) => {
-  const StockInfoWithEpoch = dateWiseStockInfo.map((stocksInfo) => {
+  const stockInfoWithEpoch = dateWiseStockInfo.map((stocksInfo) => {
     const { date } = stocksInfo;
     const [day, month, year] = date.split("-").map(Number);
     const dateObject = new Date(year, month - 1, day);
     const epochTimestamp = dateObject.getTime();
     return { ...stocksInfo, epochTimestamp };
   });
-  StockInfoWithEpoch.sort((a, b) => b.epochTimestamp - a.epochTimestamp);
-  return StockInfoWithEpoch.map((stocksInfo) => {
+  stockInfoWithEpoch.sort((a, b) => b.epochTimestamp - a.epochTimestamp);
+  return stockInfoWithEpoch.map((stocksInfo) => {
+    const { epochTimestamp, ...rest } = stocksInfo;
+    return { ...rest };
+  });
+};
+
+const sortHoldingsByMonth = (monthWiseStockInfo: MonthWiseStockInformation) => {
+  const stockInfoWithEpoch = monthWiseStockInfo.map((stocksInfo) => {
+    const { monthYear } = stocksInfo;
+    const [month, year] = monthYear.split("-").map(Number);
+    const dateObject = new Date(year, month - 1, 15);
+    const epochTimestamp = dateObject.getTime();
+    return { ...stocksInfo, epochTimestamp };
+  });
+  stockInfoWithEpoch.sort((a, b) => b.epochTimestamp - a.epochTimestamp);
+  return stockInfoWithEpoch.map((stocksInfo) => {
     const { epochTimestamp, ...rest } = stocksInfo;
     return { ...rest };
   });
@@ -135,4 +151,4 @@ const sortHoldingsByYear = (yearWiseStockInfo: YearWiseStockInformation) =>
       year: year.toString(),
     }));
 
-export { sortBySymbol, sort, sortHoldingsByDate, sortHoldingsByYear };
+export { sortBySymbol, sort, sortHoldingsByDate, sortHoldingsByMonth, sortHoldingsByYear };

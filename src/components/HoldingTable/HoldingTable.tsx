@@ -15,10 +15,11 @@ import { useState } from "react";
 type Props = {
   stocksInfo: StockInformation[];
   date?: string;
+  monthYear?: string;
   year?: string;
   onSort: (column: string, order: Order, date?: string) => void;
 };
-export const HoldingTable = ({ stocksInfo, date, year, onSort }: Props) => {
+export const HoldingTable = ({ stocksInfo, date, monthYear, year, onSort }: Props) => {
   const [sortedBy, setSortedBy] = useState<string>(COLUMNS.SYMBOL);
   const [orderBy, setOrderBy] = useState<Order>(Order.DESC);
 

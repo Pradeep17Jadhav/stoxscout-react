@@ -10,6 +10,9 @@ import {
   YearWiseHoldings,
   DateWiseHoldingItem,
   DateWiseStockInformation,
+  MonthWiseHoldings,
+  MonthWiseHoldingItem,
+  MonthWiseStockInformation,
 } from "../types/transaction";
 
 export const stockInfoGenerator = (
@@ -80,6 +83,21 @@ export const dateWiseStockInfoGeneratorAll = (
   });
 };
 
+export const monthWiseStockInfoGeneratorAll = (
+  holdings: Holdings,
+  marketData: any[]
+): MonthWiseStockInformation => {
+  const monthWiseHoldings = getMonthWiseHoldings(holdings);
+  return monthWiseHoldings.map((monthWiseHoldingItem) => {
+    return {
+      monthYear: monthWiseHoldingItem.month,
+      stocksInfo: monthWiseHoldingItem.holdings.map((holdingItem: HoldingItem) =>
+        stockInfoGenerator(holdingItem, marketData)
+      ),
+    };
+  });
+};
+
 export const yearWiseStockInfoGeneratorAll = (
   holdings: Holdings,
   marketData: any
@@ -122,6 +140,35 @@ export const getDateWiseHoldings = (holdings: Holdings): DateWiseHoldings => {
     });
   });
   return dateWiseHoldings;
+};
+
+export const getMonthWiseHoldings = (holdings: Holdings): MonthWiseHoldings => {
+  const monthWiseHoldings: MonthWiseHoldings = [];
+  holdings.forEach((holdingItem: HoldingItem) => {
+    const transactions = holdingItem.transactions;
+    transactions.forEach((transaction: Transaction) => {
+      const holdingItemCopy: HoldingItem = JSON.parse(
+        JSON.stringify(holdingItem)
+      );
+      holdingItemCopy.transactions = [transaction];
+      const month = epochToDate(transaction.dateAdded).split('-').splice(1).join('-');
+
+      const matchedDateWiseHolding = monthWiseHoldings.find(
+        (dateWiseHoldingItem: MonthWiseHoldingItem) =>
+          dateWiseHoldingItem.month === month
+      );
+
+      if (matchedDateWiseHolding) {
+        matchedDateWiseHolding.holdings.push(holdingItemCopy);
+      } else {
+        monthWiseHoldings.push({
+          month,
+          holdings: [holdingItemCopy],
+        });
+      }
+    });
+  });
+  return monthWiseHoldings;
 };
 
 export const getYearWiseHoldings = (holdings: Holdings): YearWiseHoldings => {
