@@ -5,6 +5,15 @@
     sans-serif !important;
 }
 
+.app-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  padding-top: 60px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

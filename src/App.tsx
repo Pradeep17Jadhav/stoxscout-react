@@ -9,6 +9,7 @@ import { HeatMapPNL } from "./components/HeatmapPNL/HeatmapPNL";
 
 import "./App.css";
 import { PortfolioByMonth } from "./components/PortfolioByMonth/PortfolioByMonth";
+import Navbar from "./components/Navbar/Navbar";
 
 const theme = createTheme({
   typography: {
@@ -34,15 +35,20 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/addPurchase" element={<AddPurchase />} />
-          <Route path="/" element={<Portfolio />}></Route>
-          <Route path="/portfolioByDate" element={<PortfolioByDate />}></Route>
-          <Route path="/portfolioByMonth" element={<PortfolioByMonth />}></Route>
-          <Route path="/portfolioByYear" element={<PortfolioByYear />}></Route>
-          <Route path="/heatmap" element={<HeatMap />}></Route>
-          <Route path="/heatmapPNL" element={<HeatMapPNL />}></Route>
-        </Routes>
+        <div className="app-container">
+          <Navbar />
+          <div className="main-content">
+            <Routes>
+              <Route path="/addPurchase" element={<AddPurchase />} />
+              <Route path="/" element={<Portfolio />}></Route>
+              <Route path="/portfolioByDate" element={<PortfolioByDate />}></Route>
+              <Route path="/portfolioByMonth" element={<PortfolioByMonth />}></Route>
+              <Route path="/portfolioByYear" element={<PortfolioByYear />}></Route>
+              <Route path="/heatmap" element={<HeatMap />}></Route>
+              <Route path="/heatmapPNL" element={<HeatMapPNL />}></Route>
+            </Routes>
+          </div>
+        </div>
       </BrowserRouter>
     </ThemeProvider>
   );
