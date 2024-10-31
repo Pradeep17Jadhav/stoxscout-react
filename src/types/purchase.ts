@@ -4,4 +4,6 @@ export type Purchase = {
     quantity: number;
     avgPrice: string;
     exchange: string;
+    isGift: boolean;
+    isIPO: boolean;
 };

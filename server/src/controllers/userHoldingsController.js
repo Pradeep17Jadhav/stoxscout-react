@@ -83,10 +83,18 @@ const readFile = (filePath) => {
 }
 
 const addPurchase = (holdingsData, jsonData) => {
-    const { symbol, dateAdded, quantity, avgPrice, exchange } = jsonData;
+    const { symbol, dateAdded, quantity, avgPrice, exchange, isGift, isIPO } = jsonData;
     const { holdings } = holdingsData;
     const existingStock = holdings.find((stock) => stock.symbol === symbol);
     let updatedHoldingsData;
+    const newTransaction = {
+        dateAdded,
+        quantity,
+        avgPrice,
+        exchange,
+        isGift,
+        isIPO
+    }
 
     if (existingStock) {
         updatedHoldingsData = holdings.map((holding) => {
@@ -95,12 +103,7 @@ const addPurchase = (holdingsData, jsonData) => {
                     ...holding,
                     transactions: [
                         ...holding.transactions,
-                        {
-                            dateAdded,
-                            quantity,
-                            avgPrice,
-                            exchange
-                        }
+                        newTransaction
                     ]
                 };
             }
@@ -109,14 +112,7 @@ const addPurchase = (holdingsData, jsonData) => {
     } else {
         const newHolding = {
             symbol,
-            transactions: [
-                {
-                    dateAdded,
-                    quantity,
-                    avgPrice,
-                    exchange
-                }
-            ]
+            transactions: [newTransaction]
         };
         updatedHoldingsData = [...holdings, newHolding];
     }

@@ -8,38 +8,69 @@ const startFetching = () => {
 }
 
 const main = async () => {
-  let symbolsDataNSE = [];
-  let symbolsDataBSE = [];
+  let holdingsMarketDataNSE = [];
+  let holdingsMarketDataBSE = [];
+  let indicesMarketDataNSE = [];
+  let indicesMarketDataBSE = [];
 
   const userStockList = await loadUserStockList();
   if (window.location.hostname === "www.nseindia.com") {
-    symbolsDataNSE = await Promise.all(
+    holdingsMarketDataNSE = await Promise.all(
       userStockList.nse.map(async (symbol) => {
         const api = `https://www.nseindia.com/api/quote-equity?symbol=${symbol}`
-        const data = await loadSymbol(api);
-
+        const data = await fetchData(api);
         return extractPriceInfoNSE(data);
       })
     );
+    const requiredIndices = [
+      'NIFTY 50',
+      'NIFTY MIDCAP 50',
+      'NIFTY SMLCAP 50',
+      'NIFTY BANK',
+      'NIFTY IT',
+    ]
+    const indices = await fetchData('https://www.nseindia.com/api/allIndices');
+    indicesMarketDataNSE = indices.data.filter(index => requiredIndices.some(requiredIndex => index.indexSymbol === requiredIndex)).map(index => ({
+      indexSymbol: index.indexSymbol,
+      current: index.last,
+      percentChange: index.percentChange,
+      timeStamp: new Date().getTime()
+    }))
   } else if (window.location.hostname === "www.bseindia.com") {
-    symbolsDataBSE = await Promise.all(
+    holdingsMarketDataBSE = await Promise.all(
       userStockList.bse.map(async (symbol) => {
         const api = `https://api.bseindia.com/BseIndiaAPI/api/getScripHeaderData/w?Debtflag=&scripcode=${symbol}`
-        const data = await loadSymbol(api);
+        const data = await fetchData(api);
         return extractPriceInfoBSE(data);
       })
     );
+    const bseIndex = await fetchData('https://api.bseindia.com/RealTimeBseIndiaAPI/api/GetSensexData/w?code=16');
+    indicesMarketDataBSE = [
+      {
+        indexSymbol: bseIndex[0].indxnm,
+        current: convertToPrice(bseIndex[0].ltp),
+        percentChange: convertToPrice(bseIndex[0].perchg),
+        timeStamp: new Date().getTime()
+      }
+    ]
   } else {
     return;
   }
 
-  const symbolsData = [...symbolsDataNSE, ...symbolsDataBSE];
-  setMarketData(symbolsData);
+  const holdingsMarketData = [...holdingsMarketDataNSE, ...holdingsMarketDataBSE];
+  const indicesMarketData = [...indicesMarketDataNSE, ...indicesMarketDataBSE];
+  setMarketData(holdingsMarketData);
+  setIndicesData(indicesMarketData);
 };
-
 
 const setMarketData = (req) =>
   request("http://localhost:4000/marketData", {
+    body: req,
+    method: 'POST',
+  });
+
+const setIndicesData = (req) =>
+  request("http://localhost:4000/indicesData", {
     body: req,
     method: 'POST',
   });
@@ -72,7 +103,7 @@ const request = async (url, options = {}) => {
   }
 };
 
-const loadSymbol = async (api, config) => {
+const fetchData = async (api, config) => {
   try {
     const response = await fetch(api, config);
     if (!response.ok) {
@@ -181,6 +212,8 @@ const extractPriceInfoBSE = (apiResponse) => {
     basePrice,
   };
 };
+
+const convertToPrice = (strPrice) => parseFloat(strPrice.replace(/,/g, ''));
 
 setTimeout(() => {
   startFetching();

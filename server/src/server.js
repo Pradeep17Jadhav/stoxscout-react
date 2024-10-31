@@ -13,6 +13,8 @@ const userHoldingsController = require('./controllers/userHoldingsController');
 
 app.get('/marketData', marketDataController.getMarketData);
 app.post('/marketData', marketDataController.setMarketData);
+app.post('/indicesData', marketDataController.setIndicesData);
+app.get('/indicesData', marketDataController.getIndicesData);
 app.get('/holdings', userHoldingsController.getHoldings);
 app.get('/userHoldingsList', userHoldingsController.getUserHoldingsList);
 app.post('/addPurchase', userHoldingsController.addPurchase);
