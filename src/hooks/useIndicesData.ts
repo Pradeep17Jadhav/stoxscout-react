@@ -1,25 +1,33 @@
 import { useEffect, useState } from "react";
-import { request } from "../api/api";
-import { Index } from "../types";
+import { authRequest } from "../api/api";
+import { Index } from "../types/indices";
+import { PortfolioAction } from "../context/portfolioReducer";
+import { useAuth } from "./useAuth";
 
-const useIndicesData = () => {
+const useIndicesData = (dispatch: React.Dispatch<PortfolioAction>) => {
   const [indicesData, setIndicesData] = useState<Index[]>([]);
+  const { isAuthenticated } = useAuth();
 
   const fetchIndicesData = () => {
-    request("http://localhost:4000/indicesData")
+    if (!isAuthenticated) return;
+
+    authRequest("http://localhost:4000/api/indices")
       .then((response) => {
         setIndicesData(response);
+        dispatch({ type: 'UPDATE_INDICES_DATA', payload: response });
       })
       .catch((error) => {
         console.error(error);
       });
   }
+
   useEffect(() => {
     fetchIndicesData();
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       fetchIndicesData();
-    }, 60000)
-  }, []);
+    }, 20000)
+    return () => clearInterval(intervalId);
+  }, [isAuthenticated]);
 
   return { indicesData };
 };

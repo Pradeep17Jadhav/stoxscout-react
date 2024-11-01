@@ -1,29 +1,26 @@
-import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { IndexInfo } from "./IndexInfo/IndexInfo";
-import useIndicesData from '../../hooks/useIndicesData';
+import { usePortfolio } from '../../hooks/usePortfolio';
+
 import './styles.css';
-import { PortfolioContext } from '../../context/PortfolioContext';
 
 const Navbar = () => {
-    const { indicesData } = useIndicesData();
-    const context = useContext(PortfolioContext);
-
-    if (!context) {
-        throw new Error('PortfolioProvider is not initialized');
-    }
-    const { holdingSummary } = context;
+    const { holdingSummary, indicesData } = usePortfolio();
     const convertToPrice = (strPrice: string) => parseFloat(strPrice.replace(/,/g, ''));
 
     return (
         <nav className="navbar">
             <div className="indices">
                 {indicesData.map(index => (<IndexInfo key={index.indexSymbol} index={index} />))}
-                <IndexInfo key='userPortfolio' index={{
-                    indexSymbol: 'Portfolio',
-                    current: convertToPrice(holdingSummary.totalDayChange),
-                    percentChange: convertToPrice(holdingSummary.totalDayChangePercentage)
-                }} />
+                {
+                    holdingSummary.totalDayChange !== '0' && (
+                        <IndexInfo key='userPortfolio' index={{
+                            indexSymbol: 'Portfolio',
+                            current: convertToPrice(holdingSummary.totalDayChange),
+                            percentChange: convertToPrice(holdingSummary.totalDayChangePercentage)
+                        }} />
+                    )
+                }
             </div>
             <div className="links">
                 <Link className="nav-link" to="/">Portfolio</Link>

@@ -1,3 +1,4 @@
+import { MarketData } from "../types/marketData";
 import {
   HoldingSummary,
   HoldingItem,
@@ -7,7 +8,7 @@ import {
 
 export const stockInfoGeneratorNSE = (
   holdingItem: HoldingItem,
-  marketData: any[]
+  marketData: MarketData
 ): StockInformation => {
   const transactions = holdingItem.transactions;
   const symbol = holdingItem.symbol;
@@ -25,11 +26,16 @@ export const stockInfoGeneratorNSE = (
     (data: any) => data.symbol === symbol
   )[0];
 
-  if(!symbolMarketData) {
+  if (!symbolMarketData) {
     symbolMarketData = {
+      symbol: '',
       close: 0,
       lastPrice: 0,
-      previousClose: 0
+      previousClose: 0,
+      change: 0,
+      pChange: 0,
+      open: 0,
+      basePrice: 0,
     }
   }
   const ltp = symbolMarketData.close
@@ -61,13 +67,13 @@ export const stockInfoGeneratorNSE = (
 };
 
 export const getPercentChange = (newPrice: number, oldPrice: number) => {
-  if(!newPrice || !oldPrice) return 0;
+  if (!newPrice || !oldPrice) return 0;
   return ((newPrice - oldPrice) / oldPrice) * 100;
 }
 
 export const stockInfoGeneratorAll = (
   holdings: Holdings,
-  marketData: any[]
+  marketData: MarketData
 ): StockInformation[] =>
   holdings.map((holdingItem) => stockInfoGeneratorNSE(holdingItem, marketData));
 
@@ -92,12 +98,12 @@ export const transformTypes = (res: any) => {
   };
 };
 
-export const getPnL = (stockInfo: StockInformation[]): HoldingSummary => {
+export const getPnL = (stocksInfo: StockInformation[]): HoldingSummary => {
   let totalPnl = 0;
   let totalInvestedValue = 0;
   let totalCurrentValue = 0;
   let totalDayChange = 0;
-  stockInfo.forEach((stockInfo: StockInformation) => {
+  stocksInfo.forEach((stockInfo: StockInformation) => {
     totalPnl += stockInfo.pnl;
     totalInvestedValue += stockInfo.investedValue;
     totalCurrentValue += stockInfo.currentValue;

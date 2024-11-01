@@ -4,22 +4,18 @@ import { MonthWiseStockInformation } from "../../types/transaction";
 import { monthWiseStockInfoGeneratorAll } from "../../helpers/portfolioByDateUtils";
 import { HoldingTable } from "../HoldingTable/HoldingTable";
 import { HoldingInformation } from "../HoldingInformation/HoldingInformation";
-import useMarketData from "../../hooks/useMarketData";
-import useUserHoldings from "../../hooks/useUserHoldings";
 import { sortHoldingsByMonth } from "../../helpers/sort";
+import { usePortfolio } from "../../hooks/usePortfolio";
 
 import "./styles.css";
 
 export const PortfolioByMonth = () => {
+  const { marketData, userHoldings } = usePortfolio();
   const [monthWiseStocksInfo, setMonthWiseStocksInfo] =
     useState<MonthWiseStockInformation>([]);
 
-  const { marketData } = useMarketData();
-  const { userHoldings } = useUserHoldings();
-
   useEffect(() => {
     if (!userHoldings || !marketData || !marketData.length) return;
-
     const monthWiseStockInfo = monthWiseStockInfoGeneratorAll(
       userHoldings,
       marketData
@@ -42,7 +38,7 @@ export const PortfolioByMonth = () => {
               />
             </div>
             <HoldingInformation
-              holdingInfo={getPnL(monthWiseStocksInfoItem.stocksInfo)}
+              holdingSummary={getPnL(monthWiseStocksInfoItem.stocksInfo)}
             />
           </div>
         </div>

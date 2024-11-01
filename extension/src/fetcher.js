@@ -8,6 +8,9 @@ const startFetching = () => {
 }
 
 const main = async () => {
+  if (!(isMarketHour() && (window.location.hostname === "www.nseindia.com" || window.location.hostname === "www.bseindia.com")))
+    return;
+
   let holdingsMarketDataNSE = [];
   let holdingsMarketDataBSE = [];
   let indicesMarketDataNSE = [];
@@ -64,13 +67,13 @@ const main = async () => {
 };
 
 const setMarketData = (req) =>
-  request("http://localhost:4000/marketData", {
+  request("http://localhost:4000/api/marketData", {
     body: req,
     method: 'POST',
   });
 
 const setIndicesData = (req) =>
-  request("http://localhost:4000/indicesData", {
+  request("http://localhost:4000/api/indices", {
     body: req,
     method: 'POST',
   });
@@ -214,6 +217,15 @@ const extractPriceInfoBSE = (apiResponse) => {
 };
 
 const convertToPrice = (strPrice) => parseFloat(strPrice.replace(/,/g, ''));
+
+const isMarketHour = () => {
+  const now = new Date();
+  const start = new Date();
+  const end = new Date();
+  start.setHours(9, 0, 0);
+  end.setHours(15, 30, 0);
+  return now >= start && now <= end;
+};
 
 setTimeout(() => {
   startFetching();

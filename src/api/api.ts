@@ -13,7 +13,6 @@ interface ApiRequestOptions {
 
 export const request = async (url: string, options: ApiRequestOptions = {}) => {
   const { body, headers, method = HttpMethod.GET } = options;
-
   const config: RequestInit = {
     method,
     headers: {
@@ -21,11 +20,9 @@ export const request = async (url: string, options: ApiRequestOptions = {}) => {
       ...headers,
     },
   };
-
   if (method !== "GET" && body) {
     config.body = JSON.stringify(body);
   }
-
   try {
     const response = await fetch(url, config);
     if (!response.ok) {
@@ -36,4 +33,15 @@ export const request = async (url: string, options: ApiRequestOptions = {}) => {
     console.error("Error during API request:", error);
     throw error;
   }
+};
+
+export const authRequest = async (url: string, options: ApiRequestOptions = {}) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    options.headers = {
+      ...options.headers,
+      Authorization: `Bearer ${token}`,
+    };
+  }
+  return request(url, options);
 };

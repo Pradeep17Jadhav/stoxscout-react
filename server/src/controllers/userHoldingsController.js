@@ -23,19 +23,35 @@ exports.getUserHoldingsList = async (req, res) => {
     }
 };
 
-exports.addPurchase = async (req, res) => {
-    const jsonData = req.body;
+exports.addHolding = async (req, res) => {
+    const { symbol, dateAdded, quantity, avgPrice, exchange, isGift, isIPO } = req.body;
+    if (!req.session.userId) {
+        return res.redirect('/login');
+    }
     try {
-        const holdingsData = await readHoldings();
-        const updatedHoldings = addPurchase(holdingsData, jsonData);
-        fs.writeFile(holdingsPath, JSON.stringify(updatedHoldings, null, 2), (err) => {
-            if (err) {
-                return res.status(500).json({ message: 'Error saving data', error: err });
-            }
-            res.status(200).json({ message: 'Data saved successfully!' });
-        });
-    } catch (error) {
-        res.status(500).json(error);
+        const newTransaction = {
+            dateAdded: new Date(dateAdded),
+            quantity,
+            avgPrice,
+            exchange,
+            isGift,
+            isIPO
+        };
+        let holding = await Holding.findOne({ symbol, userId: req.session.userId });
+        if (holding) {
+            holding.transactions.push(newTransaction);
+        } else {
+            holding = new Holding({
+                symbol,
+                transactions: [newTransaction],
+                userId: req.session.userId,
+            });
+        }
+        await holding.save();
+        res.status(200).send(`Holding ${symbol} added successfully!`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(`Server error while adding holding, ${err}`);
     }
 };
 
@@ -81,43 +97,3 @@ const readFile = (filePath) => {
         });
     });
 }
-
-const addPurchase = (holdingsData, jsonData) => {
-    const { symbol, dateAdded, quantity, avgPrice, exchange, isGift, isIPO } = jsonData;
-    const { holdings } = holdingsData;
-    const existingStock = holdings.find((stock) => stock.symbol === symbol);
-    let updatedHoldingsData;
-    const newTransaction = {
-        dateAdded,
-        quantity,
-        avgPrice,
-        exchange,
-        isGift,
-        isIPO
-    }
-
-    if (existingStock) {
-        updatedHoldingsData = holdings.map((holding) => {
-            if (holding.symbol === symbol) {
-                return {
-                    ...holding,
-                    transactions: [
-                        ...holding.transactions,
-                        newTransaction
-                    ]
-                };
-            }
-            return holding;
-        });
-    } else {
-        const newHolding = {
-            symbol,
-            transactions: [newTransaction]
-        };
-        updatedHoldingsData = [...holdings, newHolding];
-    }
-    return {
-        holdings: updatedHoldingsData,
-        lastUpdated: Date.now()
-    };
-};

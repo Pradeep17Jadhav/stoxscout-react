@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Treemap, ResponsiveContainer, Cell, Label } from 'recharts';
-import useUserHoldings from '../../hooks/useUserHoldings';
+import { Treemap, ResponsiveContainer, Label } from 'recharts';
 import { stockInfoGeneratorAll } from '../../helpers/price';
-import useMarketData from '../../hooks/useMarketData';
+import { usePortfolio } from '../../hooks/usePortfolio';
 
 import "./styles.css";
 
 export const HeatMap = () => {
+    const { marketData, userHoldings } = usePortfolio();
     const [chartData, setChartData] = useState<any>([]);
-    const { marketData } = useMarketData();
-    const { userHoldings } = useUserHoldings();
 
     useEffect(() => {
         if (!userHoldings || !marketData || !marketData.length) return;

@@ -5,21 +5,17 @@ import { dateWiseStockInfoGeneratorAll } from "../../helpers/portfolioByDateUtil
 import { HoldingTable } from "../HoldingTable/HoldingTable";
 import { HoldingInformation } from "../HoldingInformation/HoldingInformation";
 import { sort, sortHoldingsByDate } from "../../helpers/sort";
-import useMarketData from "../../hooks/useMarketData";
-import useUserHoldings from "../../hooks/useUserHoldings";
+import { usePortfolio } from "../../hooks/usePortfolio";
 
 import "./styles.css";
 
 export const PortfolioByDate = () => {
+  const { marketData, userHoldings } = usePortfolio();
   const [dateWiseStocksInfo, setDateWiseStocksInfo] =
     useState<DateWiseStockInformation>([]);
 
-  const { marketData } = useMarketData();
-  const { userHoldings } = useUserHoldings();
-
   useEffect(() => {
     if (!userHoldings || !marketData || !marketData.length) return;
-
     const dateWiseStockInfo = dateWiseStockInfoGeneratorAll(
       userHoldings,
       marketData
@@ -69,7 +65,7 @@ export const PortfolioByDate = () => {
               />
             </div>
             <HoldingInformation
-              holdingInfo={getPnL(dateWiseStocksInfoItem.stocksInfo)}
+              holdingSummary={getPnL(dateWiseStocksInfoItem.stocksInfo)}
             />
           </div>
         </div>

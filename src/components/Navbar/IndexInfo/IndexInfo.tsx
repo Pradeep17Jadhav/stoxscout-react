@@ -1,4 +1,4 @@
-import { Index } from "../../../types"
+import { Index } from "../../../types/indices"
 import './styles.css';
 
 type Props = {
@@ -9,7 +9,7 @@ export const IndexInfo = ({ index }: Props) => {
     return (
         <div className="index-container">
             <div>{index.indexSymbol}</div>
-            <div className={`index-value' ${isNegative ? 'loss' : 'profit'}`}>{index.current} ({index.percentChange})</div>
+            <div className={`index-value' ${isNegative ? 'loss' : 'profit'}`}>{index.current} ({index.percentChange}%)</div>
         </div>
     )
 }
