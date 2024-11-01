@@ -1,9 +1,9 @@
 import { Purchase } from '../types/purchase';
-import { HttpMethod, request } from '.';
+import { authRequest, HttpMethod } from '.';
 
 export const getUserHoldings = async () => {
     try {
-        const response = await request('http://localhost:4000/holdings');
+        const response = await authRequest('http://localhost:4000/api/holdings');
         if (response.status === 401) {
             throw new Error('Unauthorized: You must be logged in.');
         }
@@ -21,7 +21,7 @@ export const getUserHoldings = async () => {
 
 export const addPurchase = async (purchase: Purchase) => {
     try {
-        const response = await request('http://localhost:4000/api/holding', {
+        const response = await authRequest('http://localhost:4000/api/holding', {
             method: HttpMethod.POST,
             body: purchase
         });

@@ -39,6 +39,11 @@ const HoldingSchema = new mongoose.Schema({
         type: [TransactionSchema],
         required: true,
     },
+    userId: {
+        type: String,
+        required: true,
+        trim: true,
+    },
     createdAt: {
         type: Date,
         default: Date.now,

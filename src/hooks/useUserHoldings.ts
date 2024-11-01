@@ -14,9 +14,9 @@ const useUserHoldings = (dispatch: React.Dispatch<PortfolioAction>) => {
       if (!isAuthenticated) return;
       try {
         const response = await getUserHoldings();
-        const transformed = transformTypes(response);
-        setUserHoldings(transformed.holdings);
-        dispatch({ type: 'UPDATE_USER_HOLDINGS', payload: transformed.holdings });
+        const transformedHoldings = transformTypes(response);
+        setUserHoldings(transformedHoldings);
+        dispatch({ type: 'UPDATE_USER_HOLDINGS', payload: transformedHoldings });
       } catch (error) {
         console.error(error);
       }

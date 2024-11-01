@@ -77,8 +77,7 @@ export const stockInfoGeneratorAll = (
 ): StockInformation[] =>
   holdings.map((holdingItem) => stockInfoGeneratorNSE(holdingItem, marketData));
 
-export const transformTypes = (res: any) => {
-  const rawHolding: any = res.holdings;
+export const transformTypes = (rawHolding: any) => {
   const holdings = rawHolding.map((holdingItem: any) => {
     const transactions = holdingItem.transactions.map((transaction: any) => {
       return {
@@ -92,10 +91,7 @@ export const transformTypes = (res: any) => {
       transactions: transactions,
     };
   });
-  return {
-    holdings,
-    lastUpdated: parseInt(res.lastUpdated),
-  };
+  return holdings;
 };
 
 export const getPnL = (stocksInfo: StockInformation[]): HoldingSummary => {

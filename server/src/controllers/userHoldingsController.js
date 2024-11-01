@@ -1,21 +1,28 @@
 const fs = require('fs');
 const path = require('path');
+const Holding = require('../models/holding');
 
-const holdingsPath = path.join(__dirname, '../../data/pradeepjadhav/holdings.json');
 const scriptListPath = path.join(__dirname, '../../data/common/scriptList.json');
 
 exports.getHoldings = async (req, res) => {
     try {
-        const holdingsData = await readHoldings();
+        const holdingsData = await Holding.find({ userId: req.user });
+        if (!holdingsData || holdingsData.length === 0) {
+            return res.status(404).json({ message: 'No holdings found for this user.' });
+        }
         res.json(holdingsData);
     } catch (error) {
-        res.status(500).json(error);
+        console.error(error);
+        res.status(500).json({ message: 'Server error while fetching holdings', error });
     }
 };
 
 exports.getUserHoldingsList = async (req, res) => {
     try {
-        const holdingsData = await readHoldings();
+        const holdingsData = await Holding.find({ userId: req.user });
+        if (!holdingsData || holdingsData.length === 0) {
+            return res.status(404).json({ message: 'No holdings found for this user.' });
+        }
         const holdingsList = await getHoldingsList(holdingsData);
         res.json(holdingsList);
     } catch (error) {
@@ -25,9 +32,6 @@ exports.getUserHoldingsList = async (req, res) => {
 
 exports.addHolding = async (req, res) => {
     const { symbol, dateAdded, quantity, avgPrice, exchange, isGift, isIPO } = req.body;
-    if (!req.session.userId) {
-        return res.redirect('/login');
-    }
     try {
         const newTransaction = {
             dateAdded: new Date(dateAdded),
@@ -37,14 +41,14 @@ exports.addHolding = async (req, res) => {
             isGift,
             isIPO
         };
-        let holding = await Holding.findOne({ symbol, userId: req.session.userId });
+        let holding = await Holding.findOne({ symbol, userId: req.user });
         if (holding) {
             holding.transactions.push(newTransaction);
         } else {
             holding = new Holding({
                 symbol,
                 transactions: [newTransaction],
-                userId: req.session.userId,
+                userId: req.user,
             });
         }
         await holding.save();
@@ -60,8 +64,7 @@ const getHoldingsListByExchange = (holdings, exchange) =>
         .filter(holding => holding.transactions.some(transaction => transaction.exchange === exchange))
         .map(holding => holding.symbol);
 
-const getHoldingsList = async (holdingsData) => {
-    const { holdings } = holdingsData;
+const getHoldingsList = async (holdings) => {
     const nseList = getHoldingsListByExchange(holdings, 'NSE');
     const bseList = getHoldingsListByExchange(holdings, 'BSE');
     return {
@@ -79,7 +82,6 @@ const convertBseListToCodes = async (bseList) => {
     }).filter(bseCode => !!bseCode)
 }
 
-const readHoldings = async () => readFile(holdingsPath);
 const readScriptList = async () => readFile(scriptListPath);
 
 const readFile = (filePath) => {

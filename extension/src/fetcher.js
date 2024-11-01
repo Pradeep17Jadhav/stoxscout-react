@@ -8,8 +8,8 @@ const startFetching = () => {
 }
 
 const main = async () => {
-  if (!(isMarketHour() && (window.location.hostname === "www.nseindia.com" || window.location.hostname === "www.bseindia.com")))
-    return;
+  // if (!(isMarketHour() && (window.location.hostname === "www.nseindia.com" || window.location.hostname === "www.bseindia.com")))
+  //   return;
 
   let holdingsMarketDataNSE = [];
   let holdingsMarketDataBSE = [];
@@ -124,7 +124,12 @@ const fetchData = async (api, config) => {
 const loadUserStockList = async () => {
   const url = 'http://localhost:4000/userHoldingsList'
   try {
-    const response = await fetch(url);
+    const token = localStorage.getItem('token');
+    let headers = token ? {
+      Authorization: `Bearer ${token}`,
+    } : {};
+
+    const response = await fetch(url, { headers });
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }

@@ -1,5 +1,5 @@
 import { Button, Checkbox, FormControlLabel, Radio, RadioGroup, SelectChangeEvent, TextField } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import './styles.css';
 import { Purchase } from '../../types/purchase';
 import { addPurchase } from '../../api/holdingsAPI';
@@ -17,6 +17,13 @@ export const AddPurchase = () => {
         return symbol !== '' && dateAdded !== '' && quantity !== '' && avgPrice !== '' && exchange !== '';
     }, [symbol, dateAdded, quantity, avgPrice, exchange]);
 
+    const clearForm = useCallback(() => {
+        setSymbol('');
+        setDateAdded('');
+        setQuantity('');
+        setAvgPrice('');
+    }, []);
+
     const handleAddMore = (event: any) => {
         event.preventDefault();
         addPurchase({
@@ -28,10 +35,7 @@ export const AddPurchase = () => {
             isGift,
             isIPO
         });
-        setSymbol('');
-        setDateAdded('');
-        setQuantity('');
-        setAvgPrice('');
+
     };
 
     return (
@@ -95,6 +99,9 @@ export const AddPurchase = () => {
                 />
                 <Button type="submit" variant="contained" disabled={!isValidForm}>
                     Add Purchase
+                </Button>
+                <Button variant="contained" onClick={clearForm}>
+                    Clear
                 </Button>
             </div>
         </form>

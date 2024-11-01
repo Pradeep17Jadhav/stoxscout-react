@@ -23,7 +23,6 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { username, password } = req.body;
-        console.log(`User ${username}`);
         const user = await User.findOne({ username });
         if (user && await bcrypt.compare(password, user.password)) {
             const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
@@ -38,12 +37,7 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) {
-        return res.sendStatus(401);
-    }
     try {
-        jwt.verify(token, process.env.JWT_SECRET);
         await blacklistToken(token);
         return res.sendStatus(204);
     } catch (err) {
