@@ -25,10 +25,7 @@ export const request = async (url: string, options: ApiRequestOptions = {}) => {
   }
   try {
     const response = await fetch(url, config);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
+    return response;
   } catch (error) {
     console.error("Error during API request:", error);
     throw error;

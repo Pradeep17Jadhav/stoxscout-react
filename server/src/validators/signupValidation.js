@@ -16,4 +16,4 @@ const signupValidation = [
         .withMessage('Password must contain at least one special character.')
 ]
 
-module.exports = signupValidation;
+module.exports = { signupValidation };

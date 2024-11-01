@@ -2,7 +2,7 @@ import { Button, Checkbox, FormControlLabel, Radio, RadioGroup, SelectChangeEven
 import { useMemo, useState } from 'react';
 import './styles.css';
 import { Purchase } from '../../types/purchase';
-import { addPurchase } from '../../api/userHoldings';
+import { addPurchase } from '../../api/holdingsAPI';
 
 export const AddPurchase = () => {
     const [symbol, setSymbol] = useState('');

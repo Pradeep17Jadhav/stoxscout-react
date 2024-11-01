@@ -1,6 +1,6 @@
 const Index = require('../models/indices');
 
-exports.getIndicesData = async (req, res) => {
+const getIndicesData = async (req, res) => {
     const allowedIndices = ['NIFTY 50', 'NIFTY BANK'];
     try {
         const filteredIndices = await Index.find({
@@ -12,7 +12,7 @@ exports.getIndicesData = async (req, res) => {
     }
 };
 
-exports.setIndicesData = async (req, res) => {
+const setIndicesData = async (req, res) => {
     const newFetchedParsed = req.body;
     try {
         await Promise.all(newFetchedParsed.map(async (data) => {
@@ -35,3 +35,8 @@ exports.setIndicesData = async (req, res) => {
         return res.status(500).json({ message: 'Error saving indices data', error: err.message });
     }
 };
+
+module.exports = {
+    getIndicesData,
+    setIndicesData
+}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { transformTypes } from "../helpers/price";
-import { getUserHoldings } from "../api/userHoldings";
+import { getUserHoldings } from "../api/holdingsAPI";
 import { Holdings } from "../types/transaction";
 import { PortfolioAction } from "../context/portfolioReducer";
 import { useAuth } from "./useAuth";
@@ -18,7 +18,7 @@ const useUserHoldings = (dispatch: React.Dispatch<PortfolioAction>) => {
         setUserHoldings(transformed.holdings);
         dispatch({ type: 'UPDATE_USER_HOLDINGS', payload: transformed.holdings });
       } catch (error) {
-        console.error('Error fetching user holdings:', error);
+        console.error(error);
       }
     };
     fetchUserHoldings();

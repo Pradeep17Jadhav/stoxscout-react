@@ -1,6 +1,6 @@
 const MarketData = require('../models/marketData');
 
-exports.setMarketData = async (req, res) => {
+const setMarketData = async (req, res) => {
     const newMarketData = req.body;
     try {
         await Promise.all(newMarketData.map(async (data) => {
@@ -28,7 +28,7 @@ exports.setMarketData = async (req, res) => {
     }
 };
 
-exports.getMarketData = async (req, res) => {
+const getMarketData = async (req, res) => {
     try {
         const marketData = await MarketData.find({});
         res.status(200).json(marketData);
@@ -36,3 +36,8 @@ exports.getMarketData = async (req, res) => {
         res.status(500).json({ message: 'Error retrieving market data', error });
     }
 };
+
+module.exports = {
+    setMarketData,
+    getMarketData
+}

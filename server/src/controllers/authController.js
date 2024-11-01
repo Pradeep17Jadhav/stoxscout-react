@@ -2,8 +2,9 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const { blacklistToken } = require('../middlewares/authMiddleware');
 
-exports.signup = async (req, res) => {
+const signup = async (req, res) => {
     const { username, password, email, name } = req.body;
     const errors = validationResult(req);
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -19,7 +20,7 @@ exports.signup = async (req, res) => {
     }
 };
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
     try {
         const { username, password } = req.body;
         console.log(`User ${username}`);
@@ -35,3 +36,23 @@ exports.login = async (req, res) => {
         return res.status(500).send('Server error');
     }
 };
+
+const logout = async (req, res) => {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) {
+        return res.sendStatus(401);
+    }
+    try {
+        jwt.verify(token, process.env.JWT_SECRET);
+        await blacklistToken(token);
+        return res.sendStatus(204);
+    } catch (err) {
+        return res.sendStatus(401);
+    }
+}
+
+module.exports = {
+    login,
+    logout,
+    signup
+}

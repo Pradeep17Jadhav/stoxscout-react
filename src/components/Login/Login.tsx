@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Typography } from '@mui/material';
-import { HttpMethod, request } from '../../api/api';
 import { useAuth } from '../../hooks/useAuth';
 
 import './styles.css';
@@ -10,21 +8,16 @@ export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
-    const { login } = useAuth();
+    const { loginUser } = useAuth();
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            const res = await request('http://localhost:4000/api/login', {
-                method: HttpMethod.POST,
-                body: { username, password }
-            });
-            login(res.token);
-            navigate('/');
-        } catch (err) {
-            console.error('Login error:', err);
-            setError('An error occurred. Please try again.');
+            await loginUser(username, password);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
         }
     };
 
