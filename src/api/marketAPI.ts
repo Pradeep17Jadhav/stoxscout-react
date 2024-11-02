@@ -1,9 +1,9 @@
-import { authRequest, HttpMethod } from '.';
-import { endpoints } from './apiConfig';
+import {authRequest, HttpMethod} from '.';
+import {endpoints} from './apiConfig';
 
 export const getMarket = async () => {
     const response = await authRequest(endpoints.market, {
-        method: HttpMethod.GET,
+        method: HttpMethod.GET
     });
     if (response.status === 401) {
         throw new Error('Unauthorized: You must be logged in to access market data.');

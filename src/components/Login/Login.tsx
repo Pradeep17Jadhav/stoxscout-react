@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Button, TextField, Typography } from '@mui/material';
-import { useAuth } from '../../hooks/useAuth';
+import {useState} from 'react';
+import {Button, TextField, Typography} from '@mui/material';
+import {useAuth} from '../../hooks/useAuth';
 
 import './styles.css';
 
@@ -8,7 +8,7 @@ export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
-    const { loginUser } = useAuth();
+    const {loginUser} = useAuth();
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

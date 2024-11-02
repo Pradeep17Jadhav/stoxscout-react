@@ -4,19 +4,14 @@ import {
     MonthWiseStockInformation,
     Order,
     StockInformation,
-    YearWiseStockInformation,
+    YearWiseStockInformation
 } from '../types/transaction';
 
-const sortByProperty = (
-    array: StockInformation[],
-    prop: string,
-    order: Order = Order.ASC
-) => {
+const sortByProperty = (array: StockInformation[], prop: string, order: Order = Order.ASC) => {
     const slicedArray = array.slice();
-    const sortedArray = slicedArray.sort(
-        (a: StockInformation, b: StockInformation) =>
+    const sortedArray = slicedArray.sort((a: StockInformation, b: StockInformation) =>
         // @ts-ignore
-            order === Order.ASC ? a[prop] - b[prop] : b[prop] - a[prop]
+        order === Order.ASC ? a[prop] - b[prop] : b[prop] - a[prop]
     );
     return sortedArray;
 };
@@ -24,52 +19,32 @@ const sortByProperty = (
 const sortBySymbol = (array: StockInformation[], order: Order = Order.ASC) =>
     array
         .slice()
-        .sort((a, b) =>
-            order === Order.ASC
-                ? a.symbol.localeCompare(b.symbol)
-                : b.symbol.localeCompare(a.symbol)
-        );
+        .sort((a, b) => (order === Order.ASC ? a.symbol.localeCompare(b.symbol) : b.symbol.localeCompare(a.symbol)));
 
-const sortByPnl = (array: StockInformation[], order: Order) =>
-    sortByProperty(array, 'pnl', order);
-const sortByPnlPercent = (array: StockInformation[], order: Order) =>
-    sortByProperty(array, 'pnlpercent', order);
-const sortByLtp = (array: StockInformation[], order: Order) =>
-    sortByProperty(array, 'ltp', order);
+const sortByPnl = (array: StockInformation[], order: Order) => sortByProperty(array, 'pnl', order);
+const sortByPnlPercent = (array: StockInformation[], order: Order) => sortByProperty(array, 'pnlpercent', order);
+const sortByLtp = (array: StockInformation[], order: Order) => sortByProperty(array, 'ltp', order);
 
 const sortByDayChange = (array: StockInformation[], order: Order = Order.ASC) =>
     sortByProperty(array, 'totalDayChange', order);
 
-const sortByDayChangePercent = (
-    array: StockInformation[],
-    order: Order = Order.ASC
-) => sortByProperty(array, 'percentDayChange', order);
+const sortByDayChangePercent = (array: StockInformation[], order: Order = Order.ASC) =>
+    sortByProperty(array, 'percentDayChange', order);
 
-const sortByDayChangePercentOnInvestment = (
-    array: StockInformation[],
-    order: Order = Order.ASC
-) => sortByProperty(array, 'percentDayChangeOnInvestment', order);
+const sortByDayChangePercentOnInvestment = (array: StockInformation[], order: Order = Order.ASC) =>
+    sortByProperty(array, 'percentDayChangeOnInvestment', order);
 
-const sortByDaysMax = (array: StockInformation[], order: Order) =>
-    sortByProperty(array, 'daysMax', order);
+const sortByDaysMax = (array: StockInformation[], order: Order) => sortByProperty(array, 'daysMax', order);
 
-const sortByCurrentValue = (array: StockInformation[], order: Order) =>
-    sortByProperty(array, 'currentValue', order);
+const sortByCurrentValue = (array: StockInformation[], order: Order) => sortByProperty(array, 'currentValue', order);
 
-const sortByInvestedValue = (array: StockInformation[], order: Order) =>
-    sortByProperty(array, 'investedValue', order);
+const sortByInvestedValue = (array: StockInformation[], order: Order) => sortByProperty(array, 'investedValue', order);
 
-const sortByAvgPrice = (array: StockInformation[], order: Order) =>
-    sortByProperty(array, 'avgPrice', order);
+const sortByAvgPrice = (array: StockInformation[], order: Order) => sortByProperty(array, 'avgPrice', order);
 
-const sortByQuantity = (array: StockInformation[], order: Order) =>
-    sortByProperty(array, 'quantity', order);
+const sortByQuantity = (array: StockInformation[], order: Order) => sortByProperty(array, 'quantity', order);
 
-const sort = (
-    stocksInfo: StockInformation[],
-    column: string,
-    order: Order = Order.DESC
-): StockInformation[] => {
+const sort = (stocksInfo: StockInformation[], column: string, order: Order = Order.DESC): StockInformation[] => {
     if (column === COLUMNS.SYMBOL) {
         return sortBySymbol(stocksInfo, order);
     }
@@ -111,31 +86,31 @@ const sort = (
 
 const sortHoldingsByDate = (dateWiseStockInfo: DateWiseStockInformation) => {
     const stockInfoWithEpoch = dateWiseStockInfo.map((stocksInfo) => {
-        const { date } = stocksInfo;
+        const {date} = stocksInfo;
         const [day, month, year] = date.split('-').map(Number);
         const dateObject = new Date(year, month - 1, day);
         const epochTimestamp = dateObject.getTime();
-        return { ...stocksInfo, epochTimestamp };
+        return {...stocksInfo, epochTimestamp};
     });
     stockInfoWithEpoch.sort((a, b) => b.epochTimestamp - a.epochTimestamp);
     return stockInfoWithEpoch.map((stocksInfo) => {
-        const { epochTimestamp, ...rest } = stocksInfo;
-        return { ...rest };
+        const {epochTimestamp, ...rest} = stocksInfo;
+        return {...rest};
     });
 };
 
 const sortHoldingsByMonth = (monthWiseStockInfo: MonthWiseStockInformation) => {
     const stockInfoWithEpoch = monthWiseStockInfo.map((stocksInfo) => {
-        const { monthYear } = stocksInfo;
+        const {monthYear} = stocksInfo;
         const [month, year] = monthYear.split('-').map(Number);
         const dateObject = new Date(year, month - 1, 15);
         const epochTimestamp = dateObject.getTime();
-        return { ...stocksInfo, epochTimestamp };
+        return {...stocksInfo, epochTimestamp};
     });
     stockInfoWithEpoch.sort((a, b) => b.epochTimestamp - a.epochTimestamp);
     return stockInfoWithEpoch.map((stocksInfo) => {
-        const { epochTimestamp, ...rest } = stocksInfo;
-        return { ...rest };
+        const {epochTimestamp, ...rest} = stocksInfo;
+        return {...rest};
     });
 };
 
@@ -143,12 +118,12 @@ const sortHoldingsByYear = (yearWiseStockInfo: YearWiseStockInformation) =>
     yearWiseStockInfo
         .map((stocksInfo) => ({
             ...stocksInfo,
-            year: parseInt(stocksInfo.year),
+            year: parseInt(stocksInfo.year)
         }))
         .sort((a, b) => b.year - a.year)
-        .map(({ year, ...rest }) => ({
+        .map(({year, ...rest}) => ({
             ...rest,
-            year: year.toString(),
+            year: year.toString()
         }));
 
-export { sortBySymbol, sort, sortHoldingsByDate, sortHoldingsByMonth, sortHoldingsByYear };
+export {sortBySymbol, sort, sortHoldingsByDate, sortHoldingsByMonth, sortHoldingsByYear};

@@ -1,24 +1,24 @@
 export enum HttpMethod {
-	GET = 'GET',
-	POST = 'POST',
-	PUT = 'PUT',
-	DELETE = 'DELETE',
+    GET = 'GET',
+    POST = 'POST',
+    PUT = 'PUT',
+    DELETE = 'DELETE'
 }
 
 interface ApiRequestOptions {
-	body?: any;
-	headers?: Record<string, string>;
-	method?: HttpMethod;
+    body?: any;
+    headers?: Record<string, string>;
+    method?: HttpMethod;
 }
 
 export const request = async (url: string, options: ApiRequestOptions = {}) => {
-    const { body, headers, method = HttpMethod.GET } = options;
+    const {body, headers, method = HttpMethod.GET} = options;
     const config: RequestInit = {
         method,
         headers: {
             'Content-Type': 'application/json',
-            ...headers,
-        },
+            ...headers
+        }
     };
     if (method !== 'GET' && body) {
         config.body = JSON.stringify(body);
@@ -37,7 +37,7 @@ export const authRequest = async (url: string, options: ApiRequestOptions = {}) 
     if (token) {
         options.headers = {
             ...options.headers,
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`
         };
     }
     return request(url, options);

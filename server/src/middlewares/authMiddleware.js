@@ -11,7 +11,7 @@ const authenticateToken = (req, res, next) => {
     if (!token) return res.status(401).send('Unauthorized. Please log in.');
 
     if (blacklistedTokens.includes(token)) {
-        return res.status(401).json({ message: 'Unauthorized: Token is blacklisted' });
+        return res.status(401).json({message: 'Unauthorized: Token is blacklisted'});
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
@@ -19,7 +19,7 @@ const authenticateToken = (req, res, next) => {
         req.user = user.username;
         next();
     });
-}
+};
 
 module.exports = {
     authenticateToken,

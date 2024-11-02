@@ -1,15 +1,7 @@
-import { MarketData } from '../types/marketData';
-import {
-    HoldingSummary,
-    HoldingItem,
-    Holdings,
-    StockInformation,
-} from '../types/transaction';
+import {MarketData} from '../types/marketData';
+import {HoldingSummary, HoldingItem, Holdings, StockInformation} from '../types/transaction';
 
-export const stockInfoGeneratorNSE = (
-    holdingItem: HoldingItem,
-    marketData: MarketData
-): StockInformation => {
+export const stockInfoGeneratorNSE = (holdingItem: HoldingItem, marketData: MarketData): StockInformation => {
     const transactions = holdingItem.transactions;
     const symbol = holdingItem.symbol;
     let quantity = 0;
@@ -22,9 +14,7 @@ export const stockInfoGeneratorNSE = (
         daysMax = Math.max(daysMax, daysSinceEpoch(transaction.dateAdded));
     });
 
-    let symbolMarketData = marketData.filter(
-        (data: any) => data.symbol === symbol
-    )[0];
+    let symbolMarketData = marketData.filter((data: any) => data.symbol === symbol)[0];
 
     if (!symbolMarketData) {
         symbolMarketData = {
@@ -35,12 +25,10 @@ export const stockInfoGeneratorNSE = (
             change: 0,
             pChange: 0,
             open: 0,
-            basePrice: 0,
+            basePrice: 0
         };
     }
-    const ltp = symbolMarketData.close
-        ? symbolMarketData.close
-        : symbolMarketData.lastPrice;
+    const ltp = symbolMarketData.close ? symbolMarketData.close : symbolMarketData.lastPrice;
     const previousClose = symbolMarketData.previousClose;
     const dayChange = ltp - previousClose;
     const totalDayChange = dayChange * quantity;
@@ -62,7 +50,7 @@ export const stockInfoGeneratorNSE = (
         totalDayChange,
         percentDayChange,
         percentDayChangeOnInvestment,
-        daysMax,
+        daysMax
     };
 };
 
@@ -71,10 +59,7 @@ export const getPercentChange = (newPrice: number, oldPrice: number) => {
     return ((newPrice - oldPrice) / oldPrice) * 100;
 };
 
-export const stockInfoGeneratorAll = (
-    holdings: Holdings,
-    marketData: MarketData
-): StockInformation[] =>
+export const stockInfoGeneratorAll = (holdings: Holdings, marketData: MarketData): StockInformation[] =>
     holdings.map((holdingItem) => stockInfoGeneratorNSE(holdingItem, marketData));
 
 export const transformTypes = (rawHolding: any) => {
@@ -83,12 +68,12 @@ export const transformTypes = (rawHolding: any) => {
             return {
                 ...transaction,
                 dateAdded: parseInt(transaction.dateAdded),
-                avgPrice: parseFloat(transaction.avgPrice),
+                avgPrice: parseFloat(transaction.avgPrice)
             };
         });
         return {
             ...holdingItem,
-            transactions: transactions,
+            transactions: transactions
         };
     });
     return holdings;
@@ -110,13 +95,9 @@ export const getPnL = (stocksInfo: StockInformation[]): HoldingSummary => {
         totalPnl: formatPrice(totalPnl),
         totalInvestedValue: formatPrice(totalInvestedValue),
         totalCurrentValue: formatPrice(totalCurrentValue),
-        totalPnlPercentage: formatPrice(
-            getPercentChange(totalCurrentValue, totalInvestedValue)
-        ),
+        totalPnlPercentage: formatPrice(getPercentChange(totalCurrentValue, totalInvestedValue)),
         totalDayChange: formatPrice(totalDayChange),
-        totalDayChangePercentage: formatPrice(
-            getPercentChange(totalCurrentValue + totalDayChange, totalCurrentValue)
-        ),
+        totalDayChangePercentage: formatPrice(getPercentChange(totalCurrentValue + totalDayChange, totalCurrentValue))
     };
 };
 
@@ -128,11 +109,7 @@ export const daysSinceEpoch = (epochTime: number) => {
     return Math.floor(daysSinceEpoch);
 };
 
-export const calculateCAGR = (
-    days: number,
-    invested: number,
-    currentValue: number
-): number => {
+export const calculateCAGR = (days: number, invested: number, currentValue: number): number => {
     const totalReturn = (currentValue - invested) / invested;
     const annualizedReturn = Math.pow(1 + totalReturn, 365 / days) - 1;
     const cagr = (Math.pow(1 + annualizedReturn, 1) - 1) * 100;
@@ -142,6 +119,6 @@ export const calculateCAGR = (
 export const formatPrice = (price: number) => {
     return price.toLocaleString('en-IN', {
         maximumFractionDigits: 2,
-        minimumFractionDigits: 2,
+        minimumFractionDigits: 2
     });
 };

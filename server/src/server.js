@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const { signupValidation } = require('./validators/signupValidation');
-const { authenticateToken } = require('./middlewares/authMiddleware')
+const {signupValidation} = require('./validators/signupValidation');
+const {authenticateToken} = require('./middlewares/authMiddleware');
 require('dotenv').config();
 
 const app = express();
@@ -12,9 +12,10 @@ app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 4000;
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+mongoose
+    .connect(process.env.MONGODB_URI, {useNewUrlParser: true})
     .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 
 const indicesController = require('./controllers/indicesController');
 const marketDataController = require('./controllers/marketDataController');

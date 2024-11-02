@@ -6,10 +6,10 @@ const endpoints = {
     indices: `${API_URL}/api/indices`,
     userData: `${API_URL}/api/userData`,
     login: `${API_URL}/api/login`,
-    logout: `${API_URL}/api/logout`,
+    logout: `${API_URL}/api/logout`
 } as const;
 
 type Endpoints = typeof endpoints;
 
-export { endpoints };
-export type { Endpoints };
+export {endpoints};
+export type {Endpoints};

@@ -4,24 +4,24 @@ const IndexSchema = new mongoose.Schema({
     indexSymbol: {
         type: String,
         required: true,
-        trim: true,
+        trim: true
     },
     current: {
         type: Number,
-        required: true,
+        required: true
     },
     percentChange: {
         type: Number,
-        required: true,
+        required: true
     },
     createdAt: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     },
     updatedAt: {
         type: Date,
-        default: Date.now,
-    },
+        default: Date.now
+    }
 });
 
 IndexSchema.pre('save', function (next) {

@@ -1,6 +1,6 @@
-import { Purchase } from '../types/purchase';
-import { authRequest, HttpMethod } from '.';
-import { endpoints } from './apiConfig';
+import {Purchase} from '../types/purchase';
+import {authRequest, HttpMethod} from '.';
+import {endpoints} from './apiConfig';
 
 export const getUserHoldings = async () => {
     const response = await authRequest(endpoints.holdings);
@@ -14,7 +14,6 @@ export const getUserHoldings = async () => {
         throw new Error('Failed to retrieve holdings.');
     }
     return await response.json();
-
 };
 
 export const addPurchase = async (purchase: Purchase) => {

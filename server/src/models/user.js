@@ -4,12 +4,12 @@ const UserSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        trim: true,
+        trim: true
     },
     email: {
         type: String,
         required: true,
-        trim: true,
+        trim: true
     },
     username: {
         type: String,
@@ -17,21 +17,21 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         minlength: 6,
-        maxlength: 50,
+        maxlength: 50
     },
     password: {
         type: String,
         required: true,
-        minlength: 6,
+        minlength: 6
     },
     createdAt: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     },
     updatedAt: {
         type: Date,
-        default: Date.now,
-    },
+        default: Date.now
+    }
 });
 
 UserSchema.pre('save', (next) => {

@@ -1,8 +1,8 @@
-import { Button, Checkbox, FormControlLabel, Radio, RadioGroup, SelectChangeEvent, TextField } from '@mui/material';
-import { useCallback, useMemo, useState } from 'react';
+import {Button, Checkbox, FormControlLabel, Radio, RadioGroup, SelectChangeEvent, TextField} from '@mui/material';
+import {useCallback, useMemo, useState} from 'react';
 import './styles.css';
-import { Purchase } from '../../types/purchase';
-import { addPurchase } from '../../api/holdingsAPI';
+import {Purchase} from '../../types/purchase';
+import {addPurchase} from '../../api/holdingsAPI';
 
 export const AddPurchase = () => {
     const [symbol, setSymbol] = useState('');
@@ -35,7 +35,6 @@ export const AddPurchase = () => {
             isGift,
             isIPO
         });
-
     };
 
     return (
@@ -79,23 +78,27 @@ export const AddPurchase = () => {
                     <FormControlLabel value="NSE" control={<Radio />} label="NSE" />
                     <FormControlLabel value="BSE" control={<Radio />} label="BSE" />
                 </RadioGroup>
-                <FormControlLabel control={
-                    <Checkbox
-                        checked={isIPO}
-                        onChange={() => setIsIPO(isIPO => !isIPO)}
-                        name="isIPO"
-                        color="primary"
-                    />}
-                label="Allotted in IPO "
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={isIPO}
+                            onChange={() => setIsIPO((isIPO) => !isIPO)}
+                            name="isIPO"
+                            color="primary"
+                        />
+                    }
+                    label="Allotted in IPO "
                 />
-                <FormControlLabel control={
-                    <Checkbox
-                        checked={isGift}
-                        onChange={() => setIsGift(isGift => !isGift)}
-                        name="isGift"
-                        color="primary"
-                    />}
-                label="Received as a gift"
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={isGift}
+                            onChange={() => setIsGift((isGift) => !isGift)}
+                            name="isGift"
+                            color="primary"
+                        />
+                    }
+                    label="Received as a gift"
                 />
                 <Button type="submit" variant="contained" disabled={!isValidForm}>
                     Add Purchase

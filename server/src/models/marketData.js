@@ -4,44 +4,44 @@ const MarketDataSchema = new mongoose.Schema({
     symbol: {
         type: String,
         required: true,
-        trim: true,
+        trim: true
     },
     lastPrice: {
         type: Number,
-        required: true,
+        required: true
     },
     change: {
         type: Number,
-        required: true,
+        required: true
     },
     pChange: {
         type: Number,
-        required: true,
+        required: true
     },
     previousClose: {
         type: Number,
-        required: true,
+        required: true
     },
     open: {
         type: Number,
-        required: true,
+        required: true
     },
     close: {
         type: Number,
-        required: true,
+        required: true
     },
     basePrice: {
         type: Number,
-        required: true,
+        required: true
     },
     createdAt: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     },
     updatedAt: {
         type: Date,
-        default: Date.now,
-    },
+        default: Date.now
+    }
 });
 
 MarketDataSchema.pre('save', function (next) {

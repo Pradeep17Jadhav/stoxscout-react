@@ -1,73 +1,73 @@
 export type Transaction = {
-  dateAdded: number;
-  quantity: number;
-  avgPrice: number;
-  portfolioId: string;
+    dateAdded: number;
+    quantity: number;
+    avgPrice: number;
+    portfolioId: string;
 };
 
 export type StockInformation = {
-  symbol: string;
-  quantity: number;
-  avgPrice: number;
-  investedValue: number;
-  currentValue: number;
-  pnl: number;
-  pnlpercent: number;
-  daysMax: number;
-  ltp: number;
-  totalDayChange: number;
-  percentDayChange: number;
-  percentDayChangeOnInvestment: number;
+    symbol: string;
+    quantity: number;
+    avgPrice: number;
+    investedValue: number;
+    currentValue: number;
+    pnl: number;
+    pnlpercent: number;
+    daysMax: number;
+    ltp: number;
+    totalDayChange: number;
+    percentDayChange: number;
+    percentDayChangeOnInvestment: number;
 };
 
 export type Holdings = HoldingItem[];
 export type DateWiseHoldings = DateWiseHoldingItem[];
 export type DateWiseHoldingItem = {
-  date: string;
-  holdings: Holdings;
+    date: string;
+    holdings: Holdings;
 };
 export type DateWiseStockInformation = {
-  date: string;
-  stocksInfo: StockInformation[];
+    date: string;
+    stocksInfo: StockInformation[];
 }[];
 
 export type MonthWiseHoldings = MonthWiseHoldingItem[];
 export type MonthWiseHoldingItem = {
-  month: string;
-  holdings: Holdings;
+    month: string;
+    holdings: Holdings;
 };
 export type MonthWiseStockInformation = {
-  monthYear: string;
-  stocksInfo: StockInformation[];
+    monthYear: string;
+    stocksInfo: StockInformation[];
 }[];
 
 export type YearWiseHoldings = YearWiseHoldingItem[];
 export type YearWiseHoldingItem = {
-  year: string;
-  holdings: Holdings;
+    year: string;
+    holdings: Holdings;
 };
 export type YearWiseStockInformation = {
-  year: string;
-  stocksInfo: StockInformation[];
+    year: string;
+    stocksInfo: StockInformation[];
 }[];
 
 export type HoldingItem = {
-  symbol: string;
-  transactions: Transaction[];
+    symbol: string;
+    transactions: Transaction[];
 };
 
 export type HoldingSummary = {
-  totalInvestedValue: string;
-  totalCurrentValue: string;
-  totalPnl: string;
-  totalPnlPercentage: string;
-  totalDayChange: string;
-  totalDayChangePercentage: string;
+    totalInvestedValue: string;
+    totalCurrentValue: string;
+    totalPnl: string;
+    totalPnlPercentage: string;
+    totalDayChange: string;
+    totalDayChangePercentage: string;
 };
 
 export enum Order {
-  ASC = 'ASC',
-  DESC = 'DESC',
+    ASC = 'ASC',
+    DESC = 'DESC'
 }
 
 export const COLUMNS = {
@@ -82,5 +82,5 @@ export const COLUMNS = {
     DAY_PNL_PERCENT_INVESTMENT: 'DAY P&L % INV',
     NET_PNL: 'NET P&L',
     NET_PNL_PERCENT: 'NET P&L %',
-    MAX_DAYS: 'MAX DAYS',
+    MAX_DAYS: 'MAX DAYS'
 };

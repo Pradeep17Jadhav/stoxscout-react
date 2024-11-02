@@ -6,22 +6,22 @@ const scriptListPath = path.join(__dirname, '../../data/common/scriptList.json')
 
 exports.getHoldings = async (req, res) => {
     try {
-        const holdingsData = await Holding.find({ userId: req.user });
+        const holdingsData = await Holding.find({userId: req.user});
         if (!holdingsData || holdingsData.length === 0) {
-            return res.status(404).json({ message: 'No holdings found for this user.' });
+            return res.status(404).json({message: 'No holdings found for this user.'});
         }
         res.json(holdingsData);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error while fetching holdings', error });
+        res.status(500).json({message: 'Server error while fetching holdings', error});
     }
 };
 
 exports.getUserHoldingsList = async (req, res) => {
     try {
-        const holdingsData = await Holding.find({ userId: req.user });
+        const holdingsData = await Holding.find({userId: req.user});
         if (!holdingsData || holdingsData.length === 0) {
-            return res.status(404).json({ message: 'No holdings found for this user.' });
+            return res.status(404).json({message: 'No holdings found for this user.'});
         }
         const holdingsList = await getHoldingsList(holdingsData);
         res.json(holdingsList);
@@ -31,7 +31,7 @@ exports.getUserHoldingsList = async (req, res) => {
 };
 
 exports.addHolding = async (req, res) => {
-    const { symbol, dateAdded, quantity, avgPrice, exchange, isGift, isIPO } = req.body;
+    const {symbol, dateAdded, quantity, avgPrice, exchange, isGift, isIPO} = req.body;
     try {
         const newTransaction = {
             dateAdded: new Date(dateAdded),
@@ -41,14 +41,14 @@ exports.addHolding = async (req, res) => {
             isGift,
             isIPO
         };
-        let holding = await Holding.findOne({ symbol, userId: req.user });
+        let holding = await Holding.findOne({symbol, userId: req.user});
         if (holding) {
             holding.transactions.push(newTransaction);
         } else {
             holding = new Holding({
                 symbol,
                 transactions: [newTransaction],
-                userId: req.user,
+                userId: req.user
             });
         }
         await holding.save();
@@ -61,8 +61,8 @@ exports.addHolding = async (req, res) => {
 
 const getHoldingsListByExchange = (holdings, exchange) =>
     holdings
-        .filter(holding => holding.transactions.some(transaction => transaction.exchange === exchange))
-        .map(holding => holding.symbol);
+        .filter((holding) => holding.transactions.some((transaction) => transaction.exchange === exchange))
+        .map((holding) => holding.symbol);
 
 const getHoldingsList = async (holdings) => {
     const nseList = getHoldingsListByExchange(holdings, 'NSE');
@@ -70,17 +70,19 @@ const getHoldingsList = async (holdings) => {
     return {
         nse: nseList,
         bse: await convertBseListToCodes(bseList)
-    }
-}
+    };
+};
 
 const convertBseListToCodes = async (bseList) => {
     const scriptListData = await readScriptList();
-    return scriptListData.map(script => {
-        if (bseList.some(bseListItem => bseListItem === script.nse)) {
-            return script.bse !== 'N/A' ? script.bse : null;
-        }
-    }).filter(bseCode => !!bseCode)
-}
+    return scriptListData
+        .map((script) => {
+            if (bseList.some((bseListItem) => bseListItem === script.nse)) {
+                return script.bse !== 'N/A' ? script.bse : null;
+            }
+        })
+        .filter((bseCode) => !!bseCode);
+};
 
 const readScriptList = async () => readFile(scriptListPath);
 
@@ -88,14 +90,14 @@ const readFile = (filePath) => {
     return new Promise((resolve, reject) => {
         fs.readFile(filePath, 'utf8', (err, data) => {
             if (err) {
-                return reject({ error: 'Error reading file' });
+                return reject({error: 'Error reading file'});
             }
             try {
                 const res = JSON.parse(data);
                 resolve(res);
             } catch (parseErr) {
-                reject({ error: 'Error parsing JSON' });
+                reject({error: 'Error parsing JSON'});
             }
         });
     });
-}
+};
