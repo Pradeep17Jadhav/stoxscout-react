@@ -1,7 +1,7 @@
-import { useCallback, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { loginAPI, logoutAPI } from "../api/authAPI";
+import { useCallback, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { loginAPI, logoutAPI } from '../api/authAPI';
 
 export type UseAuthType = {
     isAuthenticated: boolean;

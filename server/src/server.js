@@ -24,13 +24,13 @@ const usersController = require('./controllers/authController');
 app.get('/userHoldingsList', authenticateToken, userHoldingsController.getUserHoldingsList);
 
 app.get('/api/holdings', authenticateToken, userHoldingsController.getHoldings);
-app.post('/api/holding', authenticateToken, userHoldingsController.addHolding);
+app.post('/api/holdings', authenticateToken, userHoldingsController.addHolding);
 
 app.post('/api/indices', indicesController.setIndicesData);
 app.get('/api/indices', authenticateToken, indicesController.getIndicesData);
 
-app.get('/api/marketData', authenticateToken, marketDataController.getMarketData);
-app.post('/api/marketData', marketDataController.setMarketData);
+app.get('/api/market', authenticateToken, marketDataController.getMarketData);
+app.post('/api/market', marketDataController.setMarketData);
 
 app.post('/api/signup', signupValidation, usersController.signup);
 app.post('/api/login', usersController.login);

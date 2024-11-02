@@ -3,7 +3,7 @@ import { Treemap, ResponsiveContainer, Label } from 'recharts';
 import { stockInfoGeneratorAll } from '../../helpers/price';
 import { usePortfolio } from '../../hooks/usePortfolio';
 
-import "./styles.css";
+import './styles.css';
 
 export const HeatMap = () => {
     const { marketData, userHoldings } = usePortfolio();
@@ -16,7 +16,6 @@ export const HeatMap = () => {
             name: `${stock.symbol} (${stock.currentValue.toFixed(2)})`,
             value: stock.currentValue,
         })));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userHoldings, marketData]);
 
     return (

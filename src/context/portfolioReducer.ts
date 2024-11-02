@@ -12,12 +12,12 @@ export type PortfolioState = {
 
 export const initialState: PortfolioState = {
     holdingSummary: {
-        totalPnl: "0",
-        totalInvestedValue: "0",
-        totalCurrentValue: "0",
-        totalPnlPercentage: "0",
-        totalDayChange: "0",
-        totalDayChangePercentage: "0",
+        totalPnl: '0',
+        totalInvestedValue: '0',
+        totalCurrentValue: '0',
+        totalPnlPercentage: '0',
+        totalDayChange: '0',
+        totalDayChangePercentage: '0',
     },
     stocksInfo: [],
     indicesData: [],

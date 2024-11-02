@@ -2,10 +2,10 @@ const FREQUENCY = 60000;
 
 const startFetching = () => {
   main();
-  if (window.location.hostname === "www.nseindia.com" || window.location.hostname === "www.bseindia.com") {
+  if (window.location.hostname === 'www.nseindia.com' || window.location.hostname === 'www.bseindia.com') {
     setInterval(main, FREQUENCY);
   }
-}
+};
 
 const main = async () => {
   // if (!(isMarketHour() && (window.location.hostname === "www.nseindia.com" || window.location.hostname === "www.bseindia.com")))
@@ -17,10 +17,10 @@ const main = async () => {
   let indicesMarketDataBSE = [];
 
   const userStockList = await loadUserStockList();
-  if (window.location.hostname === "www.nseindia.com") {
+  if (window.location.hostname === 'www.nseindia.com') {
     holdingsMarketDataNSE = await Promise.all(
       userStockList.nse.map(async (symbol) => {
-        const api = `https://www.nseindia.com/api/quote-equity?symbol=${symbol}`
+        const api = `https://www.nseindia.com/api/quote-equity?symbol=${symbol}`;
         const data = await fetchData(api);
         return extractPriceInfoNSE(data);
       })
@@ -31,18 +31,18 @@ const main = async () => {
       'NIFTY SMLCAP 50',
       'NIFTY BANK',
       'NIFTY IT',
-    ]
+    ];
     const indices = await fetchData('https://www.nseindia.com/api/allIndices');
     indicesMarketDataNSE = indices.data.filter(index => requiredIndices.some(requiredIndex => index.indexSymbol === requiredIndex)).map(index => ({
       indexSymbol: index.indexSymbol,
       current: index.last,
       percentChange: index.percentChange,
       timeStamp: new Date().getTime()
-    }))
-  } else if (window.location.hostname === "www.bseindia.com") {
+    }));
+  } else if (window.location.hostname === 'www.bseindia.com') {
     holdingsMarketDataBSE = await Promise.all(
       userStockList.bse.map(async (symbol) => {
-        const api = `https://api.bseindia.com/BseIndiaAPI/api/getScripHeaderData/w?Debtflag=&scripcode=${symbol}`
+        const api = `https://api.bseindia.com/BseIndiaAPI/api/getScripHeaderData/w?Debtflag=&scripcode=${symbol}`;
         const data = await fetchData(api);
         return extractPriceInfoBSE(data);
       })
@@ -55,7 +55,7 @@ const main = async () => {
         percentChange: convertToPrice(bseIndex[0].perchg),
         timeStamp: new Date().getTime()
       }
-    ]
+    ];
   } else {
     return;
   }
@@ -67,30 +67,30 @@ const main = async () => {
 };
 
 const setMarketData = (req) =>
-  request("http://localhost:4000/api/marketData", {
+  request('http://localhost:4000/api/market', {
     body: req,
     method: 'POST',
   });
 
 const setIndicesData = (req) =>
-  request("http://localhost:4000/api/indices", {
+  request('http://localhost:4000/api/indices', {
     body: req,
     method: 'POST',
   });
 
 
 const request = async (url, options = {}) => {
-  const { body, headers, method = HttpMethod.GET } = options;
+  const { body, headers, method = 'GET' } = options;
 
   const config = {
     method,
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       ...headers,
     },
   };
 
-  if (method !== "GET" && body) {
+  if (method !== 'GET' && body) {
     config.body = JSON.stringify(body);
   }
 
@@ -101,7 +101,7 @@ const request = async (url, options = {}) => {
     }
     return await response.json();
   } catch (error) {
-    console.error("Error during API request:", error);
+    console.error('Error during API request:', error);
     throw error;
   }
 };
@@ -110,19 +110,19 @@ const fetchData = async (api, config) => {
   try {
     const response = await fetch(api, config);
     if (!response.ok) {
-      throw new Error("Failed to fetch data");
+      throw new Error('Failed to fetch data');
     }
     const data = await response.json();
 
     return data;
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error('Error fetching data:', error);
     throw error;
   }
 };
 
 const loadUserStockList = async () => {
-  const url = 'http://localhost:4000/userHoldingsList'
+  const url = 'http://localhost:4000/userHoldingsList';
   try {
     const token = localStorage.getItem('token');
     let headers = token ? {
@@ -131,18 +131,18 @@ const loadUserStockList = async () => {
 
     const response = await fetch(url, { headers });
     if (!response.ok) {
-      throw new Error("Failed to fetch data");
+      throw new Error('Failed to fetch data');
     }
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error('Error fetching data:', error);
     throw error;
   }
 };
 
 const defaultPriceInfo = {
-  symbol: "ERROR",
+  symbol: 'ERROR',
   lastPrice: 0,
   change: 0,
   pChange: 0,
@@ -173,7 +173,7 @@ const extractPriceInfoNSE = (apiResponse) => {
 
 const extractPriceInfoMC = (apiResponse) => {
   const { message, data } = apiResponse;
-  if (message.toLowerCase() !== "success") return defaultPriceInfo;
+  if (message.toLowerCase() !== 'success') return defaultPriceInfo;
 
   const symbol = data.NSEID;
   const close = parseFloat(data.pricecurrent);

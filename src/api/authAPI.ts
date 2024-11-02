@@ -1,7 +1,8 @@
-import { HttpMethod, request } from ".";
+import { HttpMethod, request } from '.';
+import { endpoints } from './apiConfig';
 
 const loginAPI = async (username: string, password: string) => {
-    const response = await request('http://localhost:4000/api/login', {
+    const response = await request(endpoints.login, {
         method: HttpMethod.POST,
         body: { username, password }
     });
@@ -16,7 +17,7 @@ const loginAPI = async (username: string, password: string) => {
 };
 
 const logoutAPI = async () => {
-    const response = await request('http://localhost:4000/api/logout', {
+    const response = await request(endpoints.logout, {
         method: HttpMethod.POST,
     });
     if (response.status === 204) return null;
@@ -32,4 +33,4 @@ const logoutAPI = async () => {
 export {
     loginAPI,
     logoutAPI
-}
+};

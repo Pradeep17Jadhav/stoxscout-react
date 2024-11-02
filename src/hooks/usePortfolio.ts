@@ -1,6 +1,6 @@
-import { useContext } from "react";
-import { PortfolioContext } from "../context/PortfolioContext";
-import { initialState, PortfolioAction } from "../context/portfolioReducer";
+import { useContext } from 'react';
+import { PortfolioContext } from '../context/PortfolioContext';
+import { initialState, PortfolioAction } from '../context/portfolioReducer';
 
 type UsePortfolioType = typeof initialState & {
     dispatch: React.Dispatch<PortfolioAction>;

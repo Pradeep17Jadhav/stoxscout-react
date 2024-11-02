@@ -86,7 +86,7 @@ export const AddPurchase = () => {
                         name="isIPO"
                         color="primary"
                     />}
-                    label="Allotted in IPO "
+                label="Allotted in IPO "
                 />
                 <FormControlLabel control={
                     <Checkbox
@@ -95,7 +95,7 @@ export const AddPurchase = () => {
                         name="isGift"
                         color="primary"
                     />}
-                    label="Received as a gift"
+                label="Received as a gift"
                 />
                 <Button type="submit" variant="contained" disabled={!isValidForm}>
                     Add Purchase

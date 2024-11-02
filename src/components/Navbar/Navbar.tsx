@@ -1,6 +1,6 @@
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
-import { IndexInfo } from "./IndexInfo/IndexInfo";
+import { IndexInfo } from './IndexInfo/IndexInfo';
 import { usePortfolio } from '../../hooks/usePortfolio';
 import './styles.css';
 import { useAuth } from '../../hooks/useAuth';
