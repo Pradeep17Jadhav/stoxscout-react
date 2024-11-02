@@ -1,6 +1,0 @@
-{
-    "type": "node",
-    "request": "launch",
-    "name": "Launch Program",
-    "program": "./src/server.js"
-}
