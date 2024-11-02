@@ -1,15 +1,17 @@
 import LogoutIcon from '@mui/icons-material/Logout';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {IndexInfo} from './IndexInfo/IndexInfo';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import './styles.css';
 import {useAuth} from '../../hooks/useAuth';
+import {useCallback} from 'react';
 
 const Navbar = () => {
     const {holdingSummary, indicesData} = usePortfolio();
     const {isAuthenticated, logoutUser} = useAuth();
+    const location = useLocation();
 
-    const convertToPrice = (strPrice: string) => parseFloat(strPrice.replace(/,/g, ''));
+    const convertToPrice = useCallback((strPrice: string) => parseFloat(strPrice.replace(/,/g, '')), []);
 
     return (
         <nav className="navbar">
@@ -55,9 +57,15 @@ const Navbar = () => {
                 </>
             )}
             {!isAuthenticated && (
-                <Link className="nav-link" to="/signup">
-                    Signup
-                </Link>
+                <div className="auth-links">
+                    <Link className="nav-link" to="/login">
+                        Login
+                    </Link>
+
+                    <Link className="nav-link" to="/signup">
+                        Signup
+                    </Link>
+                </div>
             )}
         </nav>
     );

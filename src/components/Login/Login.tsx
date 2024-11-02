@@ -27,7 +27,7 @@ export const Login = () => {
             <form onSubmit={handleLogin}>
                 <div className="addPurchase">
                     <TextField
-                        label="Email"
+                        label="Username"
                         variant="outlined"
                         fullWidth
                         margin="normal"

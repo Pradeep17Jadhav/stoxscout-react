@@ -34,3 +34,7 @@
     flex-direction: row;
     font-size: 14px;
 }
+
+.auth-links {
+    margin-left: auto;
+}
