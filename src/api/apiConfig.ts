@@ -1,4 +1,4 @@
-const API_URL = process.env.API_BASE_URL || 'http://localhost:4000';
+const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 const endpoints = {
     register: `${API_URL}/api/register`,
