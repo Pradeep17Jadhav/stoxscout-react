@@ -1,8 +1,7 @@
 import {Button, Checkbox, FormControlLabel, Radio, RadioGroup, SelectChangeEvent, TextField} from '@mui/material';
 import {useCallback, useMemo, useState} from 'react';
-import './styles.css';
-import {Purchase} from '../../types/purchase';
 import {addPurchase} from '../../api/holdingsAPI';
+import './styles.css';
 
 export const AddPurchase = () => {
     const [symbol, setSymbol] = useState('');

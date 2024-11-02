@@ -1,12 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const Holding = require('../models/holding');
+import fs from 'fs';
+import Holding from '../models/holding.mjs';
 
-const scriptListPath = path.join(__dirname, '../../data/common/scriptList.json');
+const scriptListPath = '../../data/common/scriptList.json';
 
-exports.getHoldings = async (req, res) => {
+const getHoldings = async (req, res) => {
     try {
-        const holdingsData = await Holding.find({userId: req.user});
+        const holdingsData = await Holding.find({userId: req.user})
+            .lean()
+            .select('-_id -__v -createdAt -updatedAt -userId');
         if (!holdingsData || holdingsData.length === 0) {
             return res.status(404).json({message: 'No holdings found for this user.'});
         }
@@ -17,7 +18,7 @@ exports.getHoldings = async (req, res) => {
     }
 };
 
-exports.getUserHoldingsList = async (req, res) => {
+const getUserHoldingsList = async (req, res) => {
     try {
         const holdingsData = await Holding.find({userId: req.user});
         if (!holdingsData || holdingsData.length === 0) {
@@ -30,7 +31,7 @@ exports.getUserHoldingsList = async (req, res) => {
     }
 };
 
-exports.addHolding = async (req, res) => {
+const addHolding = async (req, res) => {
     const {symbol, dateAdded, quantity, avgPrice, exchange, isGift, isIPO} = req.body;
     try {
         const newTransaction = {
@@ -101,3 +102,5 @@ const readFile = (filePath) => {
         });
     });
 };
+
+export {getHoldings, getUserHoldingsList, addHolding};

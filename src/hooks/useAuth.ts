@@ -1,10 +1,11 @@
 import {useCallback, useContext} from 'react';
 import {AuthContext} from '../context/AuthContext';
 import {useNavigate} from 'react-router-dom';
-import {loginAPI, logoutAPI} from '../api/authAPI';
+import {registerAPI, loginAPI, logoutAPI} from '../api/authAPI';
 
 export type UseAuthType = {
     isAuthenticated: boolean;
+    registerUser: (name: string, username: string, email: string, password: string) => void;
     loginUser: (username: string, password: string) => void;
     logoutUser: () => void;
 };
@@ -17,6 +18,16 @@ export const useAuth = (): UseAuthType => {
     const {isAuthenticated, setIsAuthenticated} = context;
     const navigate = useNavigate();
 
+    const registerUser = useCallback(
+        async (name: string, username: string, email: string, password: string) => {
+            const res = await registerAPI(name, username, email, password);
+            localStorage.setItem('token', res.token);
+            setIsAuthenticated(true);
+            navigate('/');
+        },
+        [navigate]
+    );
+
     const loginUser = useCallback(
         async (username: string, password: string) => {
             const res = await loginAPI(username, password);
@@ -28,11 +39,11 @@ export const useAuth = (): UseAuthType => {
     );
 
     const logoutUser = useCallback(async () => {
+        await logoutAPI();
         localStorage.removeItem('token');
         setIsAuthenticated(false);
-        await logoutAPI();
         navigate('/login');
     }, [navigate]);
 
-    return {isAuthenticated, loginUser, logoutUser};
+    return {isAuthenticated, registerUser, loginUser, logoutUser};
 };

@@ -7,12 +7,13 @@ import {
     YearWiseStockInformation
 } from '../types/transaction';
 
-const sortByProperty = (array: StockInformation[], prop: string, order: Order = Order.ASC) => {
+const sortByProperty = (array: StockInformation[], prop: keyof StockInformation, order: Order = Order.ASC) => {
     const slicedArray = array.slice();
-    const sortedArray = slicedArray.sort((a: StockInformation, b: StockInformation) =>
-        // @ts-ignore
-        order === Order.ASC ? a[prop] - b[prop] : b[prop] - a[prop]
-    );
+    const sortedArray = slicedArray.sort((a, b) => {
+        const aValue = a[prop] as unknown as number;
+        const bValue = b[prop] as unknown as number;
+        return order === Order.ASC ? aValue - bValue : bValue - aValue;
+    });
     return sortedArray;
 };
 
@@ -93,10 +94,7 @@ const sortHoldingsByDate = (dateWiseStockInfo: DateWiseStockInformation) => {
         return {...stocksInfo, epochTimestamp};
     });
     stockInfoWithEpoch.sort((a, b) => b.epochTimestamp - a.epochTimestamp);
-    return stockInfoWithEpoch.map((stocksInfo) => {
-        const {epochTimestamp, ...rest} = stocksInfo;
-        return {...rest};
-    });
+    return stockInfoWithEpoch.map(({epochTimestamp, ...rest}) => rest);
 };
 
 const sortHoldingsByMonth = (monthWiseStockInfo: MonthWiseStockInformation) => {
@@ -108,10 +106,7 @@ const sortHoldingsByMonth = (monthWiseStockInfo: MonthWiseStockInformation) => {
         return {...stocksInfo, epochTimestamp};
     });
     stockInfoWithEpoch.sort((a, b) => b.epochTimestamp - a.epochTimestamp);
-    return stockInfoWithEpoch.map((stocksInfo) => {
-        const {epochTimestamp, ...rest} = stocksInfo;
-        return {...rest};
-    });
+    return stockInfoWithEpoch.map(({epochTimestamp, ...rest}) => rest);
 };
 
 const sortHoldingsByYear = (yearWiseStockInfo: YearWiseStockInformation) =>

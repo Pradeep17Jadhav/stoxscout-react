@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const MarketDataSchema = new mongoose.Schema({
+const stockSchema = new mongoose.Schema({
     symbol: {
         type: String,
         required: true,
+        unique: true,
         trim: true
     },
     lastPrice: {
@@ -33,22 +34,9 @@ const MarketDataSchema = new mongoose.Schema({
     basePrice: {
         type: Number,
         required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now
     }
 });
 
-MarketDataSchema.pre('save', function (next) {
-    this.updatedAt = Date.now();
-    next();
-});
+const Stock = mongoose.model('Stock', stockSchema);
 
-const MarketData = mongoose.model('MarketData', MarketDataSchema, 'marketdata');
-
-module.exports = MarketData;
+export default Stock;

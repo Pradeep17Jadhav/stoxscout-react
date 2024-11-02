@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const IndexSchema = new mongoose.Schema({
     indexSymbol: {
@@ -31,4 +31,4 @@ IndexSchema.pre('save', function (next) {
 
 const Index = mongoose.model('Index', IndexSchema, 'indices');
 
-module.exports = Index;
+export default Index;

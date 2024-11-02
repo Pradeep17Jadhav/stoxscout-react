@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const blacklistedTokens = [];
 
@@ -21,7 +21,4 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-module.exports = {
-    authenticateToken,
-    blacklistToken
-};
+export {authenticateToken, blacklistToken};

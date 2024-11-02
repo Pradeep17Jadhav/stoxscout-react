@@ -1,4 +1,4 @@
-const MarketData = require('../models/marketData');
+import MarketData from '../models/marketData.mjs';
 
 const setMarketData = async (req, res) => {
     const newMarketData = req.body;
@@ -32,14 +32,11 @@ const setMarketData = async (req, res) => {
 
 const getMarketData = async (req, res) => {
     try {
-        const marketData = await MarketData.find({});
+        const marketData = await MarketData.find({}).lean().select('-_id -__v -createdAt -updatedAt');
         res.status(200).json(marketData);
     } catch (error) {
         res.status(500).json({message: 'Error retrieving market data', error});
     }
 };
 
-module.exports = {
-    setMarketData,
-    getMarketData
-};
+export {setMarketData, getMarketData};

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const TransactionSchema = new mongoose.Schema(
     {
@@ -64,4 +64,4 @@ HoldingSchema.pre('save', function (next) {
 
 const Holding = mongoose.model('Holding', HoldingSchema, 'holdings');
 
-module.exports = Holding;
+export default Holding;

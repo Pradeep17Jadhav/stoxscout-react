@@ -848,7 +848,7 @@ const removeDuplicatesAndKey = (array) => {
     return nsebseCleaned;
 };
 
-const filePath = path.join(__dirname, './data/common/scriptList.json');
+const filePath = './data/common/scriptList.json';
 const uniqueStocks = removeDuplicatesAndKey(stocks);
 
 fs.writeFile(filePath, JSON.stringify(uniqueStocks, null, 2), (err) => {

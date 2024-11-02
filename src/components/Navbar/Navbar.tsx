@@ -54,6 +54,11 @@ const Navbar = () => {
                     </div>
                 </>
             )}
+            {!isAuthenticated && (
+                <Link className="nav-link" to="/signup">
+                    Signup
+                </Link>
+            )}
         </nav>
     );
 };
