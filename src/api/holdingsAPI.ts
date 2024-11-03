@@ -35,3 +35,23 @@ export const addPurchase = async (purchase: Purchase) => {
     }
     return await response.json();
 };
+
+export const uploadHoldings = async (holdings: Purchase[]) => {
+    const response = await authRequest(endpoints.upload, {
+        method: HttpMethod.POST,
+        body: holdings
+    });
+    if (response.status === 400) {
+        throw new Error('Bad Request: Please check the purchase details.');
+    }
+    if (response.status === 401) {
+        throw new Error('Unauthorized: You must be logged in to make a purchase.');
+    }
+    if (response.status === 404) {
+        throw new Error('Not Found: The resource you are trying to access does not exist.');
+    }
+    if (!response.ok) {
+        throw new Error('Failed to add holdings.');
+    }
+    return await response.json();
+};

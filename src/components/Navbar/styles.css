@@ -38,3 +38,7 @@
 .auth-links {
     margin-left: auto;
 }
+
+.logout-btn {
+    cursor: pointer;
+}

@@ -1,21 +1,22 @@
+import {useCallback} from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
-import {Link, useLocation} from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip/Tooltip';
+import {Link} from 'react-router-dom';
 import {IndexInfo} from './IndexInfo/IndexInfo';
 import {usePortfolio} from '../../hooks/usePortfolio';
-import './styles.css';
 import {useAuth} from '../../hooks/useAuth';
-import {useCallback} from 'react';
+
+import './styles.css';
 
 const Navbar = () => {
     const {holdingSummary, indicesData} = usePortfolio();
     const {isAuthenticated, logoutUser} = useAuth();
-    const location = useLocation();
 
     const convertToPrice = useCallback((strPrice: string) => parseFloat(strPrice.replace(/,/g, '')), []);
 
     return (
         <nav className="navbar">
-            {isAuthenticated && (
+            {isAuthenticated ? (
                 <>
                     <div className="indices">
                         {indicesData.map((index) => (
@@ -34,9 +35,6 @@ const Navbar = () => {
                         <Link className="nav-link" to="/">
                             Portfolio
                         </Link>
-                        <Link className="nav-link" to="/addPurchase">
-                            Add Purchase
-                        </Link>
                         <Link className="nav-link" to="/portfolioByDate">
                             Portfolio by Date
                         </Link>
@@ -52,11 +50,18 @@ const Navbar = () => {
                         <Link className="nav-link" to="/heatmapPNL">
                             Heatmap PNL
                         </Link>
-                        <LogoutIcon onClick={logoutUser} />
+                        <Link className="nav-link" to="/addPurchase">
+                            Add Purchase
+                        </Link>
+                        <Link className="nav-link" to="/upload">
+                            Upload
+                        </Link>
+                        <Tooltip title="Logout" arrow>
+                            <LogoutIcon className="logout-btn" onClick={logoutUser} />
+                        </Tooltip>
                     </div>
                 </>
-            )}
-            {!isAuthenticated && (
+            ) : (
                 <div className="auth-links">
                     <Link className="nav-link" to="/login">
                         Login

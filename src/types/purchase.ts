@@ -3,7 +3,7 @@ export type Purchase = {
     dateAdded: number;
     quantity: number;
     avgPrice: string;
-    exchange: string;
-    isGift: boolean;
-    isIPO: boolean;
+    exchange?: string;
+    isGift?: boolean;
+    isIPO?: boolean;
 };

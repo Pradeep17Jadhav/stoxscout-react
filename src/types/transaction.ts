@@ -2,7 +2,9 @@ export type Transaction = {
     dateAdded: number;
     quantity: number;
     avgPrice: number;
-    portfolioId: string;
+    isGift?: boolean;
+    isIPO?: boolean;
+    exchange?: string;
 };
 
 export type StockInformation = {

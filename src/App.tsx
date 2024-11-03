@@ -12,9 +12,10 @@ import {PortfolioProvider} from './context/PortfolioContext';
 import {Login} from './components/Login/Login';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import {AuthProvider} from './context/AuthContext';
+import {Signup} from './components/Signup/Signup';
+import HoldingsUploader from './components/HoldingsUploader/HoldingsUploader';
 
 import './App.css';
-import {Signup} from './components/Signup/Signup';
 
 const theme = createTheme({
     typography: {
@@ -69,6 +70,7 @@ function App() {
                                     ))}
                                     <Route path="/login" element={<Login />}></Route>
                                     <Route path="/signup" element={<Signup />}></Route>
+                                    <Route path="/upload" element={<HoldingsUploader />}></Route>
                                 </Routes>
                             </div>
                         </div>
