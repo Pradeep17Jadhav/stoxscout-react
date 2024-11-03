@@ -94,15 +94,17 @@ const HoldingsUploader = () => {
     return (
         <Box sx={{padding: 2}}>
             <Typography variant="h6" gutterBottom>
-                {'Go to '}
+                {'1. Go to '}
                 <a href="https://console.zerodha.com/portfolio/holdings" target="_blank">
                     {'https://console.zerodha.com/portfolio/holdings'}
-                </a>
-                <br /> Click on "Download: XLSX" link (just above the holdings table)
-                <br /> Save the file on you computer. This file contains info of your holdings on Zerodha
-                <br /> Come back to this page
-                <br /> Click on the Select files button and select the file you just download
-                <br /> Sit back and relax!
+                </a>{' '}
+                and login to your Zerodha account
+                <br /> 2. Click on "Download: XLSX" link (just above the holdings table)
+                <br /> 3. Save the file on you computer. This file contains info of your holdings on Zerodha
+                <br /> 4. Come back to this page
+                <br /> 5. Click on the Select files button and select the file you just download
+                <br /> 6. Sit back and relax! You file is NOT uploaded to our server. Just the data of your holdings is
+                sent.
             </Typography>
             <input type="file" accept=".xlsx" onChange={handleFileChange} style={{display: 'none'}} id="file-upload" />
             <label htmlFor="file-upload">
