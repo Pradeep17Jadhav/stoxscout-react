@@ -1,4 +1,5 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {Button, TextField, Typography} from '@mui/material';
 import {useAuth} from '../../hooks/useAuth';
 
@@ -10,7 +11,8 @@ export const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
-    const {registerUser} = useAuth();
+    const {registerUser, isAuthenticated} = useAuth();
+    const navigate = useNavigate();
 
     const handleSignup = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -23,7 +25,13 @@ export const Signup = () => {
         }
     };
 
-    return (
+    useEffect(() => {
+        isAuthenticated && navigate('/');
+    }, [isAuthenticated]);
+
+    return isAuthenticated ? (
+        <></>
+    ) : (
         <div className="login-container">
             <h2>Signup</h2>
             <form onSubmit={handleSignup}>

@@ -1,4 +1,5 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {Button, TextField, Typography} from '@mui/material';
 import {useAuth} from '../../hooks/useAuth';
 
@@ -8,7 +9,8 @@ export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
-    const {loginUser} = useAuth();
+    const {loginUser, isAuthenticated} = useAuth();
+    const navigate = useNavigate();
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -21,7 +23,13 @@ export const Login = () => {
         }
     };
 
-    return (
+    useEffect(() => {
+        isAuthenticated && navigate('/');
+    }, [isAuthenticated]);
+
+    return isAuthenticated ? (
+        <></>
+    ) : (
         <div className="login-container">
             <h2>Login</h2>
             <form onSubmit={handleLogin}>
