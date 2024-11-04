@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {getPnL} from '../../helpers/price';
-import {Order, YearWiseStockInformation} from '../../types/transaction';
+import {Sort_Order, YearWiseStockInformation} from '../../types/transaction';
 import {HoldingTable} from '../HoldingTable/HoldingTable';
 import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {sort, sortHoldingsByYear} from '../../helpers/sort';
@@ -22,7 +22,7 @@ export const PortfolioByYear = () => {
         setYearWiseStocksInfo(sortedYearWiseStockInfo);
     }, [userHoldings, marketData]);
 
-    const onSort = (column: string, order: Order, year?: string) => {
+    const onSort = (column: string, order: Sort_Order, year?: string) => {
         let index = -1;
         if (!year) {
             return;

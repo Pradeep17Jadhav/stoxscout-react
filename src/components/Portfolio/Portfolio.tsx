@@ -1,5 +1,6 @@
+import {useEffect} from 'react';
 import {sort} from '../../helpers/sort';
-import {Order} from '../../types/transaction';
+import {Sort_Order} from '../../types/transaction';
 import {HoldingTable} from '../HoldingTable/HoldingTable';
 import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {usePortfolio} from '../../hooks/usePortfolio';
@@ -12,9 +13,18 @@ import './styles.css';
 export const Portfolio = () => {
     const dispatch = useDispatch();
     const {stocksInfo} = usePortfolio();
-    const {holdingSummary} = useUser();
+    const {holdingSummary, userPreferences} = useUser();
 
-    const onSort = (column: string, order: Order) => dispatch(updateStocksInfo(sort(stocksInfo, column, order)));
+    const onSort = (column: string, order: Sort_Order) => {
+        const sortedStocksInfo = sort(stocksInfo, column, order);
+        dispatch(updateStocksInfo(sortedStocksInfo));
+    };
+
+    useEffect(() => {
+        const prefColumn = userPreferences.dashboardSort.column;
+        const prefSortOrder = userPreferences.dashboardSort.sortOrder;
+        onSort(prefColumn, prefSortOrder);
+    }, []);
 
     return (
         <>

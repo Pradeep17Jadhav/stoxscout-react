@@ -67,7 +67,7 @@ export type HoldingSummary = {
     totalDayChangePercentage: string;
 };
 
-export enum Order {
+export enum Sort_Order {
     ASC = 'ASC',
     DESC = 'DESC'
 }

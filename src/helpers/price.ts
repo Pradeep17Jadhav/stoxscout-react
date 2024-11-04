@@ -1,4 +1,4 @@
-import {MarketData} from '../types/marketData';
+import {MarketData} from '../types/market';
 import {HoldingSummary, HoldingItem, Holdings, StockInformation} from '../types/transaction';
 
 export const stockInfoGeneratorNSE = (holdingItem: HoldingItem, marketData: MarketData): StockInformation => {

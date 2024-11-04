@@ -1,9 +1,11 @@
-import {HoldingSummary, Holdings} from '../../types/transaction';
+import {HoldingSummary, Holdings, Sort_Order} from '../../types/transaction';
+import {UserPreferences, Default_Columns} from '../../types/userPreferences';
 import {UserAction} from '../actions/userActions';
 
 export type UserState = {
     holdingSummary: HoldingSummary;
     userHoldings: Holdings;
+    userPreferences: UserPreferences;
 };
 
 export const initialState: UserState = {
@@ -15,7 +17,13 @@ export const initialState: UserState = {
         totalDayChange: '0',
         totalDayChangePercentage: '0'
     },
-    userHoldings: []
+    userHoldings: [],
+    userPreferences: {
+        dashboardSort: {
+            column: Default_Columns.SYMBOL,
+            sortOrder: Sort_Order.DESC
+        }
+    }
 };
 
 export const userReducer = (state: UserState = initialState, action: UserAction): UserState => {
@@ -24,6 +32,8 @@ export const userReducer = (state: UserState = initialState, action: UserAction)
             return {...state, holdingSummary: action.payload};
         case 'UPDATE_USER_HOLDINGS':
             return {...state, userHoldings: action.payload};
+        case 'UPDATE_USER_PREFERENCES':
+            return {...state, userPreferences: action.payload};
         default:
             return state;
     }

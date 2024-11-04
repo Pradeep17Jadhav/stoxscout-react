@@ -1,6 +1,6 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
 import {formatPrice} from '../../helpers/price';
-import {COLUMNS, Order, StockInformation} from '../../types/transaction';
+import {COLUMNS, Sort_Order, StockInformation} from '../../types/transaction';
 import './styles.css';
 import {useState} from 'react';
 
@@ -9,22 +9,22 @@ type Props = {
     date?: string;
     monthYear?: string;
     year?: string;
-    onSort: (column: string, order: Order, date?: string) => void;
+    onSort: (column: string, order: Sort_Order, date?: string) => void;
 };
 export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort}: Props) => {
     const [sortedBy, setSortedBy] = useState<string>(COLUMNS.SYMBOL);
-    const [orderBy, setOrderBy] = useState<Order>(Order.DESC);
+    const [orderBy, setOrderBy] = useState<Sort_Order>(Sort_Order.DESC);
 
     const sortByColumn = (column: string) => {
         if (sortedBy === column) {
-            if (orderBy === Order.ASC) {
-                setOrderBy(Order.DESC);
+            if (orderBy === Sort_Order.ASC) {
+                setOrderBy(Sort_Order.DESC);
             } else {
-                setOrderBy(Order.ASC);
+                setOrderBy(Sort_Order.ASC);
             }
         } else {
             setSortedBy(column);
-            setOrderBy(Order.ASC);
+            setOrderBy(Sort_Order.ASC);
         }
         onSort(column, orderBy, date);
     };

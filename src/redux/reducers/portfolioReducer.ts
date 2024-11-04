@@ -1,5 +1,5 @@
 import {Index} from '../../types/indices';
-import {MarketData} from '../../types/marketData';
+import {MarketData} from '../../types/market';
 import {StockInformation} from '../../types/transaction';
 import {PortfolioAction} from '../actions/portfolioActions';
 

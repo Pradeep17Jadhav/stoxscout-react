@@ -1,9 +1,9 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {initialState as initPortfolioState, PortfolioState} from '../redux/reducers/portfolioReducer';
+import {PortfolioState} from '../redux/reducers/portfolioReducer';
 import {RootState} from '../redux/reducers/rootReducer';
 import {PortfolioAction} from '../redux/actions/portfolioActions';
 
-type UsePortfolioType = typeof initPortfolioState & {
+type UsePortfolioType = PortfolioState & {
     dispatch: React.Dispatch<PortfolioAction>;
 };
 

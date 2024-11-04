@@ -1,6 +1,6 @@
 import {getPnL} from '../../helpers/price';
 import {useEffect, useState} from 'react';
-import {DateWiseStockInformation, Order} from '../../types/transaction';
+import {DateWiseStockInformation, Sort_Order} from '../../types/transaction';
 import {dateWiseStockInfoGeneratorAll} from '../../helpers/portfolioByDateUtils';
 import {HoldingTable} from '../HoldingTable/HoldingTable';
 import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
@@ -22,7 +22,7 @@ export const PortfolioByDate = () => {
         setDateWiseStocksInfo(sortedDateWiseStockInfo);
     }, [userHoldings, marketData]);
 
-    const onSort = (column: string, order: Order, date?: string) => {
+    const onSort = (column: string, order: Sort_Order, date?: string) => {
         let index = -1;
         if (!date) {
             return;

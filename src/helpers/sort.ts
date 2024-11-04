@@ -2,50 +2,62 @@ import {
     COLUMNS,
     DateWiseStockInformation,
     MonthWiseStockInformation,
-    Order,
+    Sort_Order,
     StockInformation,
     YearWiseStockInformation
 } from '../types/transaction';
 
-const sortByProperty = (array: StockInformation[], prop: keyof StockInformation, order: Order = Order.ASC) => {
+const sortByProperty = (
+    array: StockInformation[],
+    prop: keyof StockInformation,
+    order: Sort_Order = Sort_Order.ASC
+) => {
     const slicedArray = array.slice();
     const sortedArray = slicedArray.sort((a, b) => {
         const aValue = a[prop] as unknown as number;
         const bValue = b[prop] as unknown as number;
-        return order === Order.ASC ? aValue - bValue : bValue - aValue;
+        return order === Sort_Order.ASC ? aValue - bValue : bValue - aValue;
     });
     return sortedArray;
 };
 
-const sortBySymbol = (array: StockInformation[], order: Order = Order.ASC) =>
+const sortBySymbol = (array: StockInformation[], order: Sort_Order = Sort_Order.ASC) =>
     array
         .slice()
-        .sort((a, b) => (order === Order.ASC ? a.symbol.localeCompare(b.symbol) : b.symbol.localeCompare(a.symbol)));
+        .sort((a, b) =>
+            order === Sort_Order.ASC ? a.symbol.localeCompare(b.symbol) : b.symbol.localeCompare(a.symbol)
+        );
 
-const sortByPnl = (array: StockInformation[], order: Order) => sortByProperty(array, 'pnl', order);
-const sortByPnlPercent = (array: StockInformation[], order: Order) => sortByProperty(array, 'pnlpercent', order);
-const sortByLtp = (array: StockInformation[], order: Order) => sortByProperty(array, 'ltp', order);
+const sortByPnl = (array: StockInformation[], order: Sort_Order) => sortByProperty(array, 'pnl', order);
+const sortByPnlPercent = (array: StockInformation[], order: Sort_Order) => sortByProperty(array, 'pnlpercent', order);
+const sortByLtp = (array: StockInformation[], order: Sort_Order) => sortByProperty(array, 'ltp', order);
 
-const sortByDayChange = (array: StockInformation[], order: Order = Order.ASC) =>
+const sortByDayChange = (array: StockInformation[], order: Sort_Order = Sort_Order.ASC) =>
     sortByProperty(array, 'totalDayChange', order);
 
-const sortByDayChangePercent = (array: StockInformation[], order: Order = Order.ASC) =>
+const sortByDayChangePercent = (array: StockInformation[], order: Sort_Order = Sort_Order.ASC) =>
     sortByProperty(array, 'percentDayChange', order);
 
-const sortByDayChangePercentOnInvestment = (array: StockInformation[], order: Order = Order.ASC) =>
+const sortByDayChangePercentOnInvestment = (array: StockInformation[], order: Sort_Order = Sort_Order.ASC) =>
     sortByProperty(array, 'percentDayChangeOnInvestment', order);
 
-const sortByDaysMax = (array: StockInformation[], order: Order) => sortByProperty(array, 'daysMax', order);
+const sortByDaysMax = (array: StockInformation[], order: Sort_Order) => sortByProperty(array, 'daysMax', order);
 
-const sortByCurrentValue = (array: StockInformation[], order: Order) => sortByProperty(array, 'currentValue', order);
+const sortByCurrentValue = (array: StockInformation[], order: Sort_Order) =>
+    sortByProperty(array, 'currentValue', order);
 
-const sortByInvestedValue = (array: StockInformation[], order: Order) => sortByProperty(array, 'investedValue', order);
+const sortByInvestedValue = (array: StockInformation[], order: Sort_Order) =>
+    sortByProperty(array, 'investedValue', order);
 
-const sortByAvgPrice = (array: StockInformation[], order: Order) => sortByProperty(array, 'avgPrice', order);
+const sortByAvgPrice = (array: StockInformation[], order: Sort_Order) => sortByProperty(array, 'avgPrice', order);
 
-const sortByQuantity = (array: StockInformation[], order: Order) => sortByProperty(array, 'quantity', order);
+const sortByQuantity = (array: StockInformation[], order: Sort_Order) => sortByProperty(array, 'quantity', order);
 
-const sort = (stocksInfo: StockInformation[], column: string, order: Order = Order.DESC): StockInformation[] => {
+const sort = (
+    stocksInfo: StockInformation[],
+    column: string,
+    order: Sort_Order = Sort_Order.DESC
+): StockInformation[] => {
     if (column === COLUMNS.SYMBOL) {
         return sortBySymbol(stocksInfo, order);
     }
