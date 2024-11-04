@@ -1,16 +1,18 @@
-import {getPnL} from '../../helpers/price';
 import {useEffect, useState} from 'react';
+import {getPnL} from '../../helpers/price';
 import {Order, YearWiseStockInformation} from '../../types/transaction';
 import {HoldingTable} from '../HoldingTable/HoldingTable';
 import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {sort, sortHoldingsByYear} from '../../helpers/sort';
 import {yearWiseStockInfoGeneratorAll} from '../../helpers/portfolioByDateUtils';
 import {usePortfolio} from '../../hooks/usePortfolio';
+import {useUser} from '../../hooks/useUser';
 
 import './styles.css';
 
 export const PortfolioByYear = () => {
-    const {marketData, userHoldings} = usePortfolio();
+    const {marketData} = usePortfolio();
+    const {userHoldings} = useUser();
     const [yearWiseStocksInfo, setYearWiseStocksInfo] = useState<YearWiseStockInformation>([]);
 
     useEffect(() => {

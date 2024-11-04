@@ -1,7 +1,9 @@
 import {useCallback, useContext} from 'react';
-import {AuthContext} from '../context/AuthContext';
+import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
+import {AuthContext} from '../context/AuthContext';
 import {registerAPI, loginAPI, logoutAPI} from '../api/authAPI';
+import {updateUserHoldings} from '../redux/actions/userActions';
 
 export type UseAuthType = {
     isAuthenticated: boolean;
@@ -17,6 +19,7 @@ export const useAuth = (): UseAuthType => {
     }
     const {isAuthenticated, setIsAuthenticated} = context;
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const registerUser = useCallback(
         async (name: string, username: string, email: string, password: string) => {
@@ -42,6 +45,7 @@ export const useAuth = (): UseAuthType => {
         await logoutAPI();
         localStorage.removeItem('token');
         setIsAuthenticated(false);
+        dispatch(updateUserHoldings([]));
         navigate('/login');
     }, [navigate]);
 

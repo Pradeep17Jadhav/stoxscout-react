@@ -8,12 +8,12 @@ import {HeatMap} from './components/Heatmap/Heatmap';
 import {HeatMapPNL} from './components/HeatmapPNL/HeatmapPNL';
 import {PortfolioByMonth} from './components/PortfolioByMonth/PortfolioByMonth';
 import Navbar from './components/Navbar/Navbar';
-import {PortfolioProvider} from './context/PortfolioContext';
 import {Login} from './components/Login/Login';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import {AuthProvider} from './context/AuthContext';
 import {Signup} from './components/Signup/Signup';
 import HoldingsUploader from './components/HoldingsUploader/HoldingsUploader';
+import PortfolioUpdater from './components/PortfolioUpdater/PortfolioUpdater';
 
 import './App.css';
 
@@ -52,7 +52,7 @@ function App() {
         <ThemeProvider theme={theme}>
             <BrowserRouter>
                 <AuthProvider>
-                    <PortfolioProvider>
+                    <PortfolioUpdater>
                         <div className="app-container">
                             <Navbar />
                             <div className="main-content">
@@ -74,7 +74,7 @@ function App() {
                                 </Routes>
                             </div>
                         </div>
-                    </PortfolioProvider>
+                    </PortfolioUpdater>
                 </AuthProvider>
             </BrowserRouter>
         </ThemeProvider>

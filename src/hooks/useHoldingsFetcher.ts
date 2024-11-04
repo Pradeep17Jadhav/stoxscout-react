@@ -1,12 +1,12 @@
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import {transformTypes} from '../helpers/price';
 import {getUserHoldings} from '../api/holdingsAPI';
-import {Holdings} from '../types/transaction';
-import {PortfolioAction} from '../context/portfolioReducer';
 import {useAuth} from './useAuth';
+import {updateUserHoldings} from '../redux/actions/userActions';
 
-const useUserHoldings = (dispatch: React.Dispatch<PortfolioAction>) => {
-    const [userHoldings, setUserHoldings] = useState<Holdings>([]);
+const useHoldingsFetcher = () => {
+    const dispatch = useDispatch();
     const {isAuthenticated} = useAuth();
 
     useEffect(() => {
@@ -15,16 +15,13 @@ const useUserHoldings = (dispatch: React.Dispatch<PortfolioAction>) => {
             try {
                 const response = await getUserHoldings();
                 const transformedHoldings = transformTypes(response);
-                setUserHoldings(transformedHoldings);
-                dispatch({type: 'UPDATE_USER_HOLDINGS', payload: transformedHoldings});
+                dispatch(updateUserHoldings(transformedHoldings));
             } catch (error) {
                 console.error(error);
             }
         };
         fetchUserHoldings();
     }, [isAuthenticated]);
-
-    return {userHoldings};
 };
 
-export default useUserHoldings;
+export default useHoldingsFetcher;

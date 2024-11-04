@@ -1,16 +1,14 @@
-import {useContext} from 'react';
-import {PortfolioContext} from '../context/PortfolioContext';
-import {initialState, PortfolioAction} from '../context/portfolioReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import {initialState as initPortfolioState, PortfolioState} from '../redux/reducers/portfolioReducer';
+import {RootState} from '../redux/reducers/rootReducer';
+import {PortfolioAction} from '../redux/actions/portfolioActions';
 
-type UsePortfolioType = typeof initialState & {
+type UsePortfolioType = typeof initPortfolioState & {
     dispatch: React.Dispatch<PortfolioAction>;
 };
 
 export const usePortfolio = (): UsePortfolioType => {
-    const context = useContext(PortfolioContext);
-    if (!context) {
-        throw new Error('usePortfolio must be used within an PortfolioProvider');
-    }
-    const {state, dispatch} = context;
+    const dispatch = useDispatch();
+    const state: PortfolioState = useSelector((state: RootState) => state.portfolio);
     return {...state, dispatch};
 };

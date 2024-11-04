@@ -6,11 +6,13 @@ import {HoldingTable} from '../HoldingTable/HoldingTable';
 import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {sortHoldingsByMonth} from '../../helpers/sort';
 import {usePortfolio} from '../../hooks/usePortfolio';
+import {useUser} from '../../hooks/useUser';
 
 import './styles.css';
 
 export const PortfolioByMonth = () => {
-    const {marketData, userHoldings} = usePortfolio();
+    const {marketData} = usePortfolio();
+    const {userHoldings} = useUser();
     const [monthWiseStocksInfo, setMonthWiseStocksInfo] = useState<MonthWiseStockInformation>([]);
 
     useEffect(() => {

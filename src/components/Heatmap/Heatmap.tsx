@@ -2,11 +2,13 @@ import {useEffect, useState} from 'react';
 import {Treemap, ResponsiveContainer, Label} from 'recharts';
 import {stockInfoGeneratorAll} from '../../helpers/price';
 import {usePortfolio} from '../../hooks/usePortfolio';
+import {useUser} from '../../hooks/useUser';
 
 import './styles.css';
 
 export const HeatMap = () => {
-    const {marketData, userHoldings} = usePortfolio();
+    const {marketData} = usePortfolio();
+    const {userHoldings} = useUser();
     const [chartData, setChartData] = useState<any>([]);
 
     useEffect(() => {

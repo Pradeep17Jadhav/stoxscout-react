@@ -65,7 +65,14 @@ const loginAPI = async (username: string, password: string) => {
     });
     if (response.status === 204) return null;
     if (response.status === 401) {
-        throw new Error('Unauthorized: Invalid username or password.');
+        const errorData = await response.json();
+        let errMessage = 'Unauthorized: Invalid username or password.';
+        if (errorData.type === 'token_expired') {
+            errMessage = 'Your login has timed out. Please login again.';
+        } else if (errorData.type === 'invalid_token') {
+            errMessage = 'Invalid session. Please login again.';
+        }
+        throw new Error(errMessage);
     }
     if (!response.ok) {
         throw new Error('Login failed');

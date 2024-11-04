@@ -1,20 +1,19 @@
-import {useEffect, useState} from 'react';
-import {Index} from '../types/indices';
-import {PortfolioAction} from '../context/portfolioReducer';
+import {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import {useAuth} from './useAuth';
 import {getIndices} from '../api/indicesAPI';
 import {isMarketTime} from '../helpers/utils';
+import {updateIndicesData} from '../redux/actions/portfolioActions';
 
-const useIndicesData = (dispatch: React.Dispatch<PortfolioAction>) => {
-    const [indicesData, setIndicesData] = useState<Index[]>([]);
+const useIndicesData = () => {
+    const dispatch = useDispatch();
     const {isAuthenticated} = useAuth();
 
     const fetchIndicesData = () => {
         if (!isAuthenticated) return;
         getIndices()
             .then((response) => {
-                setIndicesData(response);
-                dispatch({type: 'UPDATE_INDICES_DATA', payload: response});
+                dispatch(updateIndicesData(response));
             })
             .catch((error) => {
                 console.error(error);
@@ -29,8 +28,6 @@ const useIndicesData = (dispatch: React.Dispatch<PortfolioAction>) => {
         }, 20000);
         return () => clearInterval(intervalId);
     }, [isAuthenticated]);
-
-    return {indicesData};
 };
 
 export default useIndicesData;

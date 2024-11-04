@@ -4,12 +4,14 @@ import Tooltip from '@mui/material/Tooltip/Tooltip';
 import {Link} from 'react-router-dom';
 import {IndexInfo} from './IndexInfo/IndexInfo';
 import {usePortfolio} from '../../hooks/usePortfolio';
+import {useUser} from '../../hooks/useUser';
 import {useAuth} from '../../hooks/useAuth';
 
 import './styles.css';
 
 const Navbar = () => {
-    const {holdingSummary, indicesData} = usePortfolio();
+    const {indicesData} = usePortfolio();
+    const {holdingSummary} = useUser();
     const {isAuthenticated, logoutUser} = useAuth();
 
     const convertToPrice = useCallback((strPrice: string) => parseFloat(strPrice.replace(/,/g, '')), []);

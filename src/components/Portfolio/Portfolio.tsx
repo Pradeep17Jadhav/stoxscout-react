@@ -3,13 +3,18 @@ import {Order} from '../../types/transaction';
 import {HoldingTable} from '../HoldingTable/HoldingTable';
 import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {usePortfolio} from '../../hooks/usePortfolio';
+import {useUser} from '../../hooks/useUser';
+import {updateStocksInfo} from '../../redux/actions/portfolioActions';
+import {useDispatch} from 'react-redux';
 
 import './styles.css';
 
 export const Portfolio = () => {
-    const {holdingSummary, stocksInfo, dispatch} = usePortfolio();
-    const onSort = (column: string, order: Order) =>
-        dispatch({type: 'UPDATE_STOCKS_INFO', payload: sort(stocksInfo, column, order)});
+    const dispatch = useDispatch();
+    const {stocksInfo} = usePortfolio();
+    const {holdingSummary} = useUser();
+
+    const onSort = (column: string, order: Order) => dispatch(updateStocksInfo(sort(stocksInfo, column, order)));
 
     return (
         <>

@@ -1,20 +1,19 @@
-import {useEffect, useState} from 'react';
-import {MarketData} from '../types/marketData';
-import {PortfolioAction} from '../context/portfolioReducer';
+import {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import {useAuth} from './useAuth';
 import {getMarket} from '../api/marketAPI';
 import {isMarketTime} from '../helpers/utils';
+import {updateMarketData} from '../redux/actions/portfolioActions';
 
-const useMarketData = (dispatch: React.Dispatch<PortfolioAction>) => {
-    const [marketData, setMarketData] = useState<MarketData>([]);
+const useMarketData = () => {
+    const dispatch = useDispatch();
     const {isAuthenticated} = useAuth();
 
     const fetchMarketData = () => {
         if (!isAuthenticated) return;
         getMarket()
             .then((response) => {
-                dispatch({type: 'UPDATE_MARKET_DATA', payload: response});
-                setMarketData(response);
+                dispatch(updateMarketData(response));
             })
             .catch((error) => {
                 console.error(error);
@@ -29,8 +28,6 @@ const useMarketData = (dispatch: React.Dispatch<PortfolioAction>) => {
         }, 20000);
         return () => clearInterval(intervalId);
     }, [isAuthenticated]);
-
-    return {marketData};
 };
 
 export default useMarketData;
