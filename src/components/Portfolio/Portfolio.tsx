@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useCallback, useEffect} from 'react';
 import {sort} from '../../helpers/sort';
 import {Sort_Order} from '../../types/transaction';
 import {HoldingTable} from '../HoldingTable/HoldingTable';
@@ -15,15 +15,19 @@ export const Portfolio = () => {
     const {stocksInfo} = usePortfolio();
     const {holdingSummary, userPreferences} = useUser();
 
-    const onSort = (column: string, order: Sort_Order) => {
-        const sortedStocksInfo = sort(stocksInfo, column, order);
-        dispatch(updateStocksInfo(sortedStocksInfo));
-    };
+    const onSort = useCallback(
+        (column: string, order: Sort_Order) => {
+            const sortedStocksInfo = sort(stocksInfo, column, order);
+            dispatch(updateStocksInfo(sortedStocksInfo));
+        },
+        [dispatch, stocksInfo]
+    );
 
     useEffect(() => {
         const prefColumn = userPreferences.dashboardSort.column;
         const prefSortOrder = userPreferences.dashboardSort.sortOrder;
         onSort(prefColumn, prefSortOrder);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

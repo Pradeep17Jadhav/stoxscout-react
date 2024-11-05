@@ -1,4 +1,4 @@
-import {Button, Checkbox, FormControlLabel, Radio, RadioGroup, SelectChangeEvent, TextField} from '@mui/material';
+import {Button, Checkbox, FormControlLabel, TextField} from '@mui/material';
 import {useCallback, useMemo, useState} from 'react';
 import {addPurchase} from '../../api/holdingsAPI';
 import './styles.css';
@@ -8,13 +8,12 @@ export const AddPurchase = () => {
     const [dateAdded, setDateAdded] = useState('');
     const [quantity, setQuantity] = useState('');
     const [avgPrice, setAvgPrice] = useState('');
-    const [exchange, setExchange] = useState('NSE');
     const [isIPO, setIsIPO] = useState(false);
     const [isGift, setIsGift] = useState(false);
 
     const isValidForm = useMemo(() => {
-        return symbol !== '' && dateAdded !== '' && quantity !== '' && avgPrice !== '' && exchange !== '';
-    }, [symbol, dateAdded, quantity, avgPrice, exchange]);
+        return symbol !== '' && dateAdded !== '' && quantity !== '' && avgPrice !== '';
+    }, [symbol, dateAdded, quantity, avgPrice]);
 
     const clearForm = useCallback(() => {
         setSymbol('');
@@ -23,18 +22,27 @@ export const AddPurchase = () => {
         setAvgPrice('');
     }, []);
 
-    const handleAddMore = (event: any) => {
-        event.preventDefault();
-        addPurchase({
-            symbol: symbol.toUpperCase(),
-            dateAdded: new Date(dateAdded).getTime(),
-            quantity: parseInt(quantity),
-            avgPrice: avgPrice.replace(/,/g, ''),
-            exchange,
-            isGift,
-            isIPO
-        });
-    };
+    const handleAddMore = useCallback(
+        (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            addPurchase({
+                symbol: symbol.toUpperCase(),
+                dateAdded: new Date(dateAdded).getTime(),
+                quantity: parseInt(quantity),
+                avgPrice: avgPrice.replace(/,/g, ''),
+                isGift,
+                isIPO
+            });
+        },
+        [avgPrice, dateAdded, isGift, isIPO, quantity, symbol]
+    );
+
+    const onSymbolChange = useCallback((e: any) => setSymbol(e.target.value.toUpperCase()), []);
+    const onDateAddedChange = useCallback((e: any) => setDateAdded(e.target.value), []);
+    const onQuantityChange = useCallback((e: any) => setQuantity(e.target.value), []);
+    const onAvgPriceChange = useCallback((e: any) => setAvgPrice(e.target.value), []);
+    const onIsIPOChange = useCallback(() => setIsIPO((isIPO) => !isIPO), []);
+    const onIsGiftChange = useCallback(() => () => setIsGift((isGift) => !isGift), []);
 
     return (
         <form onSubmit={handleAddMore}>
@@ -43,7 +51,7 @@ export const AddPurchase = () => {
                     label="Symbol"
                     variant="outlined"
                     value={symbol}
-                    onChange={(e) => setSymbol(e.target.value.toUpperCase())}
+                    onChange={onSymbolChange}
                     placeholder="IRCTC"
                 />
                 <TextField
@@ -52,7 +60,7 @@ export const AddPurchase = () => {
                     type="text"
                     value={dateAdded}
                     placeholder="2024-10-25"
-                    onChange={(e) => setDateAdded(e.target.value)}
+                    onChange={onDateAddedChange}
                 />
                 <TextField
                     label="Quantity"
@@ -60,7 +68,7 @@ export const AddPurchase = () => {
                     type="number"
                     value={quantity}
                     placeholder="5"
-                    onChange={(e) => setQuantity(e.target.value)}
+                    onChange={onQuantityChange}
                 />
                 <TextField
                     label="Average Price"
@@ -68,35 +76,14 @@ export const AddPurchase = () => {
                     type="number"
                     value={avgPrice}
                     placeholder="1234.55"
-                    onChange={(e) => setAvgPrice(e.target.value)}
+                    onChange={onAvgPriceChange}
                 />
-                <RadioGroup
-                    value={exchange}
-                    onChange={(event: SelectChangeEvent) => setExchange((event.target as HTMLInputElement).value)}
-                >
-                    <FormControlLabel value="NSE" control={<Radio />} label="NSE" />
-                    <FormControlLabel value="BSE" control={<Radio />} label="BSE" />
-                </RadioGroup>
                 <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={isIPO}
-                            onChange={() => setIsIPO((isIPO) => !isIPO)}
-                            name="isIPO"
-                            color="primary"
-                        />
-                    }
+                    control={<Checkbox checked={isIPO} onChange={onIsIPOChange} name="isIPO" color="primary" />}
                     label="Allotted in IPO "
                 />
                 <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={isGift}
-                            onChange={() => setIsGift((isGift) => !isGift)}
-                            name="isGift"
-                            color="primary"
-                        />
-                    }
+                    control={<Checkbox checked={isGift} onChange={onIsGiftChange} name="isGift" color="primary" />}
                     label="Received as a gift"
                 />
                 <Button type="submit" variant="contained" disabled={!isValidForm}>

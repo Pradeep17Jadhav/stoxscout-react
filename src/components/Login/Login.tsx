@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button, TextField, Typography} from '@mui/material';
 import {useAuth} from '../../hooks/useAuth';
@@ -12,20 +12,26 @@ export const Login = () => {
     const {loginUser, isAuthenticated} = useAuth();
     const navigate = useNavigate();
 
-    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        try {
-            await loginUser(username, password);
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                setError(err.message);
+    const handleLogin = useCallback(
+        async (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            try {
+                await loginUser(username, password);
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    setError(err.message);
+                }
             }
-        }
-    };
+        },
+        [loginUser, password, username]
+    );
 
     useEffect(() => {
         isAuthenticated && navigate('/');
-    }, [isAuthenticated]);
+    }, [isAuthenticated, navigate]);
+
+    const onSetUsername = useCallback((e: any) => setUsername(e.target.value), []);
+    const onSetPassword = useCallback((e: any) => setPassword(e.target.value), []);
 
     return isAuthenticated ? (
         <></>
@@ -40,7 +46,7 @@ export const Login = () => {
                         fullWidth
                         margin="normal"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={onSetUsername}
                         required
                     />
                     <TextField
@@ -50,7 +56,7 @@ export const Login = () => {
                         fullWidth
                         margin="normal"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={onSetPassword}
                         required
                     />
                     {error && <Typography color="error">{error}</Typography>}

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button, TextField, Typography} from '@mui/material';
 import {useAuth} from '../../hooks/useAuth';
@@ -14,20 +14,28 @@ export const Signup = () => {
     const {registerUser, isAuthenticated} = useAuth();
     const navigate = useNavigate();
 
-    const handleSignup = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        try {
-            await registerUser(name, username, email, password);
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                setError(err.message);
+    const handleSignup = useCallback(
+        async (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            try {
+                await registerUser(name.trim(), username.trim(), email.trim(), password.trim());
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    setError(err.message);
+                }
             }
-        }
-    };
+        },
+        [email, name, password, registerUser, username]
+    );
 
     useEffect(() => {
         isAuthenticated && navigate('/');
-    }, [isAuthenticated]);
+    }, [isAuthenticated, navigate]);
+
+    const onSetName = useCallback((e: any) => setName(e.target.value), []);
+    const onSetUsername = useCallback((e: any) => setUsername(e.target.value), []);
+    const onSetEmail = useCallback((e: any) => setEmail(e.target.value), []);
+    const onSetPassword = useCallback((e: any) => setPassword(e.target.value), []);
 
     return isAuthenticated ? (
         <></>
@@ -42,7 +50,7 @@ export const Signup = () => {
                         fullWidth
                         margin="normal"
                         value={name}
-                        onChange={(e) => setName(e.target.value.trim())}
+                        onChange={onSetName}
                         required
                     />
                     <TextField
@@ -51,7 +59,7 @@ export const Signup = () => {
                         fullWidth
                         margin="normal"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value.trim())}
+                        onChange={onSetUsername}
                         required
                     />
                     <TextField
@@ -60,7 +68,7 @@ export const Signup = () => {
                         fullWidth
                         margin="normal"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value.trim())}
+                        onChange={onSetEmail}
                         required
                     />
                     <TextField
@@ -70,7 +78,7 @@ export const Signup = () => {
                         fullWidth
                         margin="normal"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value.trim())}
+                        onChange={onSetPassword}
                         required
                     />
                     {error && (

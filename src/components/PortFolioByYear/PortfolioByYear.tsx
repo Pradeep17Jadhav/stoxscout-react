@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {getPnL} from '../../helpers/price';
 import {Sort_Order, YearWiseStockInformation} from '../../types/transaction';
 import {HoldingTable} from '../HoldingTable/HoldingTable';
@@ -22,28 +22,31 @@ export const PortfolioByYear = () => {
         setYearWiseStocksInfo(sortedYearWiseStockInfo);
     }, [userHoldings, marketData]);
 
-    const onSort = (column: string, order: Sort_Order, year?: string) => {
-        let index = -1;
-        if (!year) {
-            return;
-        }
-        const stocksInfoForDate = yearWiseStocksInfo.find((stockInfoForDate, i) => {
-            if (stockInfoForDate.year === year) {
-                index = i;
-                return true;
+    const onSort = useCallback(
+        (column: string, order: Sort_Order, year?: string) => {
+            let index = -1;
+            if (!year) {
+                return;
             }
-            return false;
-        });
-        if (!stocksInfoForDate || index === -1) {
-            return;
-        }
-        const sortedStocksInfo = sort(stocksInfoForDate.stocksInfo, column, order);
-        setYearWiseStocksInfo((yearWiseStockInformation: YearWiseStockInformation) => {
-            const yearWiseStockInformationCopy = JSON.parse(JSON.stringify(yearWiseStockInformation));
-            yearWiseStockInformationCopy[index].stocksInfo = sortedStocksInfo;
-            return yearWiseStockInformationCopy;
-        });
-    };
+            const stocksInfoForDate = yearWiseStocksInfo.find((stockInfoForDate, i) => {
+                if (stockInfoForDate.year === year) {
+                    index = i;
+                    return true;
+                }
+                return false;
+            });
+            if (!stocksInfoForDate || index === -1) {
+                return;
+            }
+            const sortedStocksInfo = sort(stocksInfoForDate.stocksInfo, column, order);
+            setYearWiseStocksInfo((yearWiseStockInformation: YearWiseStockInformation) => {
+                const yearWiseStockInformationCopy = JSON.parse(JSON.stringify(yearWiseStockInformation));
+                yearWiseStockInformationCopy[index].stocksInfo = sortedStocksInfo;
+                return yearWiseStockInformationCopy;
+            });
+        },
+        [yearWiseStocksInfo]
+    );
 
     return (
         <>

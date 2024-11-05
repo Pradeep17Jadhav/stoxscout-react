@@ -31,9 +31,6 @@ export const PortfolioByMonth = () => {
                         <div>
                             <HoldingTable
                                 stocksInfo={monthWiseStocksInfoItem.stocksInfo}
-                                onSort={() => {
-                                    /** */
-                                }}
                                 monthYear={monthWiseStocksInfoItem.monthYear}
                             />
                         </div>

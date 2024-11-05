@@ -1,5 +1,5 @@
 import {getPnL} from '../../helpers/price';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {DateWiseStockInformation, Sort_Order} from '../../types/transaction';
 import {dateWiseStockInfoGeneratorAll} from '../../helpers/portfolioByDateUtils';
 import {HoldingTable} from '../HoldingTable/HoldingTable';
@@ -22,28 +22,31 @@ export const PortfolioByDate = () => {
         setDateWiseStocksInfo(sortedDateWiseStockInfo);
     }, [userHoldings, marketData]);
 
-    const onSort = (column: string, order: Sort_Order, date?: string) => {
-        let index = -1;
-        if (!date) {
-            return;
-        }
-        const stocksInfoForDate = dateWiseStocksInfo.find((stockInfoForDate, i) => {
-            if (stockInfoForDate.date === date) {
-                index = i;
-                return true;
+    const onSort = useCallback(
+        (column: string, order: Sort_Order, date?: string) => {
+            let index = -1;
+            if (!date) {
+                return;
             }
-            return false;
-        });
-        if (!stocksInfoForDate || index === -1) {
-            return;
-        }
-        const sortedStocksInfo = sort(stocksInfoForDate.stocksInfo, column, order);
-        setDateWiseStocksInfo((dateWiseStockInformation: DateWiseStockInformation) => {
-            const dateWiseStockInformationCopy = JSON.parse(JSON.stringify(dateWiseStockInformation));
-            dateWiseStockInformationCopy[index].stocksInfo = sortedStocksInfo;
-            return dateWiseStockInformationCopy;
-        });
-    };
+            const stocksInfoForDate = dateWiseStocksInfo.find((stockInfoForDate, i) => {
+                if (stockInfoForDate.date === date) {
+                    index = i;
+                    return true;
+                }
+                return false;
+            });
+            if (!stocksInfoForDate || index === -1) {
+                return;
+            }
+            const sortedStocksInfo = sort(stocksInfoForDate.stocksInfo, column, order);
+            setDateWiseStocksInfo((dateWiseStockInformation: DateWiseStockInformation) => {
+                const dateWiseStockInformationCopy = JSON.parse(JSON.stringify(dateWiseStockInformation));
+                dateWiseStockInformationCopy[index].stocksInfo = sortedStocksInfo;
+                return dateWiseStockInformationCopy;
+            });
+        },
+        [dateWiseStocksInfo]
+    );
 
     return (
         <>

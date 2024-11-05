@@ -2,116 +2,88 @@ import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow}
 import {formatPrice} from '../../helpers/price';
 import {COLUMNS, Sort_Order, StockInformation} from '../../types/transaction';
 import './styles.css';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 type Props = {
     stocksInfo: StockInformation[];
     date?: string;
     monthYear?: string;
     year?: string;
-    onSort: (column: string, order: Sort_Order, date?: string) => void;
+    onSort?: (column: string, order: Sort_Order, date?: string) => void;
 };
 export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort}: Props) => {
     const [sortedBy, setSortedBy] = useState<string>(COLUMNS.SYMBOL);
     const [orderBy, setOrderBy] = useState<Sort_Order>(Sort_Order.DESC);
 
-    const sortByColumn = (column: string) => {
-        if (sortedBy === column) {
-            if (orderBy === Sort_Order.ASC) {
-                setOrderBy(Sort_Order.DESC);
+    const sortByColumn = useCallback(
+        (column: string) => {
+            if (sortedBy === column) {
+                if (orderBy === Sort_Order.ASC) {
+                    setOrderBy(Sort_Order.DESC);
+                } else {
+                    setOrderBy(Sort_Order.ASC);
+                }
             } else {
+                setSortedBy(column);
                 setOrderBy(Sort_Order.ASC);
             }
-        } else {
-            setSortedBy(column);
-            setOrderBy(Sort_Order.ASC);
-        }
-        onSort(column, orderBy, date);
-    };
+            onSort?.(column, orderBy, date);
+        },
+        [date, onSort, orderBy, sortedBy]
+    );
+
+    const sortBySymbol = useCallback(() => sortByColumn(COLUMNS.SYMBOL), [sortByColumn]);
+    const sortByQuantity = useCallback(() => sortByColumn(COLUMNS.QUANTITY), [sortByColumn]);
+    const sortByAvgPrice = useCallback(() => sortByColumn(COLUMNS.AVG_PRICE), [sortByColumn]);
+    const sortByLTP = useCallback(() => sortByColumn(COLUMNS.LTP), [sortByColumn]);
+    const sortByInvestedValue = useCallback(() => sortByColumn(COLUMNS.INVESTED_VALUE), [sortByColumn]);
+    const sortByCurrentValue = useCallback(() => sortByColumn(COLUMNS.CURRENT_VALUE), [sortByColumn]);
+    const sortByNetPnl = useCallback(() => sortByColumn(COLUMNS.NET_PNL), [sortByColumn]);
+    const sortByNetPnlPercent = useCallback(() => sortByColumn(COLUMNS.NET_PNL_PERCENT), [sortByColumn]);
+    const sortByDayPnl = useCallback(() => sortByColumn(COLUMNS.DAY_PNL), [sortByColumn]);
+    const sortByDayPnlPercent = useCallback(() => sortByColumn(COLUMNS.DAY_PNL_PERCENT), [sortByColumn]);
+    const sortByDayPnlPercentInvestment = useCallback(() => sortByColumn(COLUMNS.DAY_PNL_PERCENT_INV), [sortByColumn]);
+    const sortByMaxDays = useCallback(() => sortByColumn(COLUMNS.MAX_DAYS), [sortByColumn]);
 
     return (
         <TableContainer className="tableContainer" component={Paper}>
             <Table sx={{minWidth: 100}} aria-label="Portfolio" stickyHeader>
                 <TableHead>
                     <TableRow>
-                        <TableCell
-                            className="tableHeaderCell"
-                            sx={{minWidth: 100}}
-                            onClick={() => sortByColumn(COLUMNS.SYMBOL)}
-                        >
+                        <TableCell className="tableHeaderCell" sx={{minWidth: 100}} onClick={sortBySymbol}>
                             {COLUMNS.SYMBOL}
                         </TableCell>
-                        <TableCell
-                            className="tableHeaderCell"
-                            align="right"
-                            onClick={() => sortByColumn(COLUMNS.QUANTITY)}
-                        >
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByQuantity}>
                             {COLUMNS.QUANTITY}
                         </TableCell>
-                        <TableCell
-                            className="tableHeaderCell"
-                            align="right"
-                            onClick={() => sortByColumn(COLUMNS.AVG_PRICE)}
-                        >
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByAvgPrice}>
                             {COLUMNS.AVG_PRICE}
                         </TableCell>
-                        <TableCell className="tableHeaderCell" align="right" onClick={() => sortByColumn(COLUMNS.LTP)}>
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByLTP}>
                             {COLUMNS.LTP}
                         </TableCell>
-                        <TableCell
-                            className="tableHeaderCell"
-                            align="right"
-                            onClick={() => sortByColumn(COLUMNS.INVESTED_VALUE)}
-                        >
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByInvestedValue}>
                             {COLUMNS.INVESTED_VALUE}
                         </TableCell>
-                        <TableCell
-                            className="tableHeaderCell"
-                            align="right"
-                            onClick={() => sortByColumn(COLUMNS.CURRENT_VALUE)}
-                        >
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByCurrentValue}>
                             {COLUMNS.CURRENT_VALUE}
                         </TableCell>
-                        <TableCell
-                            className="tableHeaderCell"
-                            align="right"
-                            onClick={() => sortByColumn(COLUMNS.NET_PNL)}
-                        >
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByNetPnl}>
                             {COLUMNS.NET_PNL}
                         </TableCell>
-                        <TableCell
-                            className="tableHeaderCell"
-                            align="right"
-                            onClick={() => sortByColumn(COLUMNS.NET_PNL_PERCENT)}
-                        >
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByNetPnlPercent}>
                             {COLUMNS.NET_PNL_PERCENT}
                         </TableCell>
-                        <TableCell
-                            className="tableHeaderCell"
-                            align="right"
-                            onClick={() => sortByColumn(COLUMNS.DAY_PNL)}
-                        >
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByDayPnl}>
                             {COLUMNS.DAY_PNL}
                         </TableCell>
-                        <TableCell
-                            className="tableHeaderCell"
-                            align="right"
-                            onClick={() => sortByColumn(COLUMNS.DAY_PNL_PERCENT)}
-                        >
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByDayPnlPercent}>
                             {COLUMNS.DAY_PNL_PERCENT}
                         </TableCell>
-                        <TableCell
-                            className="tableHeaderCell"
-                            align="right"
-                            onClick={() => sortByColumn(COLUMNS.DAY_PNL_PERCENT_INVESTMENT)}
-                        >
-                            {COLUMNS.DAY_PNL_PERCENT_INVESTMENT}
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByDayPnlPercentInvestment}>
+                            {COLUMNS.DAY_PNL_PERCENT_INV}
                         </TableCell>
-                        <TableCell
-                            className="tableHeaderCell"
-                            align="right"
-                            onClick={() => sortByColumn(COLUMNS.MAX_DAYS)}
-                        >
+                        <TableCell className="tableHeaderCell" align="right" onClick={sortByMaxDays}>
                             {COLUMNS.MAX_DAYS}
                         </TableCell>
                     </TableRow>

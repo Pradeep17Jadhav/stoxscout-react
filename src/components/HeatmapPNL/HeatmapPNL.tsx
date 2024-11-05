@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {Treemap, ResponsiveContainer, Label} from 'recharts';
 import {stockInfoGeneratorAll} from '../../helpers/price';
 import {usePortfolio} from '../../hooks/usePortfolio';
@@ -48,7 +48,7 @@ export const HeatMapPNL = () => {
     const {userHoldings} = useUser();
     const [chartData, setChartData] = useState<any>([]);
 
-    const updateChart = () => {
+    const updateChart = useCallback(() => {
         const stockInfo = stockInfoGeneratorAll(userHoldings, marketData);
         let maxLossPercent = Infinity;
         let maxProfitPercent = -Infinity;
@@ -67,7 +67,7 @@ export const HeatMapPNL = () => {
                     stroke: 'white'
                 }))
         );
-    };
+    }, [marketData, userHoldings]);
 
     useEffect(() => {
         if (!userHoldings || !marketData || !marketData.length) return;
@@ -76,7 +76,7 @@ export const HeatMapPNL = () => {
             updateChart();
         }, 5000);
         return () => clearInterval(intervalId);
-    }, [userHoldings, marketData]);
+    }, [userHoldings, marketData, updateChart]);
 
     return (
         <ResponsiveContainer className="heatmap" width="100%">

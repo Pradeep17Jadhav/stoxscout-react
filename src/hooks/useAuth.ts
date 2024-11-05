@@ -28,7 +28,7 @@ export const useAuth = (): UseAuthType => {
             setIsAuthenticated(true);
             navigate('/');
         },
-        [navigate]
+        [navigate, setIsAuthenticated]
     );
 
     const loginUser = useCallback(
@@ -38,7 +38,7 @@ export const useAuth = (): UseAuthType => {
             setIsAuthenticated(true);
             navigate('/');
         },
-        [navigate]
+        [navigate, setIsAuthenticated]
     );
 
     const logoutUser = useCallback(async () => {
@@ -47,7 +47,7 @@ export const useAuth = (): UseAuthType => {
         setIsAuthenticated(false);
         dispatch(updateUserHoldings([]));
         navigate('/login');
-    }, [navigate]);
+    }, [dispatch, navigate, setIsAuthenticated]);
 
     return {isAuthenticated, registerUser, loginUser, logoutUser};
 };

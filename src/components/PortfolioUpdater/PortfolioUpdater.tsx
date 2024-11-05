@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {ReactNode, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers/rootReducer';
 import {getPnL, stockInfoGeneratorAll} from '../../helpers/price';
@@ -8,7 +8,7 @@ import useMarketData from '../../hooks/useMarketFetcher';
 import useHoldingsFetcher from '../../hooks/useHoldingsFetcher';
 import {updateHoldingSummary} from '../../redux/actions/userActions';
 
-const PortfolioUpdater = ({children}: {children: any}) => {
+const PortfolioUpdater = ({children}: {children: ReactNode}) => {
     const dispatch = useDispatch();
     useMarketData();
     useHoldingsFetcher();

@@ -20,7 +20,7 @@ export const HoldingInformation = ({holdingSummary}: Props) => {
                 </div>
             </div>
             <div className="holdingInfoItem">
-                <div>Day's P&L</div>
+                <div>Day&apos;s P&L</div>
                 <div className={parseInt(holdingSummary.totalDayChange) >= 0 ? 'profit' : 'loss'}>
                     {holdingSummary.totalDayChange} ({holdingSummary.totalDayChangePercentage}
                     %)

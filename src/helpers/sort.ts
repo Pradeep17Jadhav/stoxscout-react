@@ -67,7 +67,7 @@ const sort = (
     if (column === COLUMNS.DAY_PNL_PERCENT) {
         return sortByDayChangePercent(stocksInfo, order);
     }
-    if (column === COLUMNS.DAY_PNL_PERCENT_INVESTMENT) {
+    if (column === COLUMNS.DAY_PNL_PERCENT_INV) {
         return sortByDayChangePercentOnInvestment(stocksInfo, order);
     }
     if (column === COLUMNS.INVESTED_VALUE) {

@@ -27,6 +27,7 @@ const useMarketData = () => {
             fetchMarketData();
         }, 20000);
         return () => clearInterval(intervalId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthenticated]);
 };
 

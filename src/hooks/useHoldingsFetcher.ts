@@ -21,6 +21,7 @@ const useHoldingsFetcher = () => {
             }
         };
         fetchUserHoldings();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthenticated]);
 };
 
