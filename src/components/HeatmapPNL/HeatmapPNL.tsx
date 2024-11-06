@@ -63,7 +63,7 @@ export const HeatMapPNL = () => {
             stockInfo
                 .sort((a, b) => b.percentDayChange - a.percentDayChange)
                 .map((stock) => ({
-                    name: `${stock.symbol} (${stock.percentDayChange.toFixed(2)}%)`,
+                    name: `${stock.symbol} (${stock.percentDayChange.toFixed(2)}% - ${stock.totalDayChange})`,
                     fill: generateColorsPNL(stock.percentDayChange),
                     value: 1,
                     stroke: 'white'
