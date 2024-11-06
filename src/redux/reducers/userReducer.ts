@@ -1,11 +1,11 @@
-import {HoldingSummary, Holdings, Sort_Order} from '../../types/transaction';
-import {UserPreferences, Default_Columns} from '../../types/userPreferences';
+import {HoldingSummary, Holdings, SORT_ORDER} from '../../types/transaction';
+import {Preferences, DEFAULT_COLUMNS} from '../../types/userPreferences';
 import {UserAction} from '../actions/userActions';
 
 export type UserState = {
     holdingSummary: HoldingSummary;
     userHoldings: Holdings;
-    userPreferences: UserPreferences;
+    preferences: Preferences;
 };
 
 export const initialState: UserState = {
@@ -18,10 +18,20 @@ export const initialState: UserState = {
         totalDayChangePercentage: '0'
     },
     userHoldings: [],
-    userPreferences: {
-        dashboardSort: {
-            column: Default_Columns.SYMBOL,
-            sortOrder: Sort_Order.DESC
+    preferences: {
+        mobile: {
+            dashboard: {
+                visibleColumns: [1, 2, 4, 10],
+                sortColumn: DEFAULT_COLUMNS.SYMBOL,
+                sortOrder: SORT_ORDER.ASC
+            }
+        },
+        computer: {
+            dashboard: {
+                visibleColumns: [],
+                sortColumn: DEFAULT_COLUMNS.SYMBOL,
+                sortOrder: SORT_ORDER.ASC
+            }
         }
     }
 };
@@ -33,7 +43,7 @@ export const userReducer = (state: UserState = initialState, action: UserAction)
         case 'UPDATE_USER_HOLDINGS':
             return {...state, userHoldings: action.payload};
         case 'UPDATE_USER_PREFERENCES':
-            return {...state, userPreferences: action.payload};
+            return {...state, preferences: action.payload};
         default:
             return state;
     }

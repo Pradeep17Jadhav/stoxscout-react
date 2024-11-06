@@ -1,12 +1,13 @@
 import {useCallback, useEffect, useState} from 'react';
 import {getPnL} from '../../helpers/price';
-import {Sort_Order, YearWiseStockInformation} from '../../types/transaction';
+import {SORT_ORDER, YearWiseStockInformation} from '../../types/transaction';
 import {HoldingTable} from '../HoldingTable/HoldingTable';
 import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {sort, sortHoldingsByYear} from '../../helpers/sort';
 import {yearWiseStockInfoGeneratorAll} from '../../helpers/portfolioByDateUtils';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
+import {DEFAULT_COLUMNS} from '../../types/userPreferences';
 
 import './styles.css';
 
@@ -23,7 +24,7 @@ export const PortfolioByYear = () => {
     }, [userHoldings, marketData]);
 
     const onSort = useCallback(
-        (column: string, order: Sort_Order, year?: string) => {
+        (column: DEFAULT_COLUMNS, order: SORT_ORDER, year?: string) => {
             let index = -1;
             if (!year) {
                 return;

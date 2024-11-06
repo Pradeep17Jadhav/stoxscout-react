@@ -81,17 +81,10 @@ const loginAPI = async (username: string, password: string) => {
 };
 
 const logoutAPI = async () => {
-    const response = await authRequest(endpoints.logout, {
+    const {data} = await authRequest(endpoints.logout, {
         method: HttpMethod.POST
     });
-    if (response.status === 204) return null;
-    if (response.status === 401) {
-        throw new Error('Unauthorized: You must be logged in to logout.');
-    }
-    if (!response.ok) {
-        throw new Error('Logout failed');
-    }
-    return response.json();
+    return data;
 };
 
 export {registerAPI, loginAPI, logoutAPI};

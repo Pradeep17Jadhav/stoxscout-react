@@ -7,12 +7,14 @@ import useIndicesData from '../../hooks/useIndicesFetcher';
 import useMarketData from '../../hooks/useMarketFetcher';
 import useHoldingsFetcher from '../../hooks/useHoldingsFetcher';
 import {updateHoldingSummary} from '../../redux/actions/userActions';
+import usePreferencesFetcher from '../../hooks/usePreferencesFetcher';
 
 const PortfolioUpdater = ({children}: {children: ReactNode}) => {
     const dispatch = useDispatch();
     useMarketData();
     useHoldingsFetcher();
     useIndicesData();
+    usePreferencesFetcher();
     const {userHoldings} = useSelector((state: RootState) => state.user);
     const {marketData} = useSelector((state: RootState) => state.portfolio);
 

@@ -10,7 +10,6 @@ import {PortfolioByMonth} from './components/PortfolioByMonth/PortfolioByMonth';
 import Navbar from './components/Navbar/Navbar';
 import {Login} from './components/Login/Login';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import {AuthProvider} from './context/AuthContext';
 import {Signup} from './components/Signup/Signup';
 import HoldingsUploader from './components/HoldingsUploader/HoldingsUploader';
 import PortfolioUpdater from './components/PortfolioUpdater/PortfolioUpdater';
@@ -51,31 +50,29 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
-                <AuthProvider>
-                    <PortfolioUpdater>
-                        <div className="app-container">
-                            <Navbar />
-                            <div className="main-content">
-                                <Routes>
-                                    {privateRoutes.map(({path, Component}) => (
-                                        <Route
-                                            key={path}
-                                            path={path}
-                                            element={
-                                                <PrivateRoute>
-                                                    <Component />
-                                                </PrivateRoute>
-                                            }
-                                        />
-                                    ))}
-                                    <Route path="/login" element={<Login />}></Route>
-                                    <Route path="/signup" element={<Signup />}></Route>
-                                    <Route path="/upload" element={<HoldingsUploader />}></Route>
-                                </Routes>
-                            </div>
+                <PortfolioUpdater>
+                    <div className="app-container">
+                        <Navbar />
+                        <div className="main-content">
+                            <Routes>
+                                {privateRoutes.map(({path, Component}) => (
+                                    <Route
+                                        key={path}
+                                        path={path}
+                                        element={
+                                            <PrivateRoute>
+                                                <Component />
+                                            </PrivateRoute>
+                                        }
+                                    />
+                                ))}
+                                <Route path="/login" element={<Login />}></Route>
+                                <Route path="/signup" element={<Signup />}></Route>
+                                <Route path="/upload" element={<HoldingsUploader />}></Route>
+                            </Routes>
                         </div>
-                    </PortfolioUpdater>
-                </AuthProvider>
+                    </div>
+                </PortfolioUpdater>
             </BrowserRouter>
         </ThemeProvider>
     );

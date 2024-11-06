@@ -4,10 +4,12 @@ import {useAuth} from './useAuth';
 import {getMarket} from '../api/marketAPI';
 import {isMarketTime} from '../helpers/utils';
 import {updateMarketData} from '../redux/actions/portfolioActions';
+import {useCommonErrorChecker} from './useCommonErrorChecker';
 
 const useMarketData = () => {
     const dispatch = useDispatch();
     const {isAuthenticated} = useAuth();
+    const checkCommonErrors = useCommonErrorChecker();
 
     const fetchMarketData = () => {
         if (!isAuthenticated) return;
@@ -16,7 +18,7 @@ const useMarketData = () => {
                 dispatch(updateMarketData(response));
             })
             .catch((error) => {
-                console.error(error);
+                checkCommonErrors(error);
             });
     };
 

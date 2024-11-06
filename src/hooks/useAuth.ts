@@ -1,9 +1,10 @@
-import {useCallback, useContext} from 'react';
-import {useDispatch} from 'react-redux';
+import {useCallback} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
-import {AuthContext} from '../context/AuthContext';
 import {registerAPI, loginAPI, logoutAPI} from '../api/authAPI';
 import {updateUserHoldings} from '../redux/actions/userActions';
+import {RootState} from '../redux/reducers/rootReducer';
+import {setIsAuthenticated} from '../redux/actions/authActions';
 
 export type UseAuthType = {
     isAuthenticated: boolean;
@@ -13,11 +14,7 @@ export type UseAuthType = {
 };
 
 export const useAuth = (): UseAuthType => {
-    const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    const {isAuthenticated, setIsAuthenticated} = context;
+    const {isAuthenticated} = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -25,29 +22,29 @@ export const useAuth = (): UseAuthType => {
         async (name: string, username: string, email: string, password: string) => {
             const res = await registerAPI(name, username, email, password);
             localStorage.setItem('token', res.token);
-            setIsAuthenticated(true);
+            dispatch(setIsAuthenticated(true));
             navigate('/');
         },
-        [navigate, setIsAuthenticated]
+        [dispatch, navigate]
     );
 
     const loginUser = useCallback(
         async (username: string, password: string) => {
             const res = await loginAPI(username, password);
             localStorage.setItem('token', res.token);
-            setIsAuthenticated(true);
+            dispatch(setIsAuthenticated(true));
             navigate('/');
         },
-        [navigate, setIsAuthenticated]
+        [dispatch, navigate]
     );
 
     const logoutUser = useCallback(async () => {
         await logoutAPI();
         localStorage.removeItem('token');
-        setIsAuthenticated(false);
+        dispatch(setIsAuthenticated(false));
         dispatch(updateUserHoldings([]));
         navigate('/login');
-    }, [dispatch, navigate, setIsAuthenticated]);
+    }, [dispatch, navigate]);
 
     return {isAuthenticated, registerUser, loginUser, logoutUser};
 };

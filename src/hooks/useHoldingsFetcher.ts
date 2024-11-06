@@ -4,10 +4,12 @@ import {transformTypes} from '../helpers/price';
 import {getUserHoldings} from '../api/holdingsAPI';
 import {useAuth} from './useAuth';
 import {updateUserHoldings} from '../redux/actions/userActions';
+import {useCommonErrorChecker} from './useCommonErrorChecker';
 
 const useHoldingsFetcher = () => {
     const dispatch = useDispatch();
     const {isAuthenticated} = useAuth();
+    const checkCommonErrors = useCommonErrorChecker();
 
     useEffect(() => {
         const fetchUserHoldings = async () => {
@@ -17,7 +19,7 @@ const useHoldingsFetcher = () => {
                 const transformedHoldings = transformTypes(response);
                 dispatch(updateUserHoldings(transformedHoldings));
             } catch (error) {
-                console.error(error);
+                checkCommonErrors(error);
             }
         };
         fetchUserHoldings();

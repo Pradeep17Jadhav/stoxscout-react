@@ -4,10 +4,12 @@ import {useAuth} from './useAuth';
 import {getIndices} from '../api/indicesAPI';
 import {isMarketTime} from '../helpers/utils';
 import {updateIndicesData} from '../redux/actions/portfolioActions';
+import {useCommonErrorChecker} from './useCommonErrorChecker';
 
 const useIndicesData = () => {
     const dispatch = useDispatch();
     const {isAuthenticated} = useAuth();
+    const checkCommonErrors = useCommonErrorChecker();
 
     const fetchIndicesData = () => {
         if (!isAuthenticated) return;
@@ -16,7 +18,7 @@ const useIndicesData = () => {
                 dispatch(updateIndicesData(response));
             })
             .catch((error) => {
-                console.error(error);
+                checkCommonErrors(error);
             });
     };
 

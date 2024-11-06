@@ -8,7 +8,8 @@ const endpoints = {
     upload: `${API_URL}/api/upload`,
     market: `${API_URL}/api/market`,
     indices: `${API_URL}/api/indices`,
-    userData: `${API_URL}/api/userData`
+    userData: `${API_URL}/api/userData`,
+    preference: `${API_URL}/api/preference`
 } as const;
 
 type Endpoints = typeof endpoints;

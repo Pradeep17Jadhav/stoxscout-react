@@ -1,3 +1,5 @@
+import {DEFAULT_COLUMNS} from './userPreferences';
+
 export type Transaction = {
     dateAdded: number;
     quantity: number;
@@ -67,22 +69,22 @@ export type HoldingSummary = {
     totalDayChangePercentage: string;
 };
 
-export enum Sort_Order {
-    ASC = 'ASC',
-    DESC = 'DESC'
+export enum SORT_ORDER {
+    ASC = 1,
+    DESC = 2
 }
 
 export const COLUMNS = {
-    SYMBOL: 'SYMBOL',
-    QUANTITY: 'QUANTITY',
-    AVG_PRICE: 'AVG PRICE',
-    LTP: 'LTP',
-    INVESTED_VALUE: 'INVESTED VALUE',
-    CURRENT_VALUE: 'CURRENT VALUE',
-    DAY_PNL: 'DAY P&L',
-    DAY_PNL_PERCENT: 'DAY P&L %',
-    DAY_PNL_PERCENT_INV: 'DAY P&L % INV',
-    NET_PNL: 'NET P&L',
-    NET_PNL_PERCENT: 'NET P&L %',
-    MAX_DAYS: 'MAX DAYS'
+    [DEFAULT_COLUMNS.SYMBOL]: 'SYMBOL',
+    [DEFAULT_COLUMNS.QUANTITY]: 'QUANTITY',
+    [DEFAULT_COLUMNS.AVG_PRICE]: 'AVG PRICE',
+    [DEFAULT_COLUMNS.LTP]: 'LTP',
+    [DEFAULT_COLUMNS.INVESTED_VALUE]: 'INVESTED VALUE',
+    [DEFAULT_COLUMNS.CURRENT_VALUE]: 'CURRENT VALUE',
+    [DEFAULT_COLUMNS.NET_PNL]: 'NET P&L',
+    [DEFAULT_COLUMNS.NET_PNL_PERCENT]: 'NET P&L %',
+    [DEFAULT_COLUMNS.DAY_PNL]: 'DAY P&L',
+    [DEFAULT_COLUMNS.DAY_PNL_PERCENT]: 'DAY P&L %',
+    [DEFAULT_COLUMNS.DAY_PNL_PERCENT_INV]: 'DAY P&L % INV',
+    [DEFAULT_COLUMNS.MAX_DAYS]: 'MAX DAYS'
 };

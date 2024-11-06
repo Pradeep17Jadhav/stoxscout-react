@@ -1,3 +1,5 @@
+import {AuthError} from '../errors/AuthError';
+
 export enum HttpMethod {
     GET = 'GET',
     POST = 'POST',
@@ -6,7 +8,7 @@ export enum HttpMethod {
 }
 
 interface ApiRequestOptions {
-    body?: any;
+    body?: unknown;
     headers?: Record<string, string>;
     method?: HttpMethod;
 }
@@ -40,5 +42,14 @@ export const authRequest = async (url: string, options: ApiRequestOptions = {}) 
             Authorization: `Bearer ${token}`
         };
     }
-    return request(url, options);
+    const response = await request(url, options);
+
+    if (response.status === 204) {
+        return {response, data: {}};
+    }
+    const data = await response.json();
+    if (response.status === 401) {
+        throw new AuthError(data.type);
+    }
+    return {response, data};
 };
