@@ -41,7 +41,7 @@ const HoldingsUploader = () => {
 
                 if (symbol && quantity !== undefined && avgPrice !== undefined) {
                     const purchase: Purchase = {
-                        symbol: symbol.trim().toUpperCase(),
+                        symbol: symbol.trim().toUpperCase().split('-')[0],
                         quantity: parseInt(quantity, 10),
                         avgPrice,
                         dateAdded: new Date().getTime()
