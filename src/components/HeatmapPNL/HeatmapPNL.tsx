@@ -8,8 +8,9 @@ import './styles.css';
 
 const generateColorsPNL = (percentDayChange: number): string => {
     if (percentDayChange < 0) {
-        if (percentDayChange <= -5) return '#0b0000';
-        if (percentDayChange <= -3) return '#4e0000';
+        if (percentDayChange <= -10) return '#0b0000';
+        if (percentDayChange <= -5) return '#4e0000';
+        if (percentDayChange <= -3) return '#5f0000';
         if (percentDayChange <= -2) return '#550000';
         if (percentDayChange <= -1.5) return '#770000';
         if (percentDayChange <= -1) return '#990000';
@@ -24,8 +25,8 @@ const generateColorsPNL = (percentDayChange: number): string => {
         if (percentDayChange <= -0.05) return '#ffeeee';
         if (percentDayChange < 0) return '#fff4f4';
     } else {
-        if (percentDayChange >= 5) return '#182e0a';
-        if (percentDayChange >= 4) return '#2c5212';
+        if (percentDayChange >= 10) return '#182e0a';
+        if (percentDayChange >= 5) return '#2c5212';
         if (percentDayChange >= 3) return '#356416';
         if (percentDayChange >= 2) return '#3f771a';
         if (percentDayChange >= 1.5) return '#49891d';
