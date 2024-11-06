@@ -54,9 +54,8 @@ export const HeatMapPNL = () => {
     const generateStockName = (stock: StockInformation): string => {
         const symbol = stock.symbol;
         const dayChangePercent = stock.percentDayChange.toFixed(2);
-        const dayChangePerShare = (stock.totalDayChange / stock.quantity).toFixed(2);
         const dayChangeTotal = stock.totalDayChange.toFixed(2);
-        return `${symbol}\n${dayChangePercent}%\n${dayChangePerShare}\n${dayChangeTotal}`;
+        return `${symbol} (\n${dayChangePercent}% - \n${dayChangeTotal})`;
     };
 
     const updateChart = useCallback(() => {
