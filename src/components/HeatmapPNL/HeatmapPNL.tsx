@@ -3,6 +3,7 @@ import {Treemap, ResponsiveContainer, Label} from 'recharts';
 import {stockInfoGeneratorAll} from '../../helpers/price';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
+import {StockInformation} from '../../types/transaction';
 
 import './styles.css';
 
@@ -50,6 +51,14 @@ export const HeatMapPNL = () => {
     const {userHoldings} = useUser();
     const [chartData, setChartData] = useState<any>([]);
 
+    const generateStockName = (stock: StockInformation): string => {
+        const symbol = stock.symbol;
+        const dayChangePercent = stock.percentDayChange.toFixed(2);
+        const dayChangePerShare = (stock.totalDayChange / stock.quantity).toFixed(2);
+        const dayChangeTotal = stock.totalDayChange.toFixed(2);
+        return `${symbol}\n${dayChangePercent}%\n${dayChangePerShare}\n${dayChangeTotal}`;
+    };
+
     const updateChart = useCallback(() => {
         const stockInfo = stockInfoGeneratorAll(userHoldings, marketData);
         let maxLossPercent = Infinity;
@@ -63,7 +72,7 @@ export const HeatMapPNL = () => {
             stockInfo
                 .sort((a, b) => b.percentDayChange - a.percentDayChange)
                 .map((stock) => ({
-                    name: `${stock.symbol} (${stock.percentDayChange.toFixed(2)}% - ${stock.totalDayChange.toFixed(2)})`,
+                    name: generateStockName(stock),
                     fill: generateColorsPNL(stock.percentDayChange),
                     value: 1,
                     stroke: 'white'
