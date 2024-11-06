@@ -9,9 +9,10 @@ import './styles.css';
 const generateColorsPNL = (percentDayChange: number): string => {
     if (percentDayChange < 0) {
         if (percentDayChange <= -10) return '#0b0000';
-        if (percentDayChange <= -5) return '#4e0000';
-        if (percentDayChange <= -3) return '#5f0000';
-        if (percentDayChange <= -2) return '#550000';
+        if (percentDayChange <= -7) return '#4e0000';
+        if (percentDayChange <= -5) return '#5f0000';
+        if (percentDayChange <= -3) return '#550000';
+        if (percentDayChange <= -2) return '#6c0000';
         if (percentDayChange <= -1.5) return '#770000';
         if (percentDayChange <= -1) return '#990000';
         if (percentDayChange <= -0.8) return '#bb0000';
