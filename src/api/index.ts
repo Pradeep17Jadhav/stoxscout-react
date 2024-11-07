@@ -27,7 +27,13 @@ export const request = async (url: string, options: ApiRequestOptions = {}) => {
     }
     try {
         const response = await fetch(url, config);
-        return response;
+        let data;
+        if (response.status === 204) {
+            data = {};
+        } else {
+            data = await response.json();
+        }
+        return {response, data};
     } catch (error) {
         console.error('Error during API request:', error);
         throw error;
@@ -42,12 +48,7 @@ export const authRequest = async (url: string, options: ApiRequestOptions = {}) 
             Authorization: `Bearer ${token}`
         };
     }
-    const response = await request(url, options);
-
-    if (response.status === 204) {
-        return {response, data: {}};
-    }
-    const data = await response.json();
+    const {response, data} = await request(url, options);
     if (response.status === 401) {
         throw new AuthError(data.type);
     }

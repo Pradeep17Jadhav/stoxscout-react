@@ -2,7 +2,7 @@ import {authRequest, HttpMethod, request} from '.';
 import {endpoints} from './apiConfig';
 
 const registerAPI = async (name: string, username: string, email: string, password: string) => {
-    const response = await request(endpoints.register, {
+    const {response, data} = await request(endpoints.register, {
         method: HttpMethod.POST,
         body: {name, username, email, password}
     });
@@ -10,9 +10,8 @@ const registerAPI = async (name: string, username: string, email: string, passwo
     if (response.status === 204) return null;
 
     if (response.status === 400) {
-        const errorData = await response.json();
-        if (errorData.type === 'validation') {
-            const messages = errorData.errors
+        if (data.type === 'validation') {
+            const messages = data.errors
                 .map((err: any) => {
                     switch (err.type) {
                         case 'name_required':
@@ -40,10 +39,10 @@ const registerAPI = async (name: string, username: string, email: string, passwo
                 .join(' ');
             throw new Error(messages);
         } else {
-            if (errorData.type === 'username_taken') {
+            if (data.type === 'username_taken') {
                 throw new Error('Username is already taken.');
             }
-            if (errorData.type === 'email_taken') {
+            if (data.type === 'email_taken') {
                 throw new Error('Email is already in use.');
             }
             throw new Error('Invalid input. Please check your data and try again.');
@@ -55,29 +54,19 @@ const registerAPI = async (name: string, username: string, email: string, passwo
     if (!response.ok) {
         throw new Error('Signup failed. Please try again later.');
     }
-    return response.json();
+    return data;
 };
 
 const loginAPI = async (username: string, password: string) => {
-    const response = await request(endpoints.login, {
+    const {response, data} = await request(endpoints.login, {
         method: HttpMethod.POST,
         body: {username, password}
     });
     if (response.status === 204) return null;
-    if (response.status === 401) {
-        const errorData = await response.json();
-        let errMessage = 'Unauthorized: Invalid username or password.';
-        if (errorData.type === 'token_expired') {
-            errMessage = 'Your login has timed out. Please login again.';
-        } else if (errorData.type === 'invalid_token') {
-            errMessage = 'Invalid session. Please login again.';
-        }
-        throw new Error(errMessage);
-    }
     if (!response.ok) {
         throw new Error('Login failed');
     }
-    return response.json();
+    return data;
 };
 
 const logoutAPI = async () => {
