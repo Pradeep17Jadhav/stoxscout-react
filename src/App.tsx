@@ -1,13 +1,14 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {Portfolio} from './components/Portfolio/Portfolio';
 import {AddPurchase} from './components/AddPurchase/AddPurchase';
-import {ThemeProvider, createTheme} from '@mui/material';
+import {Container, ThemeProvider, createTheme} from '@mui/material';
 import {PortfolioByDate} from './components/PortfolioByDate/PortfolioByDate';
 import {PortfolioByYear} from './components/PortFolioByYear/PortfolioByYear';
 import {HeatMap} from './components/Heatmap/Heatmap';
 import {HeatMapPNL} from './components/HeatmapPNL/HeatmapPNL';
 import {PortfolioByMonth} from './components/PortfolioByMonth/PortfolioByMonth';
 import Navbar from './components/Navbar/Navbar';
+import AppBar from './components/Navbar copy/AppBar';
 import {Login} from './components/Login/Login';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import {Signup} from './components/Signup/Signup';
@@ -52,7 +53,7 @@ function App() {
             <BrowserRouter>
                 <PortfolioUpdater>
                     <div className="app-container">
-                        <Navbar />
+                        <AppBar />
                         <div className="main-content">
                             <Routes>
                                 {privateRoutes.map(({path, Component}) => (
