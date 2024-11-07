@@ -66,7 +66,11 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
                 <TableHead>
                     <TableRow>
                         {shouldShowColumn(DEFAULT_COLUMNS.SYMBOL) && (
-                            <TableCell className="tableHeaderCell" sx={{minWidth: 100}} onClick={sortBySymbol}>
+                            <TableCell
+                                className="tableHeaderCell"
+                                sx={{minWidth: 100, maxWidth: 150}}
+                                onClick={sortBySymbol}
+                            >
                                 {COLUMNS[DEFAULT_COLUMNS.SYMBOL]}
                             </TableCell>
                         )}
