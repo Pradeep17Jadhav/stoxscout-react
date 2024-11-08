@@ -1,7 +1,7 @@
 import React, {useState, useMemo, useCallback} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button, IconButton, Menu, MenuItem, Tooltip, Box, Avatar, Typography, Container, Toolbar} from '@mui/material';
-import AdbIcon from '@mui/icons-material/Adb';
+import AddchartIcon from '@mui/icons-material/Addchart';
 import MenuIcon from '@mui/icons-material/Menu';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
@@ -40,9 +40,10 @@ const AppBar = () => {
 
     const pages = useMemo(
         () => [
-            {to: '/', label: 'Dashboard'},
             {to: '/', label: 'Holdings'},
-            {to: '/portfolioByDate', label: 'Distrubution'},
+            {to: '/portfolioByDate', label: 'Days'},
+            {to: '/portfolioByMonth', label: 'Months'},
+            {to: '/portfolioByYear', label: 'Years'},
             {to: '/heatmapPNL', label: 'Charts'},
             {to: '/addPurchase', label: 'Add Purchase'},
             {to: '/upload', label: 'Upload'}
@@ -69,23 +70,22 @@ const AppBar = () => {
     return (
         <Container className="appbar-container" maxWidth={false}>
             <Toolbar disableGutters>
-                <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}} />
+                <AddchartIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}} />
                 <Typography
                     variant="h6"
                     noWrap
                     component="a"
-                    href="#app-bar-with-responsive-menu"
                     sx={{
                         mr: 2,
                         display: {xs: 'none', md: 'flex'},
                         fontFamily: 'monospace',
                         fontWeight: 700,
-                        letterSpacing: '.3rem',
+                        letterSpacing: '.2rem',
                         color: 'inherit',
                         textDecoration: 'none'
                     }}
                 >
-                    StoxScout
+                    stoXscout
                 </Typography>
 
                 <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>

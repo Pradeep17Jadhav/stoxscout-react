@@ -1,8 +1,10 @@
+.month-container {
+    margin: auto auto 96px auto;
+}
+
 .monthPurchased {
-    margin: 96px auto auto auto;
     width: auto;
-    max-width: 1600px;
-    height: 48px;
     font-weight: 700;
     font-size: 24px;
+    padding: 16px 32px;
 }

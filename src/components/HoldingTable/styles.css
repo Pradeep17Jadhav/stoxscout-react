@@ -1,7 +1,3 @@
-.tableContainer {
-    max-height: calc(100vh - 144px);
-}
-
 .tableHeaderCell {
     cursor: pointer;
 }

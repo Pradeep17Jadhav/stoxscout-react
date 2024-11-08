@@ -25,12 +25,14 @@ export const HeatMap = () => {
     }, [userHoldings, marketData]);
 
     return (
-        <ResponsiveContainer className="heatmap" width="100%" height="100%">
-            {chartData?.length && (
-                <Treemap data={chartData} dataKey="value" stroke="#fff" isAnimationActive={false}>
-                    <Label position="center" fill="#fff" fontSize={16} />
-                </Treemap>
-            )}
-        </ResponsiveContainer>
+        <div className="heatmap-container">
+            <ResponsiveContainer className="heatmap" width="100%">
+                {chartData?.length && (
+                    <Treemap data={chartData} dataKey="value" stroke="#fff" isAnimationActive={false}>
+                        <Label position="center" fill="#fff" fontSize={16} />
+                    </Treemap>
+                )}
+            </ResponsiveContainer>
+        </div>
     );
 };

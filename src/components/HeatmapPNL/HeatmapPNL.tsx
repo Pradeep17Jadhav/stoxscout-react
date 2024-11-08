@@ -5,8 +5,6 @@ import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {StockInformation} from '../../types/transaction';
 
-import './styles.css';
-
 const generateColorsPNL = (percentDayChange: number): string => {
     if (percentDayChange < 0) {
         if (percentDayChange <= -10) return '#0b0000';

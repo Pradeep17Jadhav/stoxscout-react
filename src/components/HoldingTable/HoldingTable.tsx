@@ -1,9 +1,9 @@
+import {useCallback, useState} from 'react';
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
 import {formatPrice} from '../../helpers/price';
 import {COLUMNS, SORT_ORDER, StockInformation} from '../../types/transaction';
-import './styles.css';
-import {useCallback, useState} from 'react';
 import {DEFAULT_COLUMNS} from '../../types/userPreferences';
+import './styles.css';
 
 type Props = {
     stocksInfo: StockInformation[];
@@ -61,14 +61,14 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
     );
 
     return (
-        <TableContainer className="tableContainer" component={Paper}>
+        <TableContainer className="tableContainer" component={Paper} style={{height: '100'}}>
             <Table sx={{minWidth: 100}} aria-label="Portfolio" stickyHeader>
                 <TableHead>
                     <TableRow>
                         {shouldShowColumn(DEFAULT_COLUMNS.SYMBOL) && (
                             <TableCell
                                 className="tableHeaderCell"
-                                sx={{minWidth: 100, maxWidth: 150}}
+                                sx={{minWidth: 80, maxWidth: 150}}
                                 onClick={sortBySymbol}
                             >
                                 {COLUMNS[DEFAULT_COLUMNS.SYMBOL]}
@@ -168,7 +168,7 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
                             )}
                             {shouldShowColumn(DEFAULT_COLUMNS.NET_PNL_PERCENT) && (
                                 <TableCell className={stockInfo.pnlpercent >= 0 ? 'profit' : 'loss'} align="right">
-                                    {stockInfo.pnlpercent.toFixed(2)}%{' '}
+                                    {stockInfo.pnlpercent?.toFixed(2)}%{' '}
                                 </TableCell>
                             )}
                             {shouldShowColumn(DEFAULT_COLUMNS.DAY_PNL) && (

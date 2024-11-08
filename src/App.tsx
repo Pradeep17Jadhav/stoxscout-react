@@ -1,7 +1,7 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {Portfolio} from './components/Portfolio/Portfolio';
 import {AddPurchase} from './components/AddPurchase/AddPurchase';
-import {Container, ThemeProvider, createTheme} from '@mui/material';
+import {ThemeProvider, createTheme} from '@mui/material';
 import {PortfolioByDate} from './components/PortfolioByDate/PortfolioByDate';
 import {PortfolioByYear} from './components/PortFolioByYear/PortfolioByYear';
 import {HeatMap} from './components/Heatmap/Heatmap';

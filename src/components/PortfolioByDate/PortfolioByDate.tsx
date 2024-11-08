@@ -52,7 +52,7 @@ export const PortfolioByDate = () => {
     return (
         <>
             {dateWiseStocksInfo.map((dateWiseStocksInfoItem) => (
-                <div key={`${dateWiseStocksInfoItem.date}`}>
+                <div className="day-container" key={`${dateWiseStocksInfoItem.date}`}>
                     <div className="datePurchased">{dateWiseStocksInfoItem.date}</div>
                     <div>
                         <div>

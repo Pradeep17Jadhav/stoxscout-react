@@ -5,13 +5,14 @@
     sans-serif !important;
 }
 
+.main-content {
+  height: 100%;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
-}
-
-.main-content {
-  padding-top: 60px;
+  height: 100%;
 }
 
 .App-logo {

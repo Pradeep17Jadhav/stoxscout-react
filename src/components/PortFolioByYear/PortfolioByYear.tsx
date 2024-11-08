@@ -52,7 +52,7 @@ export const PortfolioByYear = () => {
     return (
         <>
             {yearWiseStocksInfo.map((yearWiseStocksInfoItem) => (
-                <div key={`${yearWiseStocksInfoItem.year}`}>
+                <div className="year-container" key={`${yearWiseStocksInfoItem.year}`}>
                     <div className="yearPurchased">{yearWiseStocksInfoItem.year}</div>
                     <div>
                         <div>

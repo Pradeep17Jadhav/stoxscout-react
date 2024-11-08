@@ -1,26 +1,7 @@
 .tableContainer {
     padding: 0;
     width: 100%;
-    margin: 0 auto;
-    max-width: 1600px;
-}
-
-.holdingInfo {
-    height: 84px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 800px;
-    margin: auto;
-    width: fit-content;
-}
-
-.holdingInfoItem {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-
+    margin: 0;
 }
 
 .profit {

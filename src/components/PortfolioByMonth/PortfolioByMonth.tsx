@@ -25,7 +25,7 @@ export const PortfolioByMonth = () => {
     return (
         <>
             {monthWiseStocksInfo.map((monthWiseStocksInfoItem) => (
-                <div key={`${monthWiseStocksInfoItem.monthYear}`}>
+                <div className="month-container" key={`${monthWiseStocksInfoItem.monthYear}`}>
                     <div className="monthPurchased">{monthWiseStocksInfoItem.monthYear}</div>
                     <div>
                         <div>
