@@ -1,8 +1,11 @@
-html {}
+html {
+  height: 100%;
+}
 
 body {
-  margin: auto;
-  width: min-content;
+  margin: 0;
+  padding: 0;
+  width: 100%;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif !important;

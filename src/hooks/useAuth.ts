@@ -39,11 +39,11 @@ export const useAuth = (): UseAuthType => {
     );
 
     const logoutUser = useCallback(async () => {
-        await logoutAPI();
         localStorage.removeItem('token');
         dispatch(setIsAuthenticated(false));
         dispatch(updateUserHoldings([]));
         navigate('/login');
+        await logoutAPI();
     }, [dispatch, navigate]);
 
     return {isAuthenticated, registerUser, loginUser, logoutUser};

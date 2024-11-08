@@ -63,8 +63,11 @@ const loginAPI = async (username: string, password: string) => {
         body: {username, password}
     });
     if (response.status === 204) return null;
+    if (response.status === 401) {
+        throw new Error('Invalid username or password. Please try again');
+    }
     if (!response.ok) {
-        throw new Error('Login failed');
+        throw new Error('Login failed. Please try again');
     }
     return data;
 };

@@ -7,8 +7,7 @@ import {PortfolioByYear} from './components/PortFolioByYear/PortfolioByYear';
 import {HeatMap} from './components/Heatmap/Heatmap';
 import {HeatMapPNL} from './components/HeatmapPNL/HeatmapPNL';
 import {PortfolioByMonth} from './components/PortfolioByMonth/PortfolioByMonth';
-import Navbar from './components/Navbar/Navbar';
-import AppBar from './components/Navbar copy/AppBar';
+import AppBar from './components/AppBar/AppBar';
 import {Login} from './components/Login/Login';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import {Signup} from './components/Signup/Signup';
@@ -44,7 +43,8 @@ const privateRoutes = [
     {path: '/portfolioByMonth', Component: PortfolioByMonth},
     {path: '/portfolioByYear', Component: PortfolioByYear},
     {path: '/heatmap', Component: HeatMap},
-    {path: '/heatmapPNL', Component: HeatMapPNL}
+    {path: '/heatmapPNL', Component: HeatMapPNL},
+    {path: '/upload', Component: HoldingsUploader}
 ];
 
 function App() {
@@ -69,7 +69,6 @@ function App() {
                                 ))}
                                 <Route path="/login" element={<Login />}></Route>
                                 <Route path="/signup" element={<Signup />}></Route>
-                                <Route path="/upload" element={<HoldingsUploader />}></Route>
                             </Routes>
                         </div>
                     </div>
