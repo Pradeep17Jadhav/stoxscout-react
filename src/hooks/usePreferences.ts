@@ -4,10 +4,11 @@ import {useMemo} from 'react';
 import {
     updateMobilePreferences,
     updateComputerPreferences,
-    updateMobileDashboardPreferences,
+    updateMobileDashboardPreferencesThunk,
     updateComputerDashboardPreferencesThunk,
     updatePreferencesOnlineThunk,
-    updateComputerDashboardVisibleColumnPreferences
+    updateComputerDashboardVisibleColumnPreferences,
+    updateMobileDashboardVisibleColumnPreferences
 } from '../redux/actions/userActions';
 
 const usePreferences = () => {
@@ -20,14 +21,12 @@ const usePreferences = () => {
 
     const updateDevicePreferences = useMemo(() => (isMobile ? updateMobilePreferences : updateComputerPreferences), []);
     const updateDashboardPreferences = useMemo(
-        () => (isMobile ? updateMobileDashboardPreferences : updateComputerDashboardPreferencesThunk),
+        () => (isMobile ? updateMobileDashboardPreferencesThunk : updateComputerDashboardPreferencesThunk),
         []
     );
     const updateDashboardVisibleColumnsPreferences = useMemo(
         () =>
-            isMobile
-                ? updateComputerDashboardVisibleColumnPreferences
-                : updateComputerDashboardVisibleColumnPreferences, // handle this for mobile
+            isMobile ? updateMobileDashboardVisibleColumnPreferences : updateComputerDashboardVisibleColumnPreferences,
         []
     );
 

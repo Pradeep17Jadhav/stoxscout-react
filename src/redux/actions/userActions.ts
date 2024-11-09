@@ -13,6 +13,7 @@ export type UserAction =
     | {type: 'UPDATE_COMPUTER_PREFERENCES'; payload: DevicePreferences}
     | {type: 'UPDATE_MOBILE_DASHBOARD_PREFERENCES'; payload: DashboardPreferences}
     | {type: 'UPDATE_COMPUTER_DASHBOARD_PREFERENCES'; payload: DashboardPreferences}
+    | {type: 'UPDATE_MOBILE_DASHBOARD_VISIBLE_COLUMN_PREFERENCES'; payload: DEFAULT_COLUMNS[]}
     | {type: 'UPDATE_COMPUTER_DASHBOARD_VISIBLE_COLUMN_PREFERENCES'; payload: DEFAULT_COLUMNS[]};
 
 export const updateHoldingSummary = (payload: HoldingSummary): UserAction => ({
@@ -54,6 +55,32 @@ export const updateComputerDashboardVisibleColumnPreferences = (payload: DEFAULT
     type: 'UPDATE_COMPUTER_DASHBOARD_VISIBLE_COLUMN_PREFERENCES',
     payload
 });
+
+export const updateMobileDashboardVisibleColumnPreferences = (payload: DEFAULT_COLUMNS[]): UserAction => ({
+    type: 'UPDATE_MOBILE_DASHBOARD_VISIBLE_COLUMN_PREFERENCES',
+    payload
+});
+
+export const updateMobileDashboardPreferencesThunk = (
+    newDashboardPreference: DashboardPreferences
+): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => {
+    return async (dispatch: Dispatch<any>, getState: () => RootState) => {
+        try {
+            const currentPreferences = getState().user.preferences;
+            const updatedPreferences = {
+                ...currentPreferences,
+                mobile: {
+                    ...currentPreferences.mobile,
+                    dashboard: newDashboardPreference
+                }
+            };
+            await updatePreference(updatedPreferences);
+            dispatch(updateMobileDashboardPreferences(newDashboardPreference));
+        } catch (error) {
+            console.error('Failed to update Dashboard preferences:', error);
+        }
+    };
+};
 
 export const updateComputerDashboardPreferencesThunk = (
     newDashboardPreference: DashboardPreferences

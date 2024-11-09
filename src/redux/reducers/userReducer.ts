@@ -69,6 +69,20 @@ export const userReducer = (state: UserState = initialState, action: UserAction)
                     }
                 }
             };
+        case 'UPDATE_MOBILE_DASHBOARD_VISIBLE_COLUMN_PREFERENCES':
+            return {
+                ...state,
+                preferences: {
+                    ...state.preferences,
+                    mobile: {
+                        ...state.preferences.mobile,
+                        dashboard: {
+                            ...state.preferences.mobile?.dashboard,
+                            visibleColumns: action.payload
+                        }
+                    }
+                }
+            };
         default:
             return state;
     }
