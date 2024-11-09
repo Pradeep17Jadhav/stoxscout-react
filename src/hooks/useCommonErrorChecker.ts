@@ -7,7 +7,6 @@ export const useCommonErrorChecker = () => {
     const checkCommonErrors = (error: Error | unknown) => {
         if (error instanceof AuthError) {
             logoutUser();
-            console.error(error.type);
         }
     };
 

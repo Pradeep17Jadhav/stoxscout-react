@@ -25,19 +25,14 @@ export const request = async (url: string, options: ApiRequestOptions = {}) => {
     if (method !== 'GET' && body) {
         config.body = JSON.stringify(body);
     }
-    try {
-        const response = await fetch(url, config);
-        let data;
-        if (response.status === 204) {
-            data = {};
-        } else {
-            data = await response.json();
-        }
-        return {response, data};
-    } catch (error) {
-        console.error('Error during API request:', error);
-        throw error;
+    const response = await fetch(url, config);
+    let data;
+    if (response.status === 204) {
+        data = {};
+    } else {
+        data = await response.json();
     }
+    return {response, data};
 };
 
 export const authRequest = async (url: string, options: ApiRequestOptions = {}) => {

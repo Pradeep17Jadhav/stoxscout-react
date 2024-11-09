@@ -14,7 +14,7 @@ const usePreferenceFetcher = () => {
         if (!isAuthenticated) return;
         getPreference()
             .then((preferences) => {
-                if (preferences) {
+                if (preferences && Object.keys(preferences).length !== 0) {
                     dispatch(updateUserPreferences(preferences));
                 }
             })
