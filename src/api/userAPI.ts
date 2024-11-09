@@ -1,7 +1,8 @@
 import {authRequest, HttpMethod} from '.';
+import {Preferences} from '../types/userPreferences';
 import {endpoints} from './apiConfig';
 
-export const getPreference = async (): Promise<any> => {
+export const getPreference = async (): Promise<Preferences | null> => {
     const {response, data} = await authRequest(endpoints.preference, {
         method: HttpMethod.GET
     });
@@ -20,7 +21,7 @@ export const getPreference = async (): Promise<any> => {
     return data;
 };
 
-export const updatePreference = async (preference: any) => {
+export const updatePreference = async (preference: Preferences) => {
     const {response, data} = await authRequest(endpoints.preference, {
         method: HttpMethod.PUT,
         body: {preference}

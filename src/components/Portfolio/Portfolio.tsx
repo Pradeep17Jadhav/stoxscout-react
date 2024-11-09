@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import {sort} from '../../helpers/sort';
 import {SORT_ORDER, StockInformation} from '../../types/transaction';
 import {HoldingTable} from '../HoldingTable/HoldingTable';
@@ -8,14 +9,17 @@ import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {DashboardPreferences, DEFAULT_COLUMNS} from '../../types/userPreferences';
 import usePreferences from '../../hooks/usePreferences';
+import {ButtonWithPopover} from '../ButtonWithPopover/ButtonWithPopover';
+import ColumnFilter from '../ColumnFilter/ColumnFilter';
+import {AppDispatch} from '../../redux/store/store';
 
 import './styles.css';
 
 export const Portfolio = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const {stocksInfo} = usePortfolio();
     const {holdingSummary, preferences} = useUser();
-    const {dashboardPreferences, updateDashboardPreferences} = usePreferences();
+    const {dashboardPreferences, updateDashboardPreferences, updatePreferencesOnline} = usePreferences();
     const [sortedStockInfo, setSortedStockInfo] = useState<StockInformation[]>(stocksInfo);
 
     const onSort = useCallback(
@@ -24,19 +28,22 @@ export const Portfolio = () => {
                 return;
             }
             if (column !== dashboardPreferences?.sortColumn || order !== dashboardPreferences?.sortOrder) {
-                const newDevicePreference: DashboardPreferences = {
+                const newDashboardPreference: DashboardPreferences = {
                     ...dashboardPreferences,
                     sortColumn: column,
                     sortOrder: order
                 };
-                dispatch(updateDashboardPreferences(newDevicePreference));
-                // updatePreference(newPreference);
+                dispatch(updateDashboardPreferences(newDashboardPreference));
             }
             const sortedStocksInfo = sort(stocksInfo, column, order);
             setSortedStockInfo(sortedStocksInfo);
         },
         [dashboardPreferences, stocksInfo, dispatch, updateDashboardPreferences]
     );
+
+    const onFilterPopoverClose = useCallback(() => {
+        dispatch(updatePreferencesOnline());
+    }, [dispatch, updatePreferencesOnline]);
 
     useEffect(() => {
         const prefColumn = dashboardPreferences?.sortColumn;
@@ -48,6 +55,12 @@ export const Portfolio = () => {
 
     return (
         <>
+            <ButtonWithPopover
+                buttonText="Filter"
+                Icon={FilterListIcon}
+                Content={ColumnFilter}
+                onClose={onFilterPopoverClose}
+            />
             <HoldingTable
                 stocksInfo={sortedStockInfo}
                 onSort={onSort}

@@ -27,9 +27,11 @@ const AppBar = () => {
         []
     );
     const handleCloseNavMenu = useCallback(
-        (to: string) => {
+        (to: string) => () => {
             setAnchorElNav(null);
-            navigate(to);
+            if (to) {
+                navigate(to);
+            }
         },
         [navigate]
     );
@@ -113,11 +115,11 @@ const AppBar = () => {
                             horizontal: 'left'
                         }}
                         open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu}
+                        onClose={handleCloseNavMenu('')}
                         sx={{display: {xs: 'block', md: 'none'}}}
                     >
                         {pages.map((page) => (
-                            <MenuItem key={page.label} onClick={() => handleCloseNavMenu(page.to)}>
+                            <MenuItem key={page.label} onClick={handleCloseNavMenu(page.to)}>
                                 <Typography sx={{textAlign: 'center'}}>{page.label}</Typography>
                             </MenuItem>
                         ))}
@@ -129,7 +131,7 @@ const AppBar = () => {
                         pages.map((page) => (
                             <Button
                                 key={page.label}
-                                onClick={() => handleCloseNavMenu(page.to)}
+                                onClick={handleCloseNavMenu(page.to)}
                                 sx={{my: 2, color: 'black', display: 'block'}}
                             >
                                 {page.label}

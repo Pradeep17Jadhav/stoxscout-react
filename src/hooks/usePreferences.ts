@@ -5,7 +5,9 @@ import {
     updateMobilePreferences,
     updateComputerPreferences,
     updateMobileDashboardPreferences,
-    updateComputerDashboardPreferences
+    updateComputerDashboardPreferencesThunk,
+    updatePreferencesOnlineThunk,
+    updateComputerDashboardVisibleColumnPreferences
 } from '../redux/actions/userActions';
 
 const usePreferences = () => {
@@ -16,17 +18,26 @@ const usePreferences = () => {
         [userPreferences.computer, userPreferences.mobile]
     );
 
-    const getDashboardPreferences = () => preferences?.dashboard;
     const updateDevicePreferences = useMemo(() => (isMobile ? updateMobilePreferences : updateComputerPreferences), []);
     const updateDashboardPreferences = useMemo(
-        () => (isMobile ? updateMobileDashboardPreferences : updateComputerDashboardPreferences),
+        () => (isMobile ? updateMobileDashboardPreferences : updateComputerDashboardPreferencesThunk),
+        []
+    );
+    const updateDashboardVisibleColumnsPreferences = useMemo(
+        () =>
+            isMobile
+                ? updateComputerDashboardVisibleColumnPreferences
+                : updateComputerDashboardVisibleColumnPreferences, // handle this for mobile
         []
     );
 
     return {
-        dashboardPreferences: getDashboardPreferences(),
+        dashboardPreferences: preferences?.dashboard,
+        dashboardVisibleColumns: preferences?.dashboard?.visibleColumns,
+        updatePreferencesOnline: updatePreferencesOnlineThunk,
         updateDevicePreferences,
-        updateDashboardPreferences
+        updateDashboardPreferences,
+        updateDashboardVisibleColumnsPreferences
     };
 };
 

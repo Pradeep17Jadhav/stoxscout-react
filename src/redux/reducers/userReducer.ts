@@ -28,7 +28,7 @@ export const initialState: UserState = {
         },
         computer: {
             dashboard: {
-                visibleColumns: [],
+                visibleColumns: Object.values(DEFAULT_COLUMNS).filter((value) => typeof value === 'number') as [],
                 sortColumn: DEFAULT_COLUMNS.SYMBOL,
                 sortOrder: SORT_ORDER.ASC
             }
@@ -44,6 +44,31 @@ export const userReducer = (state: UserState = initialState, action: UserAction)
             return {...state, userHoldings: action.payload};
         case 'UPDATE_USER_PREFERENCES':
             return {...state, preferences: action.payload};
+        case 'UPDATE_COMPUTER_DASHBOARD_PREFERENCES':
+            return {
+                ...state,
+                preferences: {
+                    ...state.preferences,
+                    computer: {
+                        ...state.preferences.computer,
+                        dashboard: action.payload
+                    }
+                }
+            };
+        case 'UPDATE_COMPUTER_DASHBOARD_VISIBLE_COLUMN_PREFERENCES':
+            return {
+                ...state,
+                preferences: {
+                    ...state.preferences,
+                    computer: {
+                        ...state.preferences.computer,
+                        dashboard: {
+                            ...state.preferences.computer?.dashboard,
+                            visibleColumns: action.payload
+                        }
+                    }
+                }
+            };
         default:
             return state;
     }
