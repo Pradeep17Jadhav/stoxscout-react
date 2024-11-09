@@ -39,11 +39,11 @@ export const ButtonWithPopover = ({buttonText, Icon, Content, onClose, width, he
                 anchorEl={anchorEl}
                 anchorOrigin={{
                     vertical: 'top',
-                    horizontal: 'left'
+                    horizontal: 'right'
                 }}
                 transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'left'
+                    horizontal: 'right'
                 }}
                 onClose={handleClose}
                 sx={{

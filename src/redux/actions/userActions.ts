@@ -61,47 +61,41 @@ export const updateMobileDashboardVisibleColumnPreferences = (payload: DEFAULT_C
     payload
 });
 
-export const updateMobileDashboardPreferencesThunk = (
-    newDashboardPreference: DashboardPreferences
+type DeviceType = 'mobile' | 'computer';
+
+const updateDashboardPreferencesThunk = (
+    device: DeviceType,
+    newDashboardPreference: DashboardPreferences,
+    updateAction: (payload: DashboardPreferences) => UserAction
 ): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => {
     return async (dispatch: Dispatch<any>, getState: () => RootState) => {
         try {
             const currentPreferences = getState().user.preferences;
             const updatedPreferences = {
                 ...currentPreferences,
-                mobile: {
-                    ...currentPreferences.mobile,
+                [device]: {
+                    ...currentPreferences[device],
                     dashboard: newDashboardPreference
                 }
             };
             await updatePreference(updatedPreferences);
-            dispatch(updateMobileDashboardPreferences(newDashboardPreference));
+            dispatch(updateAction(newDashboardPreference));
         } catch (error) {
-            console.error('Failed to update Dashboard preferences:', error);
+            console.error(`Failed to update ${device} Dashboard preferences:`, error);
         }
     };
+};
+
+export const updateMobileDashboardPreferencesThunk = (
+    newDashboardPreference: DashboardPreferences
+): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => {
+    return updateDashboardPreferencesThunk('mobile', newDashboardPreference, updateMobileDashboardPreferences);
 };
 
 export const updateComputerDashboardPreferencesThunk = (
     newDashboardPreference: DashboardPreferences
 ): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => {
-    return async (dispatch: Dispatch<any>, getState: () => RootState) => {
-        try {
-            const currentPreferences = getState().user.preferences;
-            const updatedPreferences = {
-                ...currentPreferences,
-                computer: {
-                    ...currentPreferences.computer,
-                    dashboard: newDashboardPreference
-                }
-            };
-            await updatePreference(updatedPreferences);
-
-            dispatch(updateComputerDashboardPreferences(newDashboardPreference));
-        } catch (error) {
-            console.error('Failed to update Dashboard preferences:', error);
-        }
-    };
+    return updateDashboardPreferencesThunk('computer', newDashboardPreference, updateComputerDashboardPreferences);
 };
 
 export const updatePreferencesOnlineThunk = (): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => {

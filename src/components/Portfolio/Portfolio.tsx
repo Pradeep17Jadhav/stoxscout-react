@@ -55,12 +55,14 @@ export const Portfolio = () => {
 
     return (
         <>
-            <ButtonWithPopover
-                buttonText="Filter"
-                Icon={FilterListIcon}
-                Content={ColumnFilter}
-                onClose={onFilterPopoverClose}
-            />
+            <div className="menu-items">
+                <ButtonWithPopover
+                    buttonText="Filter"
+                    Icon={FilterListIcon}
+                    Content={ColumnFilter}
+                    onClose={onFilterPopoverClose}
+                />
+            </div>
             <HoldingTable
                 stocksInfo={sortedStockInfo}
                 onSort={onSort}

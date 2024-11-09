@@ -43,20 +43,19 @@ const ColumnFilter = () => {
             {defaultColumnsKeys.map((key) => {
                 const value = DEFAULT_COLUMNS[key as keyof typeof DEFAULT_COLUMNS];
                 return (
-                    <div key={key}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    disabled={value === 1}
-                                    checked={isVisibleColumn(value)}
-                                    onChange={handleCheckboxChange(value)}
-                                    color="primary"
-                                />
-                            }
-                            label={COLUMNS[value]}
-                        />
-                        <br />
-                    </div>
+                    <FormControlLabel
+                        key={key}
+                        sx={{minWidth: '240px'}}
+                        control={
+                            <Checkbox
+                                disabled={value === 1}
+                                checked={isVisibleColumn(value)}
+                                onChange={handleCheckboxChange(value)}
+                                color="primary"
+                            />
+                        }
+                        label={COLUMNS[value]}
+                    />
                 );
             })}
         </Box>
