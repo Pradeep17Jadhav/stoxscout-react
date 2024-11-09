@@ -11,6 +11,7 @@ import usePreferencesFetcher from '../../hooks/usePreferencesFetcher';
 import {useApp} from '../../hooks/useApp';
 import {useUser} from '../../hooks/useUser';
 import {usePortfolio} from '../../hooks/usePortfolio';
+import {useAuth} from '../../hooks/useAuth';
 
 const AppUpdater = ({children}: {children: ReactNode}) => {
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const AppUpdater = ({children}: {children: ReactNode}) => {
     usePreferencesFetcher();
     useUserFetcher();
     const {holdings, isUserLoaded} = useUser();
+    const {isAuthenticated} = useAuth();
     const {market, isMarketLoaded} = usePortfolio();
 
     useEffect(() => {
@@ -36,6 +38,15 @@ const AppUpdater = ({children}: {children: ReactNode}) => {
         const intervalId = setInterval(updatePortfolio, 20000);
         return () => clearInterval(intervalId);
     }, [market, holdings, dispatch]);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            dispatch(setIsLoading(true));
+        } else {
+            dispatch(setIsLoading(false));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuthenticated]);
 
     useEffect(() => {
         if (!isLoading || !isUserLoaded || !isMarketLoaded) return;
