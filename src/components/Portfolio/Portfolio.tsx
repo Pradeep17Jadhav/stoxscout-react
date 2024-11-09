@@ -13,13 +13,16 @@ import './styles.css';
 
 export const Portfolio = () => {
     const dispatch = useDispatch();
-    const {stocksInfo, marketData} = usePortfolio();
+    const {stocksInfo} = usePortfolio();
     const {holdingSummary, preferences} = useUser();
     const {dashboardPreferences, updateDashboardPreferences} = usePreferences();
     const [sortedStockInfo, setSortedStockInfo] = useState<StockInformation[]>(stocksInfo);
 
     const onSort = useCallback(
         (column: DEFAULT_COLUMNS, order: SORT_ORDER) => {
+            if (!stocksInfo?.length) {
+                return;
+            }
             if (column !== dashboardPreferences?.sortColumn || order !== dashboardPreferences?.sortOrder) {
                 const newDevicePreference: DashboardPreferences = {
                     ...dashboardPreferences,
@@ -32,7 +35,7 @@ export const Portfolio = () => {
             const sortedStocksInfo = sort(stocksInfo, column, order);
             setSortedStockInfo(sortedStocksInfo);
         },
-        [dashboardPreferences, stocksInfo, preferences, dispatch]
+        [dashboardPreferences, stocksInfo, dispatch, updateDashboardPreferences]
     );
 
     useEffect(() => {
@@ -41,8 +44,7 @@ export const Portfolio = () => {
         if (prefColumn && prefSortOrder) {
             onSort(prefColumn, prefSortOrder);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [marketData, preferences]);
+    }, [stocksInfo, preferences, dashboardPreferences?.sortColumn, dashboardPreferences?.sortOrder, onSort]);
 
     return (
         <>

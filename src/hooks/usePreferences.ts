@@ -16,7 +16,6 @@ const usePreferences = () => {
         [userPreferences.computer, userPreferences.mobile]
     );
 
-    const getPreferences = () => preferences;
     const getDashboardPreferences = () => preferences?.dashboard;
     const updateDevicePreferences = useMemo(() => (isMobile ? updateMobilePreferences : updateComputerPreferences), []);
     const updateDashboardPreferences = useMemo(
@@ -25,7 +24,6 @@ const usePreferences = () => {
     );
 
     return {
-        getPreferences,
         dashboardPreferences: getDashboardPreferences(),
         updateDevicePreferences,
         updateDashboardPreferences

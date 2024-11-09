@@ -108,9 +108,9 @@ const HoldingsUploader = () => {
                 <br /> 2. Click on &quot;Download: XLSX&quot; link (just above the holdings table)
                 <br /> 3. Save the file on you computer. This file contains info of your holdings on Zerodha
                 <br /> 4. Come back to this page
-                <br /> 5. Click on the Select files button and select the file you just download
-                <br /> 6. Sit back and relax! You file is NOT uploaded to our server. Just the data of your holdings is
-                sent.
+                <br /> 5. Click on the Select XLSX File button and select the file you just downloaded.
+                <br /> 6. Sit back and relax! You file is NOT uploaded to our server. Only the data related to your
+                holdings is sent.
             </Typography>
             <input type="file" accept=".xlsx" onChange={handleFileChange} style={{display: 'none'}} id="file-upload" />
             <label htmlFor="file-upload">
