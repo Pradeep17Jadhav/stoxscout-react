@@ -45,8 +45,8 @@ const generateColorsPNL = (percentDayChange: number): string => {
 };
 
 export const HeatMapPNL = () => {
-    const {marketData} = usePortfolio();
-    const {userHoldings} = useUser();
+    const {market} = usePortfolio();
+    const {holdings} = useUser();
     const [chartData, setChartData] = useState<any>([]);
 
     const generateStockName = (stock: StockInformation): string => {
@@ -57,7 +57,7 @@ export const HeatMapPNL = () => {
     };
 
     const updateChart = useCallback(() => {
-        const stockInfo = stockInfoGeneratorAll(userHoldings, marketData);
+        const stockInfo = stockInfoGeneratorAll(holdings, market);
         let maxLossPercent = Infinity;
         let maxProfitPercent = -Infinity;
         for (const stock of stockInfo) {
@@ -75,16 +75,16 @@ export const HeatMapPNL = () => {
                     stroke: 'white'
                 }))
         );
-    }, [marketData, userHoldings]);
+    }, [market, holdings]);
 
     useEffect(() => {
-        if (!userHoldings || !marketData || !marketData.length) return;
+        if (!holdings || !market?.length) return;
         updateChart();
         const intervalId = setInterval(() => {
             updateChart();
         }, 5000);
         return () => clearInterval(intervalId);
-    }, [userHoldings, marketData, updateChart]);
+    }, [holdings, market, updateChart]);
 
     return (
         <ResponsiveContainer className="heatmap" width="100%">

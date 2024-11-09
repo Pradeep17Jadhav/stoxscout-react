@@ -5,14 +5,26 @@ import {PortfolioAction} from '../actions/portfolioActions';
 
 export type PortfolioState = {
     stocksInfo: StockInformation[];
-    indicesData: Index[];
-    marketData: MarketData;
+    indicesData: {
+        indices: Index[];
+        loaded: boolean;
+    };
+    marketData: {
+        market: MarketData;
+        loaded: boolean;
+    };
 };
 
 export const initialState: PortfolioState = {
     stocksInfo: [],
-    indicesData: [],
-    marketData: []
+    indicesData: {
+        indices: [],
+        loaded: false
+    },
+    marketData: {
+        market: [],
+        loaded: false
+    }
 };
 
 export const portfolioReducer = (state: PortfolioState = initialState, action: PortfolioAction): PortfolioState => {
@@ -20,9 +32,23 @@ export const portfolioReducer = (state: PortfolioState = initialState, action: P
         case 'UPDATE_STOCKS_INFO':
             return {...state, stocksInfo: action.payload};
         case 'UPDATE_INDICES_DATA':
-            return {...state, indicesData: action.payload};
+            return {
+                ...state,
+                indicesData: {
+                    ...state.indicesData,
+                    indices: action.payload,
+                    loaded: true
+                }
+            };
         case 'UPDATE_MARKET_DATA':
-            return {...state, marketData: action.payload};
+            return {
+                ...state,
+                marketData: {
+                    ...state.marketData,
+                    market: action.payload,
+                    loaded: true
+                }
+            };
         default:
             return state;
     }

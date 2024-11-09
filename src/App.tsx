@@ -12,7 +12,8 @@ import {Login} from './components/Login/Login';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import {Signup} from './components/Signup/Signup';
 import HoldingsUploader from './components/HoldingsUploader/HoldingsUploader';
-import PortfolioUpdater from './components/PortfolioUpdater/PortfolioUpdater';
+import AppUpdater from './components/AppUpdater/AppUpdater';
+import {Loader} from './components/Loader/Loader';
 
 import './App.css';
 
@@ -51,7 +52,8 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
-                <PortfolioUpdater>
+                <AppUpdater>
+                    <Loader />
                     <div className="app-container">
                         <AppBar />
                         <div className="main-content">
@@ -72,7 +74,7 @@ function App() {
                             </Routes>
                         </div>
                     </div>
-                </PortfolioUpdater>
+                </AppUpdater>
             </BrowserRouter>
         </ThemeProvider>
     );

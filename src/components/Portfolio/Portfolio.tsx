@@ -12,6 +12,7 @@ import usePreferences from '../../hooks/usePreferences';
 import {ButtonWithPopover} from '../ButtonWithPopover/ButtonWithPopover';
 import ColumnFilter from '../ColumnFilter/ColumnFilter';
 import {AppDispatch} from '../../redux/store/store';
+import {useApp} from '../../hooks/useApp';
 
 import './styles.css';
 
@@ -21,6 +22,7 @@ export const Portfolio = () => {
     const {holdingSummary, preferences} = useUser();
     const {dashboardPreferences, updateDashboardPreferences, updatePreferencesOnline} = usePreferences();
     const [sortedStockInfo, setSortedStockInfo] = useState<StockInformation[]>(stocksInfo);
+    const {isLoading} = useApp();
 
     const onSort = useCallback(
         (column: DEFAULT_COLUMNS, order: SORT_ORDER) => {
@@ -53,7 +55,7 @@ export const Portfolio = () => {
         }
     }, [stocksInfo, preferences, dashboardPreferences?.sortColumn, dashboardPreferences?.sortOrder, onSort]);
 
-    return (
+    return !isLoading ? (
         <>
             <div className="menu-items">
                 <ButtonWithPopover
@@ -70,5 +72,7 @@ export const Portfolio = () => {
             />
             <HoldingInformation holdingSummary={holdingSummary} />
         </>
+    ) : (
+        <></>
     );
 };

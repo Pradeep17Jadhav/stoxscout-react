@@ -6,7 +6,7 @@ import {isMarketTime} from '../helpers/utils';
 import {updateIndicesData} from '../redux/actions/portfolioActions';
 import {useCommonErrorChecker} from './useCommonErrorChecker';
 
-const useIndicesData = () => {
+const useIndicesFetcher = () => {
     const dispatch = useDispatch();
     const {isAuthenticated} = useAuth();
     const checkCommonErrors = useCommonErrorChecker();
@@ -33,4 +33,4 @@ const useIndicesData = () => {
     }, [isAuthenticated]);
 };
 
-export default useIndicesData;
+export default useIndicesFetcher;

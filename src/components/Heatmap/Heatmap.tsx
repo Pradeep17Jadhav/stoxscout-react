@@ -7,13 +7,13 @@ import {useUser} from '../../hooks/useUser';
 import './styles.css';
 
 export const HeatMap = () => {
-    const {marketData} = usePortfolio();
-    const {userHoldings} = useUser();
+    const {market} = usePortfolio();
+    const {holdings} = useUser();
     const [chartData, setChartData] = useState<any>([]);
 
     useEffect(() => {
-        if (!userHoldings || !marketData || !marketData.length) return;
-        const stockInfo = stockInfoGeneratorAll(userHoldings, marketData);
+        if (!holdings || !market?.length) return;
+        const stockInfo = stockInfoGeneratorAll(holdings, market);
         setChartData(
             stockInfo
                 .sort((a, b) => b.currentValue - a.currentValue)
@@ -22,7 +22,7 @@ export const HeatMap = () => {
                     value: stock.currentValue
                 }))
         );
-    }, [userHoldings, marketData]);
+    }, [holdings, market]);
 
     return (
         <div className="heatmap-container">

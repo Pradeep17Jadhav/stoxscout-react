@@ -1,6 +1,17 @@
 import {authRequest, HttpMethod} from '.';
+import {UserInformation} from '../types/user';
 import {Preferences} from '../types/userPreferences';
 import {endpoints} from './apiConfig';
+
+export const getUserInformation = async (): Promise<UserInformation | null> => {
+    const {response, data} = await authRequest(endpoints.user, {
+        method: HttpMethod.GET
+    });
+    if (!response.ok) {
+        return null;
+    }
+    return data;
+};
 
 export const getPreference = async (): Promise<Preferences | null> => {
     const {response, data} = await authRequest(endpoints.preference, {

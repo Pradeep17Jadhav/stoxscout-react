@@ -1,14 +1,16 @@
-import {HoldingSummary, Holdings, SORT_ORDER} from '../../types/transaction';
+import {HoldingSummary, SORT_ORDER, UserHoldings} from '../../types/transaction';
 import {Preferences, DEFAULT_COLUMNS} from '../../types/userPreferences';
 import {UserAction} from '../actions/userActions';
 
 export type UserState = {
+    name: string;
     holdingSummary: HoldingSummary;
-    userHoldings: Holdings;
+    userHoldings: UserHoldings;
     preferences: Preferences;
 };
 
 export const initialState: UserState = {
+    name: 'User',
     holdingSummary: {
         totalPnl: '0',
         totalInvestedValue: '0',
@@ -17,7 +19,10 @@ export const initialState: UserState = {
         totalDayChange: '0',
         totalDayChangePercentage: '0'
     },
-    userHoldings: [],
+    userHoldings: {
+        holdings: [],
+        loaded: false
+    },
     preferences: {
         mobile: {
             dashboard: {
@@ -32,18 +37,37 @@ export const initialState: UserState = {
                 sortColumn: DEFAULT_COLUMNS.SYMBOL,
                 sortOrder: SORT_ORDER.ASC
             }
-        }
+        },
+        loaded: false
     }
 };
 
 export const userReducer = (state: UserState = initialState, action: UserAction): UserState => {
     switch (action.type) {
+        case 'UPDATE_USER_INFORMATION': {
+            const userInfo = action.payload;
+            return {...state, name: userInfo.name};
+        }
         case 'UPDATE_HOLDING_SUMMARY':
             return {...state, holdingSummary: action.payload};
         case 'UPDATE_USER_HOLDINGS':
-            return {...state, userHoldings: action.payload};
+            return {
+                ...state,
+                userHoldings: {
+                    ...state.userHoldings,
+                    holdings: action.payload,
+                    loaded: true
+                }
+            };
         case 'UPDATE_USER_PREFERENCES':
-            return {...state, preferences: action.payload};
+            return {
+                ...state,
+                preferences: {
+                    ...state.preferences,
+                    ...action.payload,
+                    loaded: true
+                }
+            };
         case 'UPDATE_COMPUTER_DASHBOARD_PREFERENCES':
             return {
                 ...state,

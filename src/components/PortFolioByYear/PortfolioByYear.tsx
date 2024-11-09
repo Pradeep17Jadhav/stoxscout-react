@@ -12,16 +12,16 @@ import {DEFAULT_COLUMNS} from '../../types/userPreferences';
 import './styles.css';
 
 export const PortfolioByYear = () => {
-    const {marketData} = usePortfolio();
-    const {userHoldings} = useUser();
+    const {market} = usePortfolio();
+    const {holdings} = useUser();
     const [yearWiseStocksInfo, setYearWiseStocksInfo] = useState<YearWiseStockInformation>([]);
 
     useEffect(() => {
-        if (!userHoldings || !marketData) return;
-        const yearWiseStockInfo = yearWiseStockInfoGeneratorAll(userHoldings, marketData);
+        if (!holdings || !market) return;
+        const yearWiseStockInfo = yearWiseStockInfoGeneratorAll(holdings, market);
         const sortedYearWiseStockInfo = sortHoldingsByYear(yearWiseStockInfo);
         setYearWiseStocksInfo(sortedYearWiseStockInfo);
-    }, [userHoldings, marketData]);
+    }, [holdings, market]);
 
     const onSort = useCallback(
         (column: DEFAULT_COLUMNS, order: SORT_ORDER, year?: string) => {

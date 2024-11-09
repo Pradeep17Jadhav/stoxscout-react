@@ -4,8 +4,10 @@ import {updatePreference} from '../../api/userAPI';
 import {Holdings, HoldingSummary} from '../../types/transaction';
 import {DashboardPreferences, DEFAULT_COLUMNS, DevicePreferences, Preferences} from '../../types/userPreferences';
 import {RootState} from '../reducers/rootReducer';
+import {UserInformation} from '../../types/user';
 
 export type UserAction =
+    | {type: 'UPDATE_USER_INFORMATION'; payload: UserInformation}
     | {type: 'UPDATE_HOLDING_SUMMARY'; payload: HoldingSummary}
     | {type: 'UPDATE_USER_HOLDINGS'; payload: Holdings}
     | {type: 'UPDATE_USER_PREFERENCES'; payload: Preferences}
@@ -15,6 +17,11 @@ export type UserAction =
     | {type: 'UPDATE_COMPUTER_DASHBOARD_PREFERENCES'; payload: DashboardPreferences}
     | {type: 'UPDATE_MOBILE_DASHBOARD_VISIBLE_COLUMN_PREFERENCES'; payload: DEFAULT_COLUMNS[]}
     | {type: 'UPDATE_COMPUTER_DASHBOARD_VISIBLE_COLUMN_PREFERENCES'; payload: DEFAULT_COLUMNS[]};
+
+export const updateUserInformation = (payload: UserInformation): UserAction => ({
+    type: 'UPDATE_USER_INFORMATION',
+    payload
+});
 
 export const updateHoldingSummary = (payload: HoldingSummary): UserAction => ({
     type: 'UPDATE_HOLDING_SUMMARY',

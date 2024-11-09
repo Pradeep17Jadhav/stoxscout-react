@@ -28,4 +28,5 @@ export type DevicePreferences = {
 export type Preferences = {
     mobile?: DevicePreferences;
     computer?: DevicePreferences;
+    loaded: boolean;
 };

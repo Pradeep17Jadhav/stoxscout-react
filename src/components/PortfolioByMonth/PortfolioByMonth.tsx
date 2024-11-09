@@ -11,16 +11,16 @@ import {useUser} from '../../hooks/useUser';
 import './styles.css';
 
 export const PortfolioByMonth = () => {
-    const {marketData} = usePortfolio();
-    const {userHoldings} = useUser();
+    const {market} = usePortfolio();
+    const {holdings} = useUser();
     const [monthWiseStocksInfo, setMonthWiseStocksInfo] = useState<MonthWiseStockInformation>([]);
 
     useEffect(() => {
-        if (!userHoldings || !marketData || !marketData.length) return;
-        const monthWiseStockInfo = monthWiseStockInfoGeneratorAll(userHoldings, marketData);
+        if (!holdings || !market?.length) return;
+        const monthWiseStockInfo = monthWiseStockInfoGeneratorAll(holdings, market);
         const sortedDateWiseStockInfo = sortHoldingsByMonth(monthWiseStockInfo);
         setMonthWiseStocksInfo(sortedDateWiseStockInfo);
-    }, [userHoldings, marketData]);
+    }, [holdings, market]);
 
     return (
         <>

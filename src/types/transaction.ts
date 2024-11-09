@@ -25,6 +25,10 @@ export type StockInformation = {
 };
 
 export type Holdings = HoldingItem[];
+export type UserHoldings = {
+    holdings: Holdings;
+    loaded: boolean;
+};
 export type DateWiseHoldings = DateWiseHoldingItem[];
 export type DateWiseHoldingItem = {
     date: string;

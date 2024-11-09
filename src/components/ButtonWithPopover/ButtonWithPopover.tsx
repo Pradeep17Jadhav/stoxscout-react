@@ -50,6 +50,7 @@ export const ButtonWithPopover = ({buttonText, Icon, Content, onClose, width, he
                     width: width || 300,
                     height: height || 500
                 }}
+                disableScrollLock
             >
                 {<Content />}
             </Popover>

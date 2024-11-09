@@ -6,13 +6,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {useAuth} from '../../hooks/useAuth';
-import {IndexInfo} from './IndexInfo/IndexInfo';
 import './styles.css';
+import {useApp} from '../../hooks/useApp';
 
 const AppBar = () => {
-    const {indicesData} = usePortfolio();
+    const {indices} = usePortfolio();
     const {holdingSummary} = useUser();
     const {isAuthenticated, logoutUser} = useAuth();
+    const {name = 'User'} = useUser();
+    const {isLoading} = useApp();
     const navigate = useNavigate();
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -58,18 +60,29 @@ const AppBar = () => {
         [isAuthenticated]
     );
 
-    const renderUserMenuItems = useCallback(
-        (settings: string[]) => {
-            return settings.map((setting) => (
-                <MenuItem key={setting} onClick={setting === 'Logout' ? logoutUser : handleCloseUserMenu}>
-                    <Typography>{setting}</Typography>
-                </MenuItem>
-            ));
-        },
-        [handleCloseUserMenu, logoutUser]
-    );
+    const handleLogout = useCallback(() => {
+        handleCloseUserMenu();
+        logoutUser();
+    }, [handleCloseUserMenu, logoutUser]);
 
-    return (
+    const userMenuItems = useMemo(() => {
+        return (
+            <div>
+                <MenuItem key={name}>
+                    <Typography>Hello, {name}!</Typography>
+                </MenuItem>
+                {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : handleCloseUserMenu}>
+                        <Typography>{setting}</Typography>
+                    </MenuItem>
+                ))}
+            </div>
+        );
+    }, [handleCloseUserMenu, handleLogout, name, settings]);
+
+    return isLoading ? (
+        <></>
+    ) : (
         <Container className="appbar-container" maxWidth={false}>
             <Toolbar disableGutters>
                 <AddchartIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}} />
@@ -176,8 +189,9 @@ const AppBar = () => {
                         }}
                         open={Boolean(anchorElUser)}
                         onClose={handleCloseUserMenu}
+                        disableScrollLock
                     >
-                        {renderUserMenuItems(settings)}
+                        {userMenuItems}
                     </Menu>
                 </Box>
             </Toolbar>
