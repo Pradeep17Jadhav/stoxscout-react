@@ -3,14 +3,14 @@ import {useDispatch} from 'react-redux';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import {sort} from '../../helpers/sort';
 import {SORT_ORDER, StockInformation} from '../../types/transaction';
-import {HoldingTable} from '../HoldingTable/HoldingTable';
-import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
+import {HoldingTable} from '../../components/HoldingTable/HoldingTable';
+import {HoldingInformation} from '../../components/HoldingInformation/HoldingInformation';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {DashboardPreferences, DEFAULT_COLUMNS} from '../../types/userPreferences';
 import usePreferences from '../../hooks/usePreferences';
-import {ButtonWithPopover} from '../ButtonWithPopover/ButtonWithPopover';
-import ColumnFilter from '../ColumnFilter/ColumnFilter';
+import {ButtonWithPopover} from '../../components/ButtonWithPopover/ButtonWithPopover';
+import ColumnFilter from '../../components/ColumnFilter/ColumnFilter';
 import {AppDispatch} from '../../redux/store/store';
 import {useApp} from '../../hooks/useApp';
 

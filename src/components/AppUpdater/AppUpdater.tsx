@@ -33,7 +33,6 @@ const AppUpdater = ({children}: {children: ReactNode}) => {
             dispatch(updateStocksInfo(stockInfo));
             dispatch(updateHoldingSummary(getPnL(stockInfo)));
         };
-
         updatePortfolio();
         const intervalId = setInterval(updatePortfolio, 20000);
         return () => clearInterval(intervalId);

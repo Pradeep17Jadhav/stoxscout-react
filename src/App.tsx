@@ -1,5 +1,5 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {Portfolio} from './components/Portfolio/Portfolio';
+import {Portfolio} from './pages/Portfolio/Portfolio';
 import {AddPurchase} from './components/AddPurchase/AddPurchase';
 import {ThemeProvider, createTheme} from '@mui/material';
 import {PortfolioByDate} from './components/PortfolioByDate/PortfolioByDate';
@@ -14,6 +14,7 @@ import {Signup} from './components/Signup/Signup';
 import HoldingsUploader from './components/HoldingsUploader/HoldingsUploader';
 import AppUpdater from './components/AppUpdater/AppUpdater';
 import {Loader} from './components/Loader/Loader';
+import {Dashboard} from './pages/Dashboard/Dashboard';
 
 import './App.css';
 
@@ -39,6 +40,7 @@ const theme = createTheme({
 
 const privateRoutes = [
     {path: '/', Component: Portfolio},
+    {path: '/dashboard', Component: Dashboard},
     {path: '/addPurchase', Component: AddPurchase},
     {path: '/portfolioByDate', Component: PortfolioByDate},
     {path: '/portfolioByMonth', Component: PortfolioByMonth},

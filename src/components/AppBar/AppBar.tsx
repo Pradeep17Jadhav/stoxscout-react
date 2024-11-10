@@ -44,6 +44,7 @@ const AppBar = () => {
 
     const pages = useMemo(
         () => [
+            {to: '/dashboard', label: 'Dashboard'},
             {to: '/', label: 'Holdings'},
             {to: '/portfolioByDate', label: 'Days'},
             {to: '/portfolioByMonth', label: 'Months'},
