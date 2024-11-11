@@ -1,9 +1,9 @@
 import {useCallback, useMemo, useState} from 'react';
+import dayjs, {Dayjs} from 'dayjs';
 import {Alert, Button, Checkbox, FormControlLabel, Snackbar, TextField} from '@mui/material';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {addPurchase} from '../../api/holdingsAPI';
 import './styles.css';
-import dayjs, {Dayjs} from 'dayjs';
 
 export const AddPurchase = () => {
     const [saving, setSaving] = useState(false);
@@ -31,7 +31,7 @@ export const AddPurchase = () => {
         (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             setSaving(true);
-            console.log(date?.valueOf());
+            console.log(dateAdded?.valueOf());
             addPurchase({
                 symbol: symbol.toUpperCase(),
                 dateAdded: dateAdded?.valueOf() ?? new Date().getTime(),
@@ -57,6 +57,7 @@ export const AddPurchase = () => {
     const onSymbolChange = useCallback((e: any) => setSymbol(e.target.value.toUpperCase()), []);
     const onQuantityChange = useCallback((e: any) => setQuantity(e.target.value), []);
     const onAvgPriceChange = useCallback((e: any) => setAvgPrice(e.target.value), []);
+    const onDateChange = useCallback((newValue: Dayjs | null) => setDateAdded(newValue), []);
     const onIsIPOChange = useCallback(() => setIsIPO((isIPO) => !isIPO), []);
     const onIsGiftChange = useCallback(() => () => setIsGift((isGift) => !isGift), []);
 
@@ -70,7 +71,7 @@ export const AddPurchase = () => {
                     onChange={onSymbolChange}
                     placeholder="IRCTC"
                 />
-                <DatePicker label="Controlled picker" value={dateAdded} onChange={(newValue) => setDate(newValue)} />
+                <DatePicker label="Controlled picker" value={dateAdded} onChange={onDateChange} />
                 <TextField
                     label="Quantity"
                     variant="outlined"
