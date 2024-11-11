@@ -62,57 +62,63 @@ export const AddPurchase = () => {
     const onIsGiftChange = useCallback(() => () => setIsGift((isGift) => !isGift), []);
 
     return (
-        <form onSubmit={handleAddMore}>
-            <div className="addPurchase">
-                <TextField
-                    label="Symbol"
-                    variant="outlined"
-                    value={symbol}
-                    onChange={onSymbolChange}
-                    placeholder="IRCTC"
-                />
-                <DatePicker label="Controlled picker" value={dateAdded} onChange={onDateChange} />
-                <TextField
-                    label="Quantity"
-                    variant="outlined"
-                    type="number"
-                    value={quantity}
-                    placeholder="5"
-                    onChange={onQuantityChange}
-                />
-                <TextField
-                    label="Average Price"
-                    variant="outlined"
-                    type="number"
-                    value={avgPrice}
-                    placeholder="1234.55"
-                    onChange={onAvgPriceChange}
-                />
-                <FormControlLabel
-                    control={<Checkbox checked={isIPO} onChange={onIsIPOChange} name="isIPO" color="primary" />}
-                    label="Allotted in IPO "
-                />
-                <FormControlLabel
-                    control={<Checkbox checked={isGift} onChange={onIsGiftChange} name="isGift" color="primary" />}
-                    label="Received as a gift"
-                />
-                <Button type="submit" variant="contained" disabled={!isValidForm || saving}>
-                    {saving ? 'Saving...' : 'Add Purchase'}
-                </Button>
-                <Button variant="contained" onClick={clearForm} disabled={saving}>
-                    Clear
-                </Button>
+        <>
+            <div className="add-holdings-container">
+                <form onSubmit={handleAddMore}>
+                    <div className="addPurchase-container">
+                        <TextField
+                            label="Symbol"
+                            variant="outlined"
+                            value={symbol}
+                            onChange={onSymbolChange}
+                            placeholder="IRCTC"
+                        />
+                        <DatePicker label="Date purchased" value={dateAdded} onChange={onDateChange} />
+                        <TextField
+                            label="Quantity"
+                            variant="outlined"
+                            type="number"
+                            value={quantity}
+                            placeholder="5"
+                            onChange={onQuantityChange}
+                        />
+                        <TextField
+                            label="Average Price"
+                            variant="outlined"
+                            type="number"
+                            value={avgPrice}
+                            placeholder="1234.55"
+                            onChange={onAvgPriceChange}
+                        />
+                        <FormControlLabel
+                            control={<Checkbox checked={isIPO} onChange={onIsIPOChange} name="isIPO" color="primary" />}
+                            label="Allotted in IPO "
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox checked={isGift} onChange={onIsGiftChange} name="isGift" color="primary" />
+                            }
+                            label="Received as a gift"
+                        />
+                        <Button type="submit" variant="contained" disabled={!isValidForm || saving}>
+                            {saving ? 'Saving...' : 'Add Purchase'}
+                        </Button>
+                        <Button variant="contained" onClick={clearForm} disabled={saving}>
+                            Clear
+                        </Button>
+                    </div>
+                </form>
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={handleSnackbarClose}
+                    anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                >
+                    <Alert onClose={handleSnackbarClose} severity="success" variant="filled" sx={{width: '100%'}}>
+                        {snackMessage}
+                    </Alert>
+                </Snackbar>
             </div>
-            <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={6000}
-                onClose={handleSnackbarClose}
-                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-            >
-                <Alert onClose={handleSnackbarClose} severity="success" variant="filled" sx={{width: '100%'}}>
-                    {snackMessage}
-                </Alert>
-            </Snackbar>
-        </form>
+        </>
     );
 };
