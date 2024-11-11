@@ -5,3 +5,13 @@
     position: sticky;
     top: 0;
 }
+
+.indices {
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+}
+
+.advanced-declined {
+    margin: auto 16px;
+}

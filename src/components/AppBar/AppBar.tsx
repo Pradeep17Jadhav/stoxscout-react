@@ -6,8 +6,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {useAuth} from '../../hooks/useAuth';
-import './styles.css';
 import {useApp} from '../../hooks/useApp';
+import {IndexInfo} from './IndexInfo/IndexInfo';
+import {useChartsData} from '../../hooks/useCharts';
+import './styles.css';
 
 const AppBar = () => {
     const {indices} = usePortfolio();
@@ -15,6 +17,7 @@ const AppBar = () => {
     const {isAuthenticated, logoutUser} = useAuth();
     const {name = 'User'} = useUser();
     const {isLoading} = useApp();
+    const {advanced, declined} = useChartsData();
     const navigate = useNavigate();
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -152,22 +155,31 @@ const AppBar = () => {
                             </Button>
                         ))}
                 </Box>
+                <div className="advanced-declined">
+                    <span className="profit">{advanced}</span>/<span className="loss">{declined}</span>
+                </div>
 
-                {/* {isAuthenticated && (
+                {isAuthenticated && (
                     <div className="indices">
-                        {indicesData.map((index) => (
+                        {indices.map((index) => (
                             <IndexInfo key={index.indexSymbol} index={index} />
                         ))}
                         <IndexInfo
-                            key="userPortfolio"
                             index={{
-                                indexSymbol: 'Portfolio',
+                                indexSymbol: 'Total P&L',
+                                current: convertToPrice(holdingSummary.totalPnl),
+                                percentChange: convertToPrice(holdingSummary.totalPnlPercentage)
+                            }}
+                        />
+                        <IndexInfo
+                            index={{
+                                indexSymbol: 'Day P&L',
                                 current: convertToPrice(holdingSummary.totalDayChange),
                                 percentChange: convertToPrice(holdingSummary.totalDayChangePercentage)
                             }}
                         />
                     </div>
-                )} */}
+                )}
 
                 <Box sx={{flexGrow: 0}}>
                     <Tooltip title="Open settings">

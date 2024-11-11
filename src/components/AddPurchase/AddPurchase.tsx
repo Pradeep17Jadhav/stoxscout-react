@@ -1,9 +1,12 @@
-import {Button, Checkbox, FormControlLabel, TextField} from '@mui/material';
+import {Alert, Button, Checkbox, FormControlLabel, Snackbar, TextField} from '@mui/material';
 import {useCallback, useMemo, useState} from 'react';
 import {addPurchase} from '../../api/holdingsAPI';
 import './styles.css';
 
 export const AddPurchase = () => {
+    const [saving, setSaving] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackMessage, setSnackMessage] = useState('');
     const [symbol, setSymbol] = useState('');
     const [dateAdded, setDateAdded] = useState('');
     const [quantity, setQuantity] = useState('');
@@ -25,6 +28,7 @@ export const AddPurchase = () => {
     const handleAddMore = useCallback(
         (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
+            setSaving(true);
             addPurchase({
                 symbol: symbol.toUpperCase(),
                 dateAdded: new Date(dateAdded).getTime(),
@@ -32,10 +36,20 @@ export const AddPurchase = () => {
                 avgPrice: avgPrice.replace(/,/g, ''),
                 isGift,
                 isIPO
-            });
+            })
+                .then(() => setSnackMessage('Purchase added successfully!'))
+                .catch(() => setSnackMessage('Purchase saving failed. Please try again!'))
+                .finally(() => {
+                    setSaving(false);
+                    setSnackbarOpen(true);
+                });
         },
         [avgPrice, dateAdded, isGift, isIPO, quantity, symbol]
     );
+
+    const handleSnackbarClose = useCallback(() => {
+        setSnackbarOpen(false);
+    }, []);
 
     const onSymbolChange = useCallback((e: any) => setSymbol(e.target.value.toUpperCase()), []);
     const onDateAddedChange = useCallback((e: any) => setDateAdded(e.target.value), []);
@@ -86,13 +100,23 @@ export const AddPurchase = () => {
                     control={<Checkbox checked={isGift} onChange={onIsGiftChange} name="isGift" color="primary" />}
                     label="Received as a gift"
                 />
-                <Button type="submit" variant="contained" disabled={!isValidForm}>
-                    Add Purchase
+                <Button type="submit" variant="contained" disabled={!isValidForm || saving}>
+                    {saving ? 'Saving...' : 'Add Purchase'}
                 </Button>
-                <Button variant="contained" onClick={clearForm}>
+                <Button variant="contained" onClick={clearForm} disabled={saving}>
                     Clear
                 </Button>
             </div>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+            >
+                <Alert onClose={handleSnackbarClose} severity="success" variant="filled" sx={{width: '100%'}}>
+                    {snackMessage}
+                </Alert>
+            </Snackbar>
         </form>
     );
 };
