@@ -1,26 +1,28 @@
-import {Alert, Button, Checkbox, FormControlLabel, Snackbar, TextField} from '@mui/material';
 import {useCallback, useMemo, useState} from 'react';
+import {Alert, Button, Checkbox, FormControlLabel, Snackbar, TextField} from '@mui/material';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {addPurchase} from '../../api/holdingsAPI';
 import './styles.css';
+import dayjs, {Dayjs} from 'dayjs';
 
 export const AddPurchase = () => {
     const [saving, setSaving] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackMessage, setSnackMessage] = useState('');
     const [symbol, setSymbol] = useState('');
-    const [dateAdded, setDateAdded] = useState('');
     const [quantity, setQuantity] = useState('');
     const [avgPrice, setAvgPrice] = useState('');
     const [isIPO, setIsIPO] = useState(false);
     const [isGift, setIsGift] = useState(false);
+    const [dateAdded, setDateAdded] = useState<Dayjs | null>(dayjs(new Date().toISOString().split('T')[0]));
 
     const isValidForm = useMemo(() => {
-        return symbol !== '' && dateAdded !== '' && quantity !== '' && avgPrice !== '';
+        return symbol !== '' && dateAdded?.isValid() && quantity !== '' && avgPrice !== '';
     }, [symbol, dateAdded, quantity, avgPrice]);
 
     const clearForm = useCallback(() => {
         setSymbol('');
-        setDateAdded('');
+        setDateAdded(dayjs(new Date().toISOString().split('T')[0]));
         setQuantity('');
         setAvgPrice('');
     }, []);
@@ -29,9 +31,10 @@ export const AddPurchase = () => {
         (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             setSaving(true);
+            console.log(date?.valueOf());
             addPurchase({
                 symbol: symbol.toUpperCase(),
-                dateAdded: new Date(dateAdded).getTime(),
+                dateAdded: dateAdded?.valueOf() ?? new Date().getTime(),
                 quantity: parseInt(quantity),
                 avgPrice: avgPrice.replace(/,/g, ''),
                 isGift,
@@ -52,7 +55,6 @@ export const AddPurchase = () => {
     }, []);
 
     const onSymbolChange = useCallback((e: any) => setSymbol(e.target.value.toUpperCase()), []);
-    const onDateAddedChange = useCallback((e: any) => setDateAdded(e.target.value), []);
     const onQuantityChange = useCallback((e: any) => setQuantity(e.target.value), []);
     const onAvgPriceChange = useCallback((e: any) => setAvgPrice(e.target.value), []);
     const onIsIPOChange = useCallback(() => setIsIPO((isIPO) => !isIPO), []);
@@ -68,14 +70,7 @@ export const AddPurchase = () => {
                     onChange={onSymbolChange}
                     placeholder="IRCTC"
                 />
-                <TextField
-                    label="Date Added"
-                    variant="outlined"
-                    type="text"
-                    value={dateAdded}
-                    placeholder="2024-10-25"
-                    onChange={onDateAddedChange}
-                />
+                <DatePicker label="Controlled picker" value={dateAdded} onChange={(newValue) => setDate(newValue)} />
                 <TextField
                     label="Quantity"
                     variant="outlined"

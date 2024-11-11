@@ -3,6 +3,14 @@ import {useNavigate} from 'react-router-dom';
 import {Button, IconButton, Menu, MenuItem, Tooltip, Box, Avatar, Typography, Container, Toolbar} from '@mui/material';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import MenuIcon from '@mui/icons-material/Menu';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ListIcon from '@mui/icons-material/List';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import TodayIcon from '@mui/icons-material/Today';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {useAuth} from '../../hooks/useAuth';
@@ -47,14 +55,14 @@ const AppBar = () => {
 
     const pages = useMemo(
         () => [
-            {to: '/dashboard', label: 'Dashboard'},
-            {to: '/', label: 'Holdings'},
-            {to: '/portfolioByDate', label: 'Days'},
-            {to: '/portfolioByMonth', label: 'Months'},
-            {to: '/portfolioByYear', label: 'Years'},
-            {to: '/heatmapPNL', label: 'Charts'},
-            {to: '/addPurchase', label: 'Add Purchase'},
-            {to: '/upload', label: 'Upload'}
+            {to: '/dashboard', label: 'Dashboard', Icon: DashboardIcon},
+            {to: '/', label: 'Holdings', Icon: ListIcon},
+            {to: '/portfolioByDate', label: 'Days', Icon: CalendarTodayIcon},
+            {to: '/portfolioByMonth', label: 'Months', Icon: TodayIcon},
+            {to: '/portfolioByYear', label: 'Years', Icon: CalendarMonthIcon},
+            {to: '/heatmapPNL', label: 'Charts', Icon: LeaderboardIcon},
+            {to: '/addPurchase', label: 'Add Purchase', Icon: AddShoppingCartIcon},
+            {to: '/upload', label: 'Upload', Icon: CloudUploadIcon}
         ],
         []
     );
@@ -72,9 +80,11 @@ const AppBar = () => {
     const userMenuItems = useMemo(() => {
         return (
             <div>
-                <MenuItem key={name}>
-                    <Typography>Hello, {name}!</Typography>
-                </MenuItem>
+                {isAuthenticated && (
+                    <MenuItem key={name}>
+                        <Typography>Hello, {name}!</Typography>
+                    </MenuItem>
+                )}
                 {settings.map((setting) => (
                     <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : handleCloseUserMenu}>
                         <Typography>{setting}</Typography>
@@ -82,14 +92,13 @@ const AppBar = () => {
                 ))}
             </div>
         );
-    }, [handleCloseUserMenu, handleLogout, name, settings]);
+    }, [handleCloseUserMenu, handleLogout, isAuthenticated, name, settings]);
 
     return isLoading ? (
         <></>
     ) : (
         <Container className="appbar-container" maxWidth={false}>
             <Toolbar disableGutters>
-                <AddchartIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}} />
                 <Typography
                     variant="h6"
                     noWrap
@@ -143,24 +152,29 @@ const AppBar = () => {
                     </Menu>
                 </Box>
 
-                <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
+                <Box sx={{flexGrow: 1, display: {xs: 'none', sm: 'flex'}}}>
                     {isAuthenticated &&
-                        pages.map((page) => (
-                            <Button
-                                key={page.label}
-                                onClick={handleCloseNavMenu(page.to)}
-                                sx={{my: 2, color: 'black', display: 'block'}}
-                            >
-                                {page.label}
-                            </Button>
+                        pages.map(({label, to, Icon}) => (
+                            <Tooltip key={label} title={label}>
+                                <IconButton size="large" onClick={handleCloseNavMenu(to)} color="default">
+                                    <Icon />
+                                </IconButton>
+                            </Tooltip>
                         ))}
                 </Box>
-                <div className="advanced-declined">
-                    <span className="profit">{advanced}</span>/<span className="loss">{declined}</span>
-                </div>
+                {isAuthenticated && (
+                    <Tooltip title="Advance Decline Ratio">
+                        <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+                            <div className="advanced-declined">
+                                <div className="profit advanced-declined-divider">{advanced}</div>
+                                <div className="loss">{declined}</div>
+                            </div>
+                        </Box>
+                    </Tooltip>
+                )}
 
                 {isAuthenticated && (
-                    <div className="indices">
+                    <Box className="indices" sx={{display: {xs: 'none', md: 'flex'}}}>
                         {indices.map((index) => (
                             <IndexInfo key={index.indexSymbol} index={index} />
                         ))}
@@ -178,7 +192,7 @@ const AppBar = () => {
                                 percentChange: convertToPrice(holdingSummary.totalDayChangePercentage)
                             }}
                         />
-                    </div>
+                    </Box>
                 )}
 
                 <Box sx={{flexGrow: 0}}>

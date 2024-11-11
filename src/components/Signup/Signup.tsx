@@ -6,6 +6,7 @@ import {useAuth} from '../../hooks/useAuth';
 import './styles.css';
 
 export const Signup = () => {
+    const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -17,6 +18,7 @@ export const Signup = () => {
     const handleSignup = useCallback(
         async (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
+            setLoading(true);
             try {
                 await registerUser(name.trim(), username.trim(), email.trim(), password.trim());
             } catch (err: unknown) {
@@ -24,6 +26,7 @@ export const Signup = () => {
                     setError(err.message);
                 }
             }
+            setLoading(false);
         },
         [email, name, password, registerUser, username]
     );
@@ -40,60 +43,62 @@ export const Signup = () => {
     return isAuthenticated ? (
         <></>
     ) : (
-        <div className="login-container">
+        <div className="signup-container">
             <h2>Signup</h2>
             <form onSubmit={handleSignup}>
-                <div className="addPurchase">
-                    <TextField
-                        label="Name"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={name}
-                        onChange={onSetName}
-                        required
-                    />
-                    <TextField
-                        label="Username"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={username}
-                        onChange={onSetUsername}
-                        required
-                    />
-                    <TextField
-                        label="Email"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={email}
-                        onChange={onSetEmail}
-                        required
-                    />
-                    <TextField
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        fullWidth
-                        margin="normal"
-                        value={password}
-                        onChange={onSetPassword}
-                        required
-                    />
-                    {error && (
-                        <div>
-                            {error.split('. ').map((errMsg, index) => (
-                                <Typography key={index} color="error">
-                                    {errMsg}
-                                </Typography>
-                            ))}
-                        </div>
-                    )}
-                    <Button type="submit" variant="contained" color="primary" fullWidth>
-                        Signup
-                    </Button>
-                </div>
+                <TextField
+                    className="form-item"
+                    label="Name"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={name}
+                    onChange={onSetName}
+                    required
+                />
+                <TextField
+                    className="form-item"
+                    label="Username"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={username}
+                    onChange={onSetUsername}
+                    required
+                />
+                <TextField
+                    className="form-item"
+                    label="Email"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={email}
+                    onChange={onSetEmail}
+                    required
+                />
+                <TextField
+                    className="form-item"
+                    label="Password"
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+                    margin="normal"
+                    value={password}
+                    onChange={onSetPassword}
+                    required
+                />
+                {error && (
+                    <div className="form-item">
+                        {error.split('. ').map((errMsg, index) => (
+                            <Typography key={index} color="error">
+                                {errMsg}
+                            </Typography>
+                        ))}
+                    </div>
+                )}
+                <Button className="form-item" type="submit" variant="contained" color="primary" disabled={loading}>
+                    Signup
+                </Button>
             </form>
         </div>
     );

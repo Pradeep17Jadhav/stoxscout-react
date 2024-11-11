@@ -9,9 +9,16 @@
 .indices {
     display: flex;
     flex-direction: row;
-    font-size: 14px;
+    flex-shrink: 0;
 }
 
 .advanced-declined {
     margin: auto 16px;
+    display: flex;
+    flex-direction: column;
+    cursor: default;
+}
+
+.advanced-declined-divider {
+    border-bottom: 1px solid #c9c9c9;
 }

@@ -15,8 +15,10 @@ import HoldingsUploader from './components/HoldingsUploader/HoldingsUploader';
 import AppUpdater from './components/AppUpdater/AppUpdater';
 import {Loader} from './components/Loader/Loader';
 import {Dashboard} from './pages/Dashboard/Dashboard';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 
 import './App.css';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider/LocalizationProvider';
 
 const theme = createTheme({
     typography: {
@@ -54,29 +56,31 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
-                <AppUpdater>
-                    <Loader />
-                    <div className="app-container">
-                        <AppBar />
-                        <div className="main-content">
-                            <Routes>
-                                {privateRoutes.map(({path, Component}) => (
-                                    <Route
-                                        key={path}
-                                        path={path}
-                                        element={
-                                            <PrivateRoute>
-                                                <Component />
-                                            </PrivateRoute>
-                                        }
-                                    />
-                                ))}
-                                <Route path="/login" element={<Login />}></Route>
-                                <Route path="/signup" element={<Signup />}></Route>
-                            </Routes>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <AppUpdater>
+                        <Loader />
+                        <div className="app-container">
+                            <AppBar />
+                            <div className="main-content">
+                                <Routes>
+                                    {privateRoutes.map(({path, Component}) => (
+                                        <Route
+                                            key={path}
+                                            path={path}
+                                            element={
+                                                <PrivateRoute>
+                                                    <Component />
+                                                </PrivateRoute>
+                                            }
+                                        />
+                                    ))}
+                                    <Route path="/login" element={<Login />}></Route>
+                                    <Route path="/signup" element={<Signup />}></Route>
+                                </Routes>
+                            </div>
                         </div>
-                    </div>
-                </AppUpdater>
+                    </AppUpdater>
+                </LocalizationProvider>
             </BrowserRouter>
         </ThemeProvider>
     );

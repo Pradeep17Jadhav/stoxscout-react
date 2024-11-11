@@ -6,6 +6,7 @@ import {useAuth} from '../../hooks/useAuth';
 import './styles.css';
 
 export const Login = () => {
+    const [logging, setLogging] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -15,6 +16,7 @@ export const Login = () => {
     const handleLogin = useCallback(
         async (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
+            setLogging(true);
             try {
                 await loginUser(username, password);
             } catch (err: unknown) {
@@ -22,6 +24,7 @@ export const Login = () => {
                     setError(err.message);
                 }
             }
+            setLogging(false);
         },
         [loginUser, password, username]
     );
@@ -39,31 +42,35 @@ export const Login = () => {
         <div className="login-container">
             <h2>Login</h2>
             <form onSubmit={handleLogin}>
-                <div className="addPurchase">
-                    <TextField
-                        label="Username"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={username}
-                        onChange={onSetUsername}
-                        required
-                    />
-                    <TextField
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        fullWidth
-                        margin="normal"
-                        value={password}
-                        onChange={onSetPassword}
-                        required
-                    />
-                    {error && <Typography color="error">{error}</Typography>}
-                    <Button type="submit" variant="contained" color="primary" fullWidth>
-                        Login
-                    </Button>
-                </div>
+                <TextField
+                    className="form-item"
+                    label="Username"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={username}
+                    onChange={onSetUsername}
+                    required
+                />
+                <TextField
+                    className="form-item"
+                    label="Password"
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+                    margin="normal"
+                    value={password}
+                    onChange={onSetPassword}
+                    required
+                />
+                {error && (
+                    <Typography className="form-item" color="error">
+                        {error}
+                    </Typography>
+                )}
+                <Button className="form-item" type="submit" variant="contained" color="primary" disabled={logging}>
+                    Login
+                </Button>
             </form>
         </div>
     );
