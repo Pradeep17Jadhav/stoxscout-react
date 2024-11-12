@@ -10,6 +10,7 @@ const endpoints = {
     indices: `${API_URL}/api/indices`,
     userData: `${API_URL}/api/userData`,
     preference: `${API_URL}/api/preference`,
+    holdingsList: `${API_URL}/userHoldingsList`,
     user: `${API_URL}/api/user`
 } as const;
 

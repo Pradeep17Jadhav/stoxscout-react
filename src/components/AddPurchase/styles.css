@@ -14,3 +14,7 @@
 .holding-uploader {
     text-align: center;
 }
+
+.symbol-autocomplete {
+    text-transform: capitalize;
+}
