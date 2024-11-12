@@ -3,7 +3,6 @@ import {usePortfolio} from '../../hooks/usePortfolio';
 import {useChartsData} from '../../hooks/useCharts';
 import Typography from '@mui/material/Typography/Typography';
 import {PieChart} from '@mui/x-charts/PieChart';
-import {HeatMapPNL} from '../../components/HeatmapPNL/HeatmapPNL';
 import './styles.css';
 
 export const Dashboard = () => {

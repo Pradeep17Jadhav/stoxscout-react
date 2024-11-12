@@ -39,13 +39,13 @@ const AppUpdater = ({children}: {children: ReactNode}) => {
     }, [market, holdings, dispatch]);
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (isAuthenticated && !isUserLoaded && !isMarketLoaded) {
             dispatch(setIsLoading(true));
         } else {
             dispatch(setIsLoading(false));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAuthenticated]);
+    }, []);
 
     useEffect(() => {
         if (!isLoading || !isUserLoaded || !isMarketLoaded) return;
