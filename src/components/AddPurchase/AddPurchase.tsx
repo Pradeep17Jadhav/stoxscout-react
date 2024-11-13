@@ -52,9 +52,12 @@ export const AddPurchase = () => {
         (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             setSaving(true);
-            console.log(dateAdded?.valueOf());
+            const newSymbol = symbol.toUpperCase();
+            if (!holdingList.includes(newSymbol)) {
+                setHoldingList((holdingList) => [...holdingList, newSymbol]);
+            }
             addPurchase({
-                symbol: symbol.toUpperCase(),
+                symbol: newSymbol,
                 dateAdded: dateAdded?.valueOf() ?? new Date().getTime(),
                 quantity: parseInt(quantity),
                 avgPrice: avgPrice.replace(/,/g, ''),
@@ -68,7 +71,7 @@ export const AddPurchase = () => {
                     setSnackbarOpen(true);
                 });
         },
-        [avgPrice, dateAdded, isGift, isIPO, quantity, symbol]
+        [avgPrice, dateAdded, holdingList, isGift, isIPO, quantity, symbol]
     );
 
     const handleSnackbarClose = useCallback(() => {

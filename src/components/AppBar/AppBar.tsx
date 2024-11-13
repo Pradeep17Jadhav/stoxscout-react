@@ -21,9 +21,8 @@ import './styles.css';
 
 const AppBar = () => {
     const {indices} = usePortfolio();
-    const {holdingSummary} = useUser();
+    const {holdingSummary, name} = useUser();
     const {isAuthenticated, logoutUser} = useAuth();
-    const {name = 'User'} = useUser();
     const {isLoading} = useApp();
     const {advanced, declined} = useChartsData();
     const navigate = useNavigate();

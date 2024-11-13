@@ -5,7 +5,7 @@ export enum DEFAULT_COLUMNS {
     QUANTITY = 2,
     AVG_PRICE = 3,
     LTP = 4,
-    INVESTED_VALUE = 5,
+    INVESTED = 5,
     CURRENT_VALUE = 6,
     NET_PNL = 7,
     NET_PNL_PERCENT = 8,

@@ -1,4 +1,4 @@
-import {useCallback} from 'react';
+import {useCallback, useMemo} from 'react';
 import {axisClasses} from '@mui/x-charts/ChartsAxis';
 import {usePortfolio} from './usePortfolio';
 import {SORT_ORDER} from '../types/transaction';
@@ -38,6 +38,15 @@ export const useChartsData = () => {
         [stocksInfo]
     );
 
+    const todaysTopFiveList = useMemo(() => {
+        const losers = sort(stocksInfo, DEFAULT_COLUMNS.DAY_PNL_PERCENT, SORT_ORDER.ASC).slice(0, 5);
+        const gainers = sort(stocksInfo, DEFAULT_COLUMNS.DAY_PNL_PERCENT, SORT_ORDER.DESC).slice(0, 5);
+        return {
+            losers,
+            gainers
+        };
+    }, [stocksInfo]);
+
     const chartSetting = {
         yAxis: [
             {
@@ -68,6 +77,7 @@ export const useChartsData = () => {
     );
 
     return {
+        todaysTopFiveList,
         totalProfitLossAscSeries,
         totalProfitLossAscXAxis,
         totalProfitLossDescSeries,

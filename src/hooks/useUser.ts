@@ -25,7 +25,7 @@ export const useUser = (): UseUserType => {
     );
     return {
         dispatch,
-        name: state.name,
+        name: state.name || 'User',
         holdingSummary: state.holdingSummary,
         holdings: state.userHoldings.holdings,
         preferences: state.preferences,

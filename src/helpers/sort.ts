@@ -61,6 +61,27 @@ const sort = (
     if (column === DEFAULT_COLUMNS.SYMBOL) {
         return sortBySymbol(stocksInfo, order);
     }
+    if (column === DEFAULT_COLUMNS.QUANTITY) {
+        return sortByQuantity(stocksInfo, order);
+    }
+    if (column === DEFAULT_COLUMNS.AVG_PRICE) {
+        return sortByAvgPrice(stocksInfo, order);
+    }
+    if (column === DEFAULT_COLUMNS.LTP) {
+        return sortByLtp(stocksInfo, order);
+    }
+    if (column === DEFAULT_COLUMNS.INVESTED) {
+        return sortByInvestedValue(stocksInfo, order);
+    }
+    if (column === DEFAULT_COLUMNS.CURRENT_VALUE) {
+        return sortByCurrentValue(stocksInfo, order);
+    }
+    if (column === DEFAULT_COLUMNS.NET_PNL) {
+        return sortByPnl(stocksInfo, order);
+    }
+    if (column === DEFAULT_COLUMNS.NET_PNL_PERCENT) {
+        return sortByPnlPercent(stocksInfo, order);
+    }
     if (column === DEFAULT_COLUMNS.DAY_PNL) {
         return sortByDayChange(stocksInfo, order);
     }
@@ -70,29 +91,8 @@ const sort = (
     if (column === DEFAULT_COLUMNS.DAY_PNL_PERCENT_INV) {
         return sortByDayChangePercentOnInvestment(stocksInfo, order);
     }
-    if (column === DEFAULT_COLUMNS.INVESTED_VALUE) {
-        return sortByInvestedValue(stocksInfo, order);
-    }
-    if (column === DEFAULT_COLUMNS.LTP) {
-        return sortByLtp(stocksInfo, order);
-    }
-    if (column === DEFAULT_COLUMNS.NET_PNL) {
-        return sortByPnl(stocksInfo, order);
-    }
-    if (column === DEFAULT_COLUMNS.NET_PNL_PERCENT) {
-        return sortByPnlPercent(stocksInfo, order);
-    }
     if (column === DEFAULT_COLUMNS.MAX_DAYS) {
         return sortByDaysMax(stocksInfo, order);
-    }
-    if (column === DEFAULT_COLUMNS.QUANTITY) {
-        return sortByQuantity(stocksInfo, order);
-    }
-    if (column === DEFAULT_COLUMNS.AVG_PRICE) {
-        return sortByAvgPrice(stocksInfo, order);
-    }
-    if (column === DEFAULT_COLUMNS.CURRENT_VALUE) {
-        return sortByCurrentValue(stocksInfo, order);
     }
     return stocksInfo;
 };

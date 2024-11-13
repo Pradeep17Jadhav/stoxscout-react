@@ -38,7 +38,7 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
     const sortByQuantity = useCallback(() => sortByColumn(DEFAULT_COLUMNS.QUANTITY), [sortByColumn]);
     const sortByAvgPrice = useCallback(() => sortByColumn(DEFAULT_COLUMNS.AVG_PRICE), [sortByColumn]);
     const sortByLTP = useCallback(() => sortByColumn(DEFAULT_COLUMNS.LTP), [sortByColumn]);
-    const sortByInvestedValue = useCallback(() => sortByColumn(DEFAULT_COLUMNS.INVESTED_VALUE), [sortByColumn]);
+    const sortByInvestedValue = useCallback(() => sortByColumn(DEFAULT_COLUMNS.INVESTED), [sortByColumn]);
     const sortByCurrentValue = useCallback(() => sortByColumn(DEFAULT_COLUMNS.CURRENT_VALUE), [sortByColumn]);
     const sortByNetPnl = useCallback(() => sortByColumn(DEFAULT_COLUMNS.NET_PNL), [sortByColumn]);
     const sortByNetPnlPercent = useCallback(() => sortByColumn(DEFAULT_COLUMNS.NET_PNL_PERCENT), [sortByColumn]);
@@ -61,7 +61,7 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
     );
 
     return (
-        <TableContainer className="tableContainer" component={Paper} style={{height: '100'}}>
+        <TableContainer className="tableContainer" component={Paper} style={{height: '100', fontSize: '50px'}}>
             <Table sx={{minWidth: 100}} aria-label="Portfolio" stickyHeader>
                 <TableHead>
                     <TableRow>
@@ -89,9 +89,9 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
                                 {COLUMNS[DEFAULT_COLUMNS.LTP]}
                             </TableCell>
                         )}
-                        {shouldShowColumn(DEFAULT_COLUMNS.INVESTED_VALUE) && (
+                        {shouldShowColumn(DEFAULT_COLUMNS.INVESTED) && (
                             <TableCell className="tableHeaderCell" align="right" onClick={sortByInvestedValue}>
-                                {COLUMNS[DEFAULT_COLUMNS.INVESTED_VALUE]}
+                                {COLUMNS[DEFAULT_COLUMNS.INVESTED]}
                             </TableCell>
                         )}
                         {shouldShowColumn(DEFAULT_COLUMNS.CURRENT_VALUE) && (
@@ -155,7 +155,7 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
                             {shouldShowColumn(DEFAULT_COLUMNS.LTP) && (
                                 <TableCell align="right">{formatPrice(stockInfo.ltp)}</TableCell>
                             )}
-                            {shouldShowColumn(DEFAULT_COLUMNS.INVESTED_VALUE) && (
+                            {shouldShowColumn(DEFAULT_COLUMNS.INVESTED) && (
                                 <TableCell align="right">{formatPrice(stockInfo.investedValue)}</TableCell>
                             )}
                             {shouldShowColumn(DEFAULT_COLUMNS.CURRENT_VALUE) && (

@@ -18,6 +18,12 @@ body {
   background-color: #f0f4f9;
 }
 
+@media (max-width: 600px) {
+  html {
+    font-size: 20px;
+  }
+}
+
 #root {
   height: 100%;
 }
