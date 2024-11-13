@@ -6,6 +6,10 @@
     top: 0;
 }
 
+.appbar-container.dark {
+    background-color: #000;
+}
+
 .indices {
     display: flex;
     flex-direction: row;

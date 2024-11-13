@@ -44,7 +44,7 @@ const theme = createTheme({
 
 const privateRoutes = [
     {path: '/', Component: Landing},
-    {path: '/porfolio', Component: Portfolio},
+    {path: '/portfolio', Component: Portfolio},
     {path: '/holdings', Component: Holdings},
     {path: '/dashboard', Component: Dashboard},
     {path: '/addPurchase', Component: AddPurchase},

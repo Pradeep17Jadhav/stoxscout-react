@@ -30,11 +30,11 @@ export const HoldingsSummaryItem = ({stockInfo}: Props) => {
             <div className="holding-summary-item-row">
                 <span className="holding-summary-item-left">
                     <span>
-                        <span>Qty</span>
+                        <span>Qty.</span>
                         <span>{`${quantity} •`}</span>
                     </span>
                     <span>
-                        <span>Avg</span>
+                        <span>Avg.</span>
                         <span>{avgPrice}</span>
                     </span>
                 </span>
@@ -51,7 +51,7 @@ export const HoldingsSummaryItem = ({stockInfo}: Props) => {
 
             <div className="holding-summary-item-row">
                 <span className="holding-summary-item-left">
-                    <span>Invested</span>
+                    <span>Inv.</span>
                     <span>{investedValue}</span>
                 </span>
                 <span className="holding-summary-item-right">

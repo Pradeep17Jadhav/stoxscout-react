@@ -1,11 +1,12 @@
 import React, {useState, useMemo, useCallback} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {Button, IconButton, Menu, MenuItem, Tooltip, Box, Avatar, Typography, Container, Toolbar} from '@mui/material';
-import AddchartIcon from '@mui/icons-material/Addchart';
+import classnames from 'classnames';
+import {useNavigate, useLocation} from 'react-router-dom';
+import {IconButton, Menu, MenuItem, Tooltip, Box, Avatar, Typography, Container, Toolbar} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListIcon from '@mui/icons-material/List';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import {grey} from '@mui/material/colors';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import TodayIcon from '@mui/icons-material/Today';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
@@ -20,12 +21,14 @@ import {useChartsData} from '../../hooks/useCharts';
 import './styles.css';
 
 const AppBar = () => {
+    const location = useLocation();
     const {indices} = usePortfolio();
     const {holdingSummary, name} = useUser();
     const {isAuthenticated, logoutUser} = useAuth();
     const {isLoading} = useApp();
     const {advanced, declined} = useChartsData();
     const navigate = useNavigate();
+    const showDark = location.pathname === '/holdings' ? true : false;
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -96,7 +99,7 @@ const AppBar = () => {
     return isLoading ? (
         <></>
     ) : (
-        <Container className="appbar-container" maxWidth={false}>
+        <Container className={classnames('appbar-container', showDark && 'dark')} maxWidth={false}>
             <Toolbar disableGutters>
                 <Typography
                     variant="h6"
@@ -197,7 +200,9 @@ const AppBar = () => {
                 <Box sx={{flexGrow: 0}}>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                            <Avatar alt="P" />
+                            <Avatar alt={name} sx={{bgcolor: grey[600]}}>
+                                {name.slice(0, 1)}
+                            </Avatar>
                         </IconButton>
                     </Tooltip>
                     <Menu
