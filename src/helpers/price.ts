@@ -122,3 +122,10 @@ export const formatPrice = (price: number) => {
         minimumFractionDigits: 2
     });
 };
+
+export const getProfitLossClassname = (price: string, isDark?: boolean) => {
+    if (isDark) {
+        return parseFloat(price) >= 0 ? 'profitDark' : 'lossDark';
+    }
+    return parseFloat(price) >= 0 ? 'profit' : 'loss';
+};

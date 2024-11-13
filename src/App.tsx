@@ -16,9 +16,11 @@ import AppUpdater from './components/AppUpdater/AppUpdater';
 import {Loader} from './components/Loader/Loader';
 import {Dashboard} from './pages/Dashboard/Dashboard';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider/LocalizationProvider';
+import {Holdings} from './pages/Holdings/Holdings';
+import {Landing} from './pages/Landing/Landing';
 
 import './App.css';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider/LocalizationProvider';
 
 const theme = createTheme({
     typography: {
@@ -41,7 +43,9 @@ const theme = createTheme({
 });
 
 const privateRoutes = [
-    {path: '/', Component: Portfolio},
+    {path: '/', Component: Landing},
+    {path: '/porfolio', Component: Portfolio},
+    {path: '/holdings', Component: Holdings},
     {path: '/dashboard', Component: Dashboard},
     {path: '/addPurchase', Component: AddPurchase},
     {path: '/portfolioByDate', Component: PortfolioByDate},

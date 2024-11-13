@@ -1,0 +1,36 @@
+.holding-summary-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px 20px;
+    border-bottom: 1px solid #171717;
+    font-size: 0.9rem;
+}
+
+.holding-summary-item-row.main-text {
+    font-size: 1rem;
+    color: #d9d9d9;
+}
+
+.holding-summary-item-row {
+    margin-bottom: 4px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.holding-summary-item .holding-summary-item-left span {
+    margin-right: 4px;
+}
+
+.holding-summary-item .holding-summary-item-right span {
+    margin-left: 4px;
+}
+
+.holding-summary-item-left {
+    text-align: left;
+}
+
+.holding-summary-item-right {
+    text-align: right;
+}
