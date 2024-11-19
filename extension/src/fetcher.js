@@ -32,8 +32,7 @@ const main = async () => {
             .map((index) => ({
                 indexSymbol: index.indexSymbol,
                 current: index.last,
-                percentChange: index.percentChange,
-                timeStamp: new Date().getTime()
+                percentChange: index.percentChange
             }));
     } else if (window.location.hostname === 'www.bseindia.com') {
         holdingsMarketDataBSE = await Promise.all(

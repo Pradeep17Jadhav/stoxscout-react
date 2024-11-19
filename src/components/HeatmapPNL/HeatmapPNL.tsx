@@ -27,11 +27,11 @@ const generateColorsPNL = (percentDayChange: number): string => {
     } else {
         if (percentDayChange >= 10) return '#182e0a';
         if (percentDayChange >= 7) return '#2c5212';
-        if (percentDayChange >= 5) return '#356416';
+        if (percentDayChange >= 5) return '#2d5c0e';
         if (percentDayChange >= 3) return '#3f771a';
         if (percentDayChange >= 2) return '#49891d';
         if (percentDayChange >= 1.5) return '#529b21';
-        if (percentDayChange >= 1) return '#6fd22d';
+        if (percentDayChange >= 1) return '#51b012';
         if (percentDayChange >= 0.8) return '#7cd63f';
         if (percentDayChange >= 0.6) return '#88da52';
         if (percentDayChange >= 0.5) return '#95de64';

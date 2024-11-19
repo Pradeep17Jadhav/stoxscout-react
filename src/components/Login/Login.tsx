@@ -50,6 +50,7 @@ export const Login = () => {
                     margin="normal"
                     value={username}
                     onChange={onSetUsername}
+                    autoComplete="username"
                     required
                 />
                 <TextField
@@ -61,6 +62,7 @@ export const Login = () => {
                     margin="normal"
                     value={password}
                     onChange={onSetPassword}
+                    autoComplete="current-password"
                     required
                 />
                 {error && (

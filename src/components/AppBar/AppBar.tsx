@@ -69,26 +69,47 @@ const AppBar = () => {
         []
     );
 
-    const settings = useMemo(
-        () => (isAuthenticated ? ['Profile', 'Account', 'Logout'] : ['Login', 'Signup']),
-        [isAuthenticated]
-    );
+    const settings = useMemo(() => (isAuthenticated ? ['Profile', 'Logout'] : ['Login', 'Signup']), [isAuthenticated]);
 
     const handleLogout = useCallback(() => {
         handleCloseUserMenu();
         logoutUser();
     }, [handleCloseUserMenu, logoutUser]);
 
+    const handleMenuItemClick = useCallback(
+        (setting: string) => () => {
+            handleCloseUserMenu();
+            switch (setting) {
+                case 'Logout': {
+                    logoutUser();
+                    break;
+                }
+                case 'Signup': {
+                    navigate('/signup');
+                    break;
+                }
+                case 'Login': {
+                    navigate('/login');
+                    break;
+                }
+                case 'Profile': {
+                    break;
+                }
+            }
+        },
+        [handleCloseUserMenu, logoutUser, navigate]
+    );
+
     const userMenuItems = useMemo(() => {
         return (
             <div>
                 {isAuthenticated && (
-                    <MenuItem key={name}>
+                    <MenuItem key={name} disabled>
                         <Typography>Hello, {name}!</Typography>
                     </MenuItem>
                 )}
                 {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : handleCloseUserMenu}>
+                    <MenuItem key={setting} onClick={handleMenuItemClick(setting)}>
                         <Typography>{setting}</Typography>
                     </MenuItem>
                 ))}
