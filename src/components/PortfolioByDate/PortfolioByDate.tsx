@@ -1,13 +1,12 @@
 import {getPnL} from '../../helpers/price';
 import {useCallback, useEffect, useState} from 'react';
-import {DateWiseStockInformation, SORT_ORDER} from '../../types/transaction';
+import {DateWiseStockInformation} from '../../types/transaction';
 import {dateWiseStockInfoGeneratorAll} from '../../helpers/portfolioByDateUtils';
-import {HoldingTable} from '../HoldingTable/HoldingTable';
+import {HoldingTable, SortData} from '../HoldingTable/HoldingTable';
 import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {sort, sortHoldingsByDate} from '../../helpers/sort';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
-import {DEFAULT_COLUMNS} from '../../types/userPreferences';
 
 import './styles.css';
 
@@ -24,7 +23,7 @@ export const PortfolioByDate = () => {
     }, [holdings, market]);
 
     const onSort = useCallback(
-        (column: DEFAULT_COLUMNS, order: SORT_ORDER, date?: string) => {
+        ({column, orderBy, date}: SortData) => {
             let index = -1;
             if (!date) {
                 return;
@@ -39,7 +38,7 @@ export const PortfolioByDate = () => {
             if (!stocksInfoForDate || index === -1) {
                 return;
             }
-            const sortedStocksInfo = sort(stocksInfoForDate.stocksInfo, column, order);
+            const sortedStocksInfo = sort(stocksInfoForDate.stocksInfo, column, orderBy);
             setDateWiseStocksInfo((dateWiseStockInformation: DateWiseStockInformation) => {
                 const dateWiseStockInformationCopy = JSON.parse(JSON.stringify(dateWiseStockInformation));
                 dateWiseStockInformationCopy[index].stocksInfo = sortedStocksInfo;

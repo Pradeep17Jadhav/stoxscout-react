@@ -1,10 +1,10 @@
 import {getPnL} from '../../helpers/price';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {MonthWiseStockInformation} from '../../types/transaction';
 import {monthWiseStockInfoGeneratorAll} from '../../helpers/portfolioByDateUtils';
-import {HoldingTable} from '../HoldingTable/HoldingTable';
+import {HoldingTable, SortData} from '../HoldingTable/HoldingTable';
 import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
-import {sortHoldingsByMonth} from '../../helpers/sort';
+import {sort, sortHoldingsByMonth} from '../../helpers/sort';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 
@@ -22,6 +22,32 @@ export const PortfolioByMonth = () => {
         setMonthWiseStocksInfo(sortedDateWiseStockInfo);
     }, [holdings, market]);
 
+    const onSort = useCallback(
+        ({column, orderBy, monthYear}: SortData) => {
+            let index = -1;
+            if (!monthYear) {
+                return;
+            }
+            const stocksInfoForMonthYear = monthWiseStocksInfo.find((stockInfoForMonthYear, i) => {
+                if (stockInfoForMonthYear.monthYear === monthYear) {
+                    index = i;
+                    return true;
+                }
+                return false;
+            });
+            if (!stocksInfoForMonthYear || index === -1) {
+                return;
+            }
+            const sortedStocksInfo = sort(stocksInfoForMonthYear.stocksInfo, column, orderBy);
+            setMonthWiseStocksInfo((monthWiseStocksInfo: MonthWiseStockInformation) => {
+                const monthYearWiseStockInformationCopy = JSON.parse(JSON.stringify(monthWiseStocksInfo));
+                monthYearWiseStockInformationCopy[index].stocksInfo = sortedStocksInfo;
+                return monthYearWiseStockInformationCopy;
+            });
+        },
+        [monthWiseStocksInfo]
+    );
+
     return (
         <>
             {monthWiseStocksInfo.map((monthWiseStocksInfoItem) => (
@@ -32,6 +58,7 @@ export const PortfolioByMonth = () => {
                             <HoldingTable
                                 stocksInfo={monthWiseStocksInfoItem.stocksInfo}
                                 monthYear={monthWiseStocksInfoItem.monthYear}
+                                onSort={onSort}
                             />
                         </div>
                         <HoldingInformation holdingSummary={getPnL(monthWiseStocksInfoItem.stocksInfo)} />

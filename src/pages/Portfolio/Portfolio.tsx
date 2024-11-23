@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import {sort} from '../../helpers/sort';
 import {SORT_ORDER, StockInformation} from '../../types/transaction';
-import {HoldingTable} from '../../components/HoldingTable/HoldingTable';
+import {HoldingTable, SortData} from '../../components/HoldingTable/HoldingTable';
 import {HoldingInformation} from '../../components/HoldingInformation/HoldingInformation';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
@@ -25,19 +25,19 @@ export const Portfolio = () => {
     const {isLoading} = useApp();
 
     const onSort = useCallback(
-        (column: DEFAULT_COLUMNS, order: SORT_ORDER) => {
+        ({column, orderBy}: SortData) => {
             if (!stocksInfo?.length) {
                 return;
             }
-            if (column !== dashboardPreferences?.sortColumn || order !== dashboardPreferences?.sortOrder) {
+            if (column !== dashboardPreferences?.sortColumn || orderBy !== dashboardPreferences?.sortOrder) {
                 const newDashboardPreference: DashboardPreferences = {
                     ...dashboardPreferences,
                     sortColumn: column,
-                    sortOrder: order
+                    sortOrder: orderBy
                 };
                 dispatch(updateDashboardPreferences(newDashboardPreference));
             }
-            const sortedStocksInfo = sort(stocksInfo, column, order);
+            const sortedStocksInfo = sort(stocksInfo, column, orderBy);
             setSortedStockInfo(sortedStocksInfo);
         },
         [dashboardPreferences, stocksInfo, dispatch, updateDashboardPreferences]
@@ -51,7 +51,7 @@ export const Portfolio = () => {
         const prefColumn = dashboardPreferences?.sortColumn;
         const prefSortOrder = dashboardPreferences?.sortOrder;
         if (prefColumn && prefSortOrder) {
-            onSort(prefColumn, prefSortOrder);
+            onSort({column: prefColumn, orderBy: prefSortOrder});
         }
     }, [stocksInfo, preferences, dashboardPreferences?.sortColumn, dashboardPreferences?.sortOrder, onSort]);
 

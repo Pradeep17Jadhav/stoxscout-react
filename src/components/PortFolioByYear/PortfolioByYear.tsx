@@ -1,13 +1,12 @@
 import {useCallback, useEffect, useState} from 'react';
 import {getPnL} from '../../helpers/price';
-import {SORT_ORDER, YearWiseStockInformation} from '../../types/transaction';
-import {HoldingTable} from '../HoldingTable/HoldingTable';
+import {YearWiseStockInformation} from '../../types/transaction';
+import {HoldingTable, SortData} from '../HoldingTable/HoldingTable';
 import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {sort, sortHoldingsByYear} from '../../helpers/sort';
 import {yearWiseStockInfoGeneratorAll} from '../../helpers/portfolioByDateUtils';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
-import {DEFAULT_COLUMNS} from '../../types/userPreferences';
 
 import './styles.css';
 
@@ -24,7 +23,7 @@ export const PortfolioByYear = () => {
     }, [holdings, market]);
 
     const onSort = useCallback(
-        (column: DEFAULT_COLUMNS, order: SORT_ORDER, year?: string) => {
+        ({column, orderBy, year}: SortData) => {
             let index = -1;
             if (!year) {
                 return;
@@ -39,7 +38,7 @@ export const PortfolioByYear = () => {
             if (!stocksInfoForDate || index === -1) {
                 return;
             }
-            const sortedStocksInfo = sort(stocksInfoForDate.stocksInfo, column, order);
+            const sortedStocksInfo = sort(stocksInfoForDate.stocksInfo, column, orderBy);
             setYearWiseStocksInfo((yearWiseStockInformation: YearWiseStockInformation) => {
                 const yearWiseStockInformationCopy = JSON.parse(JSON.stringify(yearWiseStockInformation));
                 yearWiseStockInformationCopy[index].stocksInfo = sortedStocksInfo;

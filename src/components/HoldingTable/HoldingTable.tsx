@@ -10,9 +10,18 @@ type Props = {
     date?: string;
     monthYear?: string;
     year?: string;
-    onSort?: (column: DEFAULT_COLUMNS, order: SORT_ORDER, date?: string) => void;
+    onSort?: (sortData: SortData) => void;
     visibleColumns?: DEFAULT_COLUMNS[];
 };
+
+export type SortData = {
+    column: DEFAULT_COLUMNS;
+    orderBy: SORT_ORDER;
+    date?: string;
+    monthYear?: string;
+    year?: string;
+};
+
 export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visibleColumns}: Props) => {
     const [sortedBy, setSortedBy] = useState<DEFAULT_COLUMNS>(DEFAULT_COLUMNS.SYMBOL);
     const [orderBy, setOrderBy] = useState<SORT_ORDER>(SORT_ORDER.DESC);
@@ -29,9 +38,9 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
                 setSortedBy(column);
                 setOrderBy(SORT_ORDER.ASC);
             }
-            onSort?.(column, orderBy, date);
+            onSort?.({column, orderBy, date, monthYear, year});
         },
-        [date, onSort, orderBy, sortedBy]
+        [date, monthYear, onSort, orderBy, sortedBy, year]
     );
 
     const sortBySymbol = useCallback(() => sortByColumn(DEFAULT_COLUMNS.SYMBOL), [sortByColumn]);
