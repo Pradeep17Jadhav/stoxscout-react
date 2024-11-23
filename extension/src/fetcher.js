@@ -8,8 +8,12 @@ const startFetching = () => {
 };
 
 const main = async () => {
-    // if (!(isMarketHour() && (window.location.hostname === "www.nseindia.com" || window.location.hostname === "www.bseindia.com")))
-    //   return;
+    if (
+        !isMarketHour() ||
+        !(window.location.hostname === 'www.nseindia.com' || window.location.hostname === 'www.bseindia.com')
+    ) {
+        return;
+    }
 
     let holdingsMarketDataNSE = [];
     let holdingsMarketDataBSE = [];

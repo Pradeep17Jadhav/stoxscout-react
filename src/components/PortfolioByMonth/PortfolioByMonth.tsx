@@ -7,6 +7,7 @@ import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {sort, sortHoldingsByMonth} from '../../helpers/sort';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
+import {getFormattedDate} from '../../helpers/dateUtils';
 
 import './styles.css';
 
@@ -52,7 +53,7 @@ export const PortfolioByMonth = () => {
         <>
             {monthWiseStocksInfo.map((monthWiseStocksInfoItem) => (
                 <div className="month-container" key={`${monthWiseStocksInfoItem.monthYear}`}>
-                    <div className="monthPurchased">{monthWiseStocksInfoItem.monthYear}</div>
+                    <div className="monthPurchased">{getFormattedDate(monthWiseStocksInfoItem.monthYear)}</div>
                     <div>
                         <div>
                             <HoldingTable

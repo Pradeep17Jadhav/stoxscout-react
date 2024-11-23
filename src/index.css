@@ -25,7 +25,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0;
-  color: #444;
+  color: var(--mui-palette-text-primary);
   line-height: 1.7em;
   background-color: var(--background-color);
 }

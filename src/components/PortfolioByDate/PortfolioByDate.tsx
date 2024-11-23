@@ -7,6 +7,7 @@ import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {sort, sortHoldingsByDate} from '../../helpers/sort';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
+import {getFormattedDate} from '../../helpers/dateUtils';
 
 import './styles.css';
 
@@ -52,7 +53,7 @@ export const PortfolioByDate = () => {
         <>
             {dateWiseStocksInfo.map((dateWiseStocksInfoItem) => (
                 <div className="day-container" key={`${dateWiseStocksInfoItem.date}`}>
-                    <div className="datePurchased">{dateWiseStocksInfoItem.date}</div>
+                    <div className="datePurchased">{getFormattedDate(dateWiseStocksInfoItem.date)}</div>
                     <div>
                         <div>
                             <HoldingTable
