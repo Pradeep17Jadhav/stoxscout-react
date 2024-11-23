@@ -8,7 +8,8 @@ import {
     updateComputerDashboardPreferencesThunk,
     updatePreferencesOnlineThunk,
     updateComputerDashboardVisibleColumnPreferences,
-    updateMobileDashboardVisibleColumnPreferences
+    updateMobileDashboardVisibleColumnPreferences,
+    updateThemePreferencesThunk
 } from '../redux/actions/userActions';
 
 const usePreferences = () => {
@@ -31,12 +32,14 @@ const usePreferences = () => {
     );
 
     return {
+        theme: userPreferences.theme,
         dashboardPreferences: preferences?.dashboard,
         dashboardVisibleColumns: preferences?.dashboard?.visibleColumns,
         updatePreferencesOnline: updatePreferencesOnlineThunk,
         updateDevicePreferences,
         updateDashboardPreferences,
-        updateDashboardVisibleColumnsPreferences
+        updateDashboardVisibleColumnsPreferences,
+        updateThemePreferences: updateThemePreferencesThunk
     };
 };
 

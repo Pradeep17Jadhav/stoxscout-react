@@ -1,7 +1,8 @@
 import React, {useState, useMemo, useCallback, useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import classnames from 'classnames';
 import {useNavigate, useLocation} from 'react-router-dom';
-import {IconButton, Menu, MenuItem, Tooltip, Box, Avatar, Typography, Container, Toolbar} from '@mui/material';
+import {IconButton, Menu, MenuItem, Tooltip, Box, Avatar, Typography, Container, Toolbar, Popover} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListIcon from '@mui/icons-material/List';
@@ -19,29 +20,47 @@ import {useAuth} from '../../hooks/useAuth';
 import {IndexInfo} from './IndexInfo/IndexInfo';
 import {useChartsData} from '../../hooks/useCharts';
 import {getUpdatedAgo} from '../../helpers/dateUtils';
+import {ThemeSwitcher} from '../Switcher/ThemeSwitcher/ThemeSwitcher';
+import {THEME} from '../../types/userPreferences';
+import usePreferences from '../../hooks/usePreferences';
+import {AppDispatch} from '../../redux/store/store';
 import './styles.css';
 
 const AppBar = () => {
     const location = useLocation();
+    const dispatch = useDispatch<AppDispatch>();
     const {indices, marketLastUpdated} = usePortfolio();
     const {holdingSummary, name} = useUser();
     const {isAuthenticated, logoutUser} = useAuth();
     const {advanced, declined} = useChartsData();
     const navigate = useNavigate();
+    const {updateThemePreferences, theme} = usePreferences();
     const showDark = location.pathname === '/holdings' ? true : false;
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const [popoverAnchor, setPopoverAnchor] = useState<null | HTMLElement>(null);
     const [updatedAgo, setUpdatedAgo] = useState(getUpdatedAgo(marketLastUpdated));
 
     const handleOpenNavMenu = useCallback(
         (event: React.MouseEvent<HTMLElement>) => setAnchorElNav(event.currentTarget),
         []
     );
-    const handleOpenUserMenu = useCallback(
-        (event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget),
-        []
+
+    const handlePopoverOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+        setPopoverAnchor(event.currentTarget);
+    }, []);
+
+    const handlePopoverClose = useCallback(() => {
+        setPopoverAnchor(null);
+    }, []);
+
+    const onThemeChange = useCallback(
+        (theme: THEME) => {
+            dispatch(updateThemePreferences(theme));
+        },
+        [dispatch, updateThemePreferences]
     );
+
     const handleCloseNavMenu = useCallback(
         (to: string) => () => {
             setAnchorElNav(null);
@@ -51,8 +70,6 @@ const AppBar = () => {
         },
         [navigate]
     );
-
-    const handleCloseUserMenu = useCallback(() => setAnchorElUser(null), []);
 
     const convertToPrice = useCallback((strPrice: string) => parseFloat(strPrice.replace(/,/g, '')), []);
 
@@ -74,7 +91,7 @@ const AppBar = () => {
 
     const handleMenuItemClick = useCallback(
         (setting: string) => () => {
-            handleCloseUserMenu();
+            handlePopoverClose();
             switch (setting) {
                 case 'Logout': {
                     logoutUser();
@@ -93,7 +110,7 @@ const AppBar = () => {
                 }
             }
         },
-        [handleCloseUserMenu, logoutUser, navigate]
+        [handlePopoverClose, logoutUser, navigate]
     );
 
     const refreshLastUpdatedValue = useCallback(
@@ -125,6 +142,7 @@ const AppBar = () => {
                         <Typography>Hello, {name}!</Typography>
                     </MenuItem>
                 )}
+                <ThemeSwitcher onThemeChange={onThemeChange} currentTheme={theme} />
                 {settings.map((setting) => (
                     <MenuItem key={setting} onClick={handleMenuItemClick(setting)}>
                         <Typography>{setting}</Typography>
@@ -132,7 +150,7 @@ const AppBar = () => {
                 ))}
             </div>
         );
-    }, [handleMenuItemClick, isAuthenticated, name, settings]);
+    }, [handleMenuItemClick, isAuthenticated, name, onThemeChange, settings, theme]);
 
     return (
         <Container className={classnames('appbar-container', showDark && 'dark')} maxWidth={false}>
@@ -236,31 +254,32 @@ const AppBar = () => {
 
                 <Box sx={{flexGrow: 0}}>
                     <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                        <IconButton onClick={handlePopoverOpen} sx={{p: 0}}>
                             <Avatar alt={name} sx={{bgcolor: grey[600]}}>
-                                {name.slice(0, 1)}
+                                {name === 'User' ? undefined : name.slice(0, 1)}
                             </Avatar>
                         </IconButton>
                     </Tooltip>
-                    <Menu
-                        sx={{mt: '45px'}}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
+                    <Popover
+                        open={Boolean(popoverAnchor)}
+                        anchorEl={popoverAnchor}
                         anchorOrigin={{
                             vertical: 'top',
                             horizontal: 'right'
                         }}
-                        keepMounted
                         transformOrigin={{
                             vertical: 'top',
                             horizontal: 'right'
                         }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
+                        onClose={handlePopoverClose}
+                        sx={{
+                            width: 300,
+                            height: 500
+                        }}
                         disableScrollLock
                     >
                         {userMenuItems}
-                    </Menu>
+                    </Popover>
                 </Box>
             </Toolbar>
         </Container>

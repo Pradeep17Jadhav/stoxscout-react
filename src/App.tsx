@@ -1,7 +1,13 @@
+import {useMemo} from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {Portfolio} from './pages/Portfolio/Portfolio';
 import {AddPurchase} from './components/AddPurchase/AddPurchase';
-import {ThemeProvider, createTheme} from '@mui/material';
+import {ThemeProvider} from '@mui/material';
+import {
+    Experimental_CssVarsProvider as CssVarsProvider,
+    experimental_extendTheme as extendTheme,
+    createTheme
+} from '@mui/material/styles';
 import {PortfolioByDate} from './components/PortfolioByDate/PortfolioByDate';
 import {PortfolioByYear} from './components/PortFolioByYear/PortfolioByYear';
 import {HeatMap} from './components/Heatmap/Heatmap';
@@ -19,28 +25,25 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider/LocalizationProvider';
 import {Holdings} from './pages/Holdings/Holdings';
 import {Landing} from './pages/Landing/Landing';
-
+import {THEME} from './types/userPreferences';
+import usePreferences from './hooks/usePreferences';
 import './App.css';
 
-const theme = createTheme({
-    typography: {
-        fontFamily: [
-            'Inter',
-            'Roboto',
-            'Arial',
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"'
-        ].join(',')
-    }
-});
+const fontFamily = [
+    'Inter',
+    'Roboto',
+    'Arial',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"'
+].join(',');
 
 const privateRoutes = [
     {path: '/', Component: Landing},
@@ -56,37 +59,77 @@ const privateRoutes = [
     {path: '/upload', Component: HoldingsUploader}
 ];
 
+const lightTheme = createTheme({
+    typography: {
+        fontFamily
+    },
+    palette: {
+        mode: 'light'
+    }
+});
+
+const darkTheme = createTheme({
+    typography: {
+        fontFamily
+    },
+    palette: {
+        mode: 'dark',
+        background: {
+            paper: '#101010'
+        }
+    }
+});
+
 function App() {
+    const {theme} = usePreferences();
+    const activeTheme = theme === THEME.LIGHT ? lightTheme : darkTheme;
+    const extendedTheme = useMemo(
+        () =>
+            extendTheme({
+                colorSchemes: {
+                    light: {
+                        ...lightTheme
+                    },
+                    dark: {
+                        ...darkTheme
+                    }
+                }
+            }),
+        []
+    );
+
     return (
-        <ThemeProvider theme={theme}>
-            <BrowserRouter>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <AppUpdater>
-                        <Loader />
-                        <div className="app-container">
-                            <AppBar />
-                            <div className="main-content">
-                                <Routes>
-                                    {privateRoutes.map(({path, Component}) => (
-                                        <Route
-                                            key={path}
-                                            path={path}
-                                            element={
-                                                <PrivateRoute>
-                                                    <Component />
-                                                </PrivateRoute>
-                                            }
-                                        />
-                                    ))}
-                                    <Route path="/login" element={<Login />}></Route>
-                                    <Route path="/signup" element={<Signup />}></Route>
-                                </Routes>
+        <CssVarsProvider theme={extendedTheme}>
+            <ThemeProvider theme={activeTheme}>
+                <BrowserRouter>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <AppUpdater>
+                            <Loader />
+                            <div className="app-container">
+                                <AppBar />
+                                <div className="main-content">
+                                    <Routes>
+                                        {privateRoutes.map(({path, Component}) => (
+                                            <Route
+                                                key={path}
+                                                path={path}
+                                                element={
+                                                    <PrivateRoute>
+                                                        <Component />
+                                                    </PrivateRoute>
+                                                }
+                                            />
+                                        ))}
+                                        <Route path="/login" element={<Login />}></Route>
+                                        <Route path="/signup" element={<Signup />}></Route>
+                                    </Routes>
+                                </div>
                             </div>
-                        </div>
-                    </AppUpdater>
-                </LocalizationProvider>
-            </BrowserRouter>
-        </ThemeProvider>
+                        </AppUpdater>
+                    </LocalizationProvider>
+                </BrowserRouter>
+            </ThemeProvider>
+        </CssVarsProvider>
     );
 }
 

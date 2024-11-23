@@ -2,6 +2,16 @@ html {
   height: 100%;
 }
 
+:root {
+  --background-color: #f0f4f9;
+  --container-box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+
+[data-mui-color-scheme="dark"] {
+  --background-color: #101010;
+  --container-box-shadow: rgba(200 200 200 / 15%) 0px 48px 100px 0px;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -15,7 +25,7 @@ body {
   letter-spacing: 0;
   color: #444;
   line-height: 1.7em;
-  background-color: #f0f4f9;
+  background-color: var(--background-color);
 }
 
 @media (max-width: 600px) {

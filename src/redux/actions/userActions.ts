@@ -2,7 +2,13 @@ import {Action, Dispatch} from 'redux';
 import {ThunkAction} from '@reduxjs/toolkit';
 import {updatePreference} from '../../api/userAPI';
 import {Holdings, HoldingSummary} from '../../types/transaction';
-import {DashboardPreferences, DEFAULT_COLUMNS, DevicePreferences, Preferences} from '../../types/userPreferences';
+import {
+    DashboardPreferences,
+    DEFAULT_COLUMNS,
+    DevicePreferences,
+    Preferences,
+    THEME
+} from '../../types/userPreferences';
 import {RootState} from '../reducers/rootReducer';
 import {UserInformation} from '../../types/user';
 
@@ -10,6 +16,7 @@ export type UserAction =
     | {type: 'UPDATE_USER_INFORMATION'; payload: UserInformation}
     | {type: 'UPDATE_HOLDING_SUMMARY'; payload: HoldingSummary}
     | {type: 'UPDATE_USER_HOLDINGS'; payload: Holdings}
+    | {type: 'UPDATE_THEME_PREFERENCES'; payload: THEME}
     | {type: 'UPDATE_USER_PREFERENCES'; payload: Preferences}
     | {type: 'UPDATE_MOBILE_PREFERENCES'; payload: DevicePreferences}
     | {type: 'UPDATE_COMPUTER_PREFERENCES'; payload: DevicePreferences}
@@ -30,6 +37,11 @@ export const updateHoldingSummary = (payload: HoldingSummary): UserAction => ({
 
 export const updateUserHoldings = (payload: Holdings): UserAction => ({
     type: 'UPDATE_USER_HOLDINGS',
+    payload
+});
+
+export const updateThemePreferences = (payload: THEME): UserAction => ({
+    type: 'UPDATE_THEME_PREFERENCES',
     payload
 });
 
@@ -103,6 +115,22 @@ export const updateComputerDashboardPreferencesThunk = (
     newDashboardPreference: DashboardPreferences
 ): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => {
     return updateDashboardPreferencesThunk('computer', newDashboardPreference, updateComputerDashboardPreferences);
+};
+
+export const updateThemePreferencesThunk = (theme: THEME) => {
+    return async (dispatch: Dispatch<any>, getState: () => RootState) => {
+        try {
+            dispatch(updateThemePreferences(theme));
+            const currentPreferences = getState().user.preferences;
+            const updatedPreferences = {
+                ...currentPreferences,
+                theme
+            } as Preferences;
+            await updatePreference(updatedPreferences);
+        } catch (error) {
+            console.error('Failed to update theme preferences:', error);
+        }
+    };
 };
 
 export const updatePreferencesOnlineThunk = (): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => {

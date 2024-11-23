@@ -69,6 +69,14 @@ export const userReducer = (state: UserState = initialState, action: UserAction)
                     loaded: true
                 }
             };
+        case 'UPDATE_THEME_PREFERENCES':
+            return {
+                ...state,
+                preferences: {
+                    ...state.preferences,
+                    theme: action.payload
+                }
+            };
         case 'UPDATE_COMPUTER_DASHBOARD_PREFERENCES':
             return {
                 ...state,
