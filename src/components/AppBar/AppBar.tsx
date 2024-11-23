@@ -169,7 +169,8 @@ const AppBar = () => {
                         textDecoration: 'none'
                     }}
                 >
-                    MagnyFire
+                    <span className="profit">Magny</span>
+                    <span className="loss">Fire</span>
                 </Typography>
 
                 <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>

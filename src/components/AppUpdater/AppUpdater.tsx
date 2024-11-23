@@ -1,6 +1,5 @@
 import {ReactNode, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useColorScheme} from '@mui/material/styles/CssVarsProvider';
 import {getPnL, stockInfoGeneratorAll} from '../../helpers/price';
 import {updateStocksInfo} from '../../redux/actions/portfolioActions';
 import useIndicesFetcher from '../../hooks/useIndicesFetcher';
@@ -13,14 +12,12 @@ import {useApp} from '../../hooks/useApp';
 import {useUser} from '../../hooks/useUser';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useAuth} from '../../hooks/useAuth';
-import usePreferences from '../../hooks/usePreferences';
-import {THEME} from '../../types/userPreferences';
+import useSystemTheme from '../../hooks/useSystemTheme';
 
 const AppUpdater = ({children}: {children: ReactNode}) => {
     const dispatch = useDispatch();
-    const {setMode} = useColorScheme();
-    const {theme} = usePreferences();
     const {isLoading, setIsLoading} = useApp();
+    useSystemTheme();
     useMarketData();
     useHoldingsFetcher();
     useIndicesFetcher();
@@ -55,10 +52,6 @@ const AppUpdater = ({children}: {children: ReactNode}) => {
         if (!isLoading || !isUserLoaded || !isMarketLoaded) return;
         dispatch(setIsLoading(false));
     }, [dispatch, isLoading, market, setIsLoading, holdings, isUserLoaded, isMarketLoaded]);
-
-    useEffect(() => {
-        setMode(theme === THEME.DARK ? 'dark' : 'light');
-    }, [setMode, theme]);
 
     return <>{children}</>;
 };

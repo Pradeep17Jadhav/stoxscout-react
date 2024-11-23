@@ -3,6 +3,6 @@
 }
 
 .tableHeaderCell:hover {
-    background: #f2f2f2;
+    background: var(--table-header-hover);
     cursor: pointer;
 }

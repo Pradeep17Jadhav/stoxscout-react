@@ -24,7 +24,7 @@ export const initialState: UserState = {
         loaded: false
     },
     preferences: {
-        theme: THEME.LIGHT,
+        theme: THEME.SYSTEM_DEFAULT,
         mobile: {
             dashboard: {
                 visibleColumns: [1, 2, 4, 10],

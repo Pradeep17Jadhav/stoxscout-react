@@ -1,7 +1,8 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {Button, TextField, Typography} from '@mui/material';
+import {TextField, Typography} from '@mui/material';
 import {useAuth} from '../../hooks/useAuth';
+import {PrimaryButton} from '../Buttons/PrimaryButton/PrimaryButton';
 
 import './styles.css';
 
@@ -70,9 +71,9 @@ export const Login = () => {
                         {error}
                     </Typography>
                 )}
-                <Button className="form-item" type="submit" variant="contained" color="primary" disabled={logging}>
+                <PrimaryButton className="form-item" type="submit" disabled={logging}>
                     Login
-                </Button>
+                </PrimaryButton>
             </form>
         </div>
     );

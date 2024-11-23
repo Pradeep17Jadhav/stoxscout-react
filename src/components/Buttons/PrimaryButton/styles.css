@@ -1,0 +1,8 @@
+.primary-button {
+    background-color: transparent !important;
+    width: 100px;
+    border: 1px solid var(--mui-palette-grey-800) !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    color: var(--mui-palette-text-primary) !important;
+}

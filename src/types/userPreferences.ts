@@ -33,6 +33,7 @@ export type Preferences = {
 };
 
 export enum THEME {
-    DARK = 1,
-    LIGHT = 2
+    SYSTEM_DEFAULT = 1,
+    LIGHT = 2,
+    DARK = 3
 }

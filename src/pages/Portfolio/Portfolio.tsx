@@ -9,7 +9,7 @@ import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {DashboardPreferences, DEFAULT_COLUMNS} from '../../types/userPreferences';
 import usePreferences from '../../hooks/usePreferences';
-import {ButtonWithPopover} from '../../components/ButtonWithPopover/ButtonWithPopover';
+import {ButtonWithPopover} from '../../components/Buttons/ButtonWithPopover/ButtonWithPopover';
 import ColumnFilter from '../../components/ColumnFilter/ColumnFilter';
 import {AppDispatch} from '../../redux/store/store';
 import {useApp} from '../../hooks/useApp';

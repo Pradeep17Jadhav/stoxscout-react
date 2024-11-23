@@ -4,12 +4,14 @@ html {
 
 :root {
   --background-color: #f0f4f9;
-  --container-box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  --container-box-shadow: rgba(17, 12, 46, 0.15) 0px 0px 50px 0px;
+  --table-header-hover: #f2f2f2;
 }
 
 [data-mui-color-scheme="dark"] {
   --background-color: #101010;
-  --container-box-shadow: rgba(200 200 200 / 15%) 0px 48px 100px 0px;
+  --container-box-shadow: rgba(200 200 200 / 15%) 0px 0px 50px 0px;
+  --table-header-hover: 0 0 0;
 }
 
 body {
