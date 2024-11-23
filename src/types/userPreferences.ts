@@ -29,4 +29,10 @@ export type Preferences = {
     mobile?: DevicePreferences;
     computer?: DevicePreferences;
     loaded: boolean;
+    theme?: THEME;
 };
+
+export enum THEME {
+    DARK,
+    LIGHT
+}

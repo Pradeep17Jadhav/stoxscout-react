@@ -44,13 +44,12 @@ const AppUpdater = ({children}: {children: ReactNode}) => {
         } else {
             dispatch(setIsLoading(false));
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [dispatch, isAuthenticated, isMarketLoaded, isUserLoaded, setIsLoading]);
 
     useEffect(() => {
         if (!isLoading || !isUserLoaded || !isMarketLoaded) return;
         dispatch(setIsLoading(false));
-    }, [dispatch, isLoading, market.length, setIsLoading, holdings.length, isUserLoaded, isMarketLoaded]);
+    }, [dispatch, isLoading, market, setIsLoading, holdings, isUserLoaded, isMarketLoaded]);
 
     return <>{children}</>;
 };

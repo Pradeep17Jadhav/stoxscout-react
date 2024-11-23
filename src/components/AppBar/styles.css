@@ -6,6 +6,11 @@
     top: 0;
 }
 
+.appbar-container .updatedTime {
+    display: flex;
+    padding-right: 8px;
+}
+
 .appbar-container.dark {
     background-color: #000;
 }

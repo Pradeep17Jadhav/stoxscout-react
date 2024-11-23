@@ -1,5 +1,5 @@
 import {HoldingSummary, SORT_ORDER, UserHoldings} from '../../types/transaction';
-import {Preferences, DEFAULT_COLUMNS} from '../../types/userPreferences';
+import {Preferences, DEFAULT_COLUMNS, THEME} from '../../types/userPreferences';
 import {UserAction} from '../actions/userActions';
 
 export type UserState = {
@@ -24,6 +24,7 @@ export const initialState: UserState = {
         loaded: false
     },
     preferences: {
+        theme: THEME.LIGHT,
         mobile: {
             dashboard: {
                 visibleColumns: [1, 2, 4, 10],

@@ -1,10 +1,11 @@
-import React, {useState, useMemo, useCallback} from 'react';
+import React, {useState, useMemo, useCallback, useEffect} from 'react';
 import classnames from 'classnames';
 import {useNavigate, useLocation} from 'react-router-dom';
 import {IconButton, Menu, MenuItem, Tooltip, Box, Avatar, Typography, Container, Toolbar} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListIcon from '@mui/icons-material/List';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {grey} from '@mui/material/colors';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -15,23 +16,23 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {useAuth} from '../../hooks/useAuth';
-import {useApp} from '../../hooks/useApp';
 import {IndexInfo} from './IndexInfo/IndexInfo';
 import {useChartsData} from '../../hooks/useCharts';
+import {getUpdatedAgo} from '../../helpers/dateUtils';
 import './styles.css';
 
 const AppBar = () => {
     const location = useLocation();
-    const {indices} = usePortfolio();
+    const {indices, marketLastUpdated} = usePortfolio();
     const {holdingSummary, name} = useUser();
     const {isAuthenticated, logoutUser} = useAuth();
-    const {isLoading} = useApp();
     const {advanced, declined} = useChartsData();
     const navigate = useNavigate();
     const showDark = location.pathname === '/holdings' ? true : false;
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const [updatedAgo, setUpdatedAgo] = useState(getUpdatedAgo(marketLastUpdated));
 
     const handleOpenNavMenu = useCallback(
         (event: React.MouseEvent<HTMLElement>) => setAnchorElNav(event.currentTarget),
@@ -71,11 +72,6 @@ const AppBar = () => {
 
     const settings = useMemo(() => (isAuthenticated ? ['Profile', 'Logout'] : ['Login', 'Signup']), [isAuthenticated]);
 
-    const handleLogout = useCallback(() => {
-        handleCloseUserMenu();
-        logoutUser();
-    }, [handleCloseUserMenu, logoutUser]);
-
     const handleMenuItemClick = useCallback(
         (setting: string) => () => {
             handleCloseUserMenu();
@@ -100,6 +96,27 @@ const AppBar = () => {
         [handleCloseUserMenu, logoutUser, navigate]
     );
 
+    const refreshLastUpdatedValue = useCallback(
+        () => setUpdatedAgo(getUpdatedAgo(marketLastUpdated)),
+        [marketLastUpdated]
+    );
+
+    useEffect(() => {
+        refreshLastUpdatedValue();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [marketLastUpdated]);
+
+    const lastUpdatedTimestamp = useMemo(
+        () =>
+            isAuthenticated && (
+                <span className="updatedTime">
+                    <AccessTimeIcon />
+                    {updatedAgo}
+                </span>
+            ),
+        [isAuthenticated, updatedAgo]
+    );
+
     const userMenuItems = useMemo(() => {
         return (
             <div>
@@ -115,11 +132,9 @@ const AppBar = () => {
                 ))}
             </div>
         );
-    }, [handleCloseUserMenu, handleLogout, isAuthenticated, name, settings]);
+    }, [handleMenuItemClick, isAuthenticated, name, settings]);
 
-    return isLoading ? (
-        <></>
-    ) : (
+    return (
         <Container className={classnames('appbar-container', showDark && 'dark')} maxWidth={false}>
             <Toolbar disableGutters>
                 <Typography
@@ -136,7 +151,7 @@ const AppBar = () => {
                         textDecoration: 'none'
                     }}
                 >
-                    stoXscout
+                    MagnyFire
                 </Typography>
 
                 <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
@@ -185,6 +200,7 @@ const AppBar = () => {
                             </Tooltip>
                         ))}
                 </Box>
+                {lastUpdatedTimestamp}
                 {isAuthenticated && (
                     <Tooltip title="Advance Decline Ratio">
                         <Box sx={{display: {xs: 'none', md: 'flex'}}}>

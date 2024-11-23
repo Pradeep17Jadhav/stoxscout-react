@@ -13,6 +13,7 @@ type UsePortfolioType = {
     stocksInfo: StockInformation[];
     indices: Index[];
     market: MarketData;
+    marketLastUpdated: string | undefined;
 };
 
 export const usePortfolio = (): UsePortfolioType => {
@@ -28,6 +29,7 @@ export const usePortfolio = (): UsePortfolioType => {
         isMarketLoaded,
         stocksInfo: state.stocksInfo,
         indices: state.indicesData.indices,
-        market: state.marketData.market
+        market: state.marketData.market,
+        marketLastUpdated: state.marketData.updatedAt
     };
 };

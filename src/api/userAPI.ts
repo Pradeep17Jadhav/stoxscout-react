@@ -35,7 +35,7 @@ export const getPreference = async (): Promise<Preferences | null> => {
 export const updatePreference = async (preference: Preferences) => {
     const {response, data} = await authRequest(endpoints.preference, {
         method: HttpMethod.PUT,
-        body: {preference}
+        body: preference
     });
     if (!response.ok) {
         switch (data.type) {

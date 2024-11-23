@@ -11,6 +11,7 @@ export type PortfolioState = {
     };
     marketData: {
         market: MarketData;
+        updatedAt?: string;
         loaded: boolean;
     };
 };
@@ -23,6 +24,7 @@ export const initialState: PortfolioState = {
     },
     marketData: {
         market: [],
+        updatedAt: undefined,
         loaded: false
     }
 };
@@ -45,7 +47,8 @@ export const portfolioReducer = (state: PortfolioState = initialState, action: P
                 ...state,
                 marketData: {
                     ...state.marketData,
-                    market: action.payload,
+                    market: action.payload.market,
+                    updatedAt: action.payload.updatedAt,
                     loaded: true
                 }
             };
