@@ -8,11 +8,13 @@ import {sort, sortHoldingsByDate} from '../../helpers/sort';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {getFormattedDate} from '../../helpers/dateUtils';
+import usePreferences from '../../hooks/usePreferences';
 
 import './styles.css';
 
 export const PortfolioByDate = () => {
     const {market} = usePortfolio();
+    const {dashboardVisibleColumns} = usePreferences();
     const {holdings} = useUser();
     const [dateWiseStocksInfo, setDateWiseStocksInfo] = useState<DateWiseStockInformation>([]);
 
@@ -60,6 +62,7 @@ export const PortfolioByDate = () => {
                                 stocksInfo={dateWiseStocksInfoItem.stocksInfo}
                                 onSort={onSort}
                                 date={dateWiseStocksInfoItem.date}
+                                visibleColumns={dashboardVisibleColumns}
                             />
                         </div>
                         <HoldingInformation holdingSummary={getPnL(dateWiseStocksInfoItem.stocksInfo)} />

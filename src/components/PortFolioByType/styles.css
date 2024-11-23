@@ -1,0 +1,5 @@
+.menu-items {
+    display: flex;
+    justify-content: right;
+    height: 48px;
+}

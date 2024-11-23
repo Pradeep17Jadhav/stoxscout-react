@@ -27,6 +27,7 @@ import {Holdings} from './pages/Holdings/Holdings';
 import {Landing} from './pages/Landing/Landing';
 import {THEME} from './types/userPreferences';
 import usePreferences from './hooks/usePreferences';
+import {PortfolioByType} from './components/PortFolioByType/PortfolioByType';
 import './App.css';
 
 const fontFamily = [
@@ -51,6 +52,7 @@ const privateRoutes = [
     {path: '/holdings', Component: Holdings},
     {path: '/dashboard', Component: Dashboard},
     {path: '/addPurchase', Component: AddPurchase},
+    {path: '/portfolioByType', Component: PortfolioByType},
     {path: '/portfolioByDate', Component: PortfolioByDate},
     {path: '/portfolioByMonth', Component: PortfolioByMonth},
     {path: '/portfolioByYear', Component: PortfolioByYear},

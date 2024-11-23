@@ -1,6 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import {sort} from '../../helpers/sort';
 import {StockInformation} from '../../types/transaction';
 import {HoldingTable, SortData} from '../../components/HoldingTable/HoldingTable';
@@ -9,8 +8,6 @@ import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {DashboardPreferences} from '../../types/userPreferences';
 import usePreferences from '../../hooks/usePreferences';
-import {ButtonWithPopover} from '../../components/Buttons/ButtonWithPopover/ButtonWithPopover';
-import ColumnFilter from '../../components/ColumnFilter/ColumnFilter';
 import {AppDispatch} from '../../redux/store/store';
 import {useApp} from '../../hooks/useApp';
 
@@ -20,7 +17,7 @@ export const Portfolio = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {stocksInfo} = usePortfolio();
     const {holdingSummary, preferences} = useUser();
-    const {dashboardPreferences, updateDashboardPreferences, updatePreferencesOnline} = usePreferences();
+    const {dashboardPreferences, dashboardVisibleColumns, updateDashboardPreferences} = usePreferences();
     const [sortedStockInfo, setSortedStockInfo] = useState<StockInformation[]>(stocksInfo);
     const {isLoading} = useApp();
 
@@ -43,10 +40,6 @@ export const Portfolio = () => {
         [dashboardPreferences, stocksInfo, dispatch, updateDashboardPreferences]
     );
 
-    const onFilterPopoverClose = useCallback(() => {
-        dispatch(updatePreferencesOnline());
-    }, [dispatch, updatePreferencesOnline]);
-
     useEffect(() => {
         const prefColumn = dashboardPreferences?.sortColumn;
         const prefSortOrder = dashboardPreferences?.sortOrder;
@@ -57,19 +50,7 @@ export const Portfolio = () => {
 
     return !isLoading ? (
         <>
-            <div className="menu-items">
-                <ButtonWithPopover
-                    buttonText="Filter"
-                    Icon={FilterListIcon}
-                    Content={ColumnFilter}
-                    onClose={onFilterPopoverClose}
-                />
-            </div>
-            <HoldingTable
-                stocksInfo={sortedStockInfo}
-                onSort={onSort}
-                visibleColumns={dashboardPreferences?.visibleColumns}
-            />
+            <HoldingTable stocksInfo={sortedStockInfo} onSort={onSort} visibleColumns={dashboardVisibleColumns} />
             <HoldingInformation holdingSummary={holdingSummary} />
         </>
     ) : (

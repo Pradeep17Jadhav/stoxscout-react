@@ -30,7 +30,7 @@ export const ButtonWithPopover = ({buttonText, Icon, Content, onClose, width, he
     }, [onClose]);
 
     return (
-        <div className="button-with-popover-container">
+        <span className="button-with-popover-container">
             <Button variant="text" onClick={handleOpen} startIcon={<Icon />}>
                 {buttonText}
             </Button>
@@ -38,7 +38,7 @@ export const ButtonWithPopover = ({buttonText, Icon, Content, onClose, width, he
                 open={open}
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                    vertical: 'top',
+                    vertical: 'bottom',
                     horizontal: 'right'
                 }}
                 transformOrigin={{
@@ -54,6 +54,6 @@ export const ButtonWithPopover = ({buttonText, Icon, Content, onClose, width, he
             >
                 {<Content />}
             </Popover>
-        </div>
+        </span>
     );
 };

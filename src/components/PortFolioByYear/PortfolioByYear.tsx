@@ -7,11 +7,13 @@ import {sort, sortHoldingsByYear} from '../../helpers/sort';
 import {yearWiseStockInfoGeneratorAll} from '../../helpers/portfolioByDateUtils';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
+import usePreferences from '../../hooks/usePreferences';
 
 import './styles.css';
 
 export const PortfolioByYear = () => {
     const {market} = usePortfolio();
+    const {dashboardVisibleColumns} = usePreferences();
     const {holdings} = useUser();
     const [yearWiseStocksInfo, setYearWiseStocksInfo] = useState<YearWiseStockInformation>([]);
 
@@ -59,6 +61,7 @@ export const PortfolioByYear = () => {
                                 stocksInfo={yearWiseStocksInfoItem.stocksInfo}
                                 onSort={onSort}
                                 year={yearWiseStocksInfoItem.year}
+                                visibleColumns={dashboardVisibleColumns}
                             />
                         </div>
                         <HoldingInformation holdingSummary={getPnL(yearWiseStocksInfoItem.stocksInfo)} />

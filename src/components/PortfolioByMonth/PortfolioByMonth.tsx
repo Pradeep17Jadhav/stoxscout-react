@@ -8,11 +8,13 @@ import {sort, sortHoldingsByMonth} from '../../helpers/sort';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {getFormattedDate} from '../../helpers/dateUtils';
+import usePreferences from '../../hooks/usePreferences';
 
 import './styles.css';
 
 export const PortfolioByMonth = () => {
     const {market} = usePortfolio();
+    const {dashboardVisibleColumns} = usePreferences();
     const {holdings} = useUser();
     const [monthWiseStocksInfo, setMonthWiseStocksInfo] = useState<MonthWiseStockInformation>([]);
 
@@ -60,6 +62,7 @@ export const PortfolioByMonth = () => {
                                 stocksInfo={monthWiseStocksInfoItem.stocksInfo}
                                 monthYear={monthWiseStocksInfoItem.monthYear}
                                 onSort={onSort}
+                                visibleColumns={dashboardVisibleColumns}
                             />
                         </div>
                         <HoldingInformation holdingSummary={getPnL(monthWiseStocksInfoItem.stocksInfo)} />
