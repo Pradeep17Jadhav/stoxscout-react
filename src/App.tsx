@@ -1,6 +1,5 @@
 import {useMemo} from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {PortfolioFull} from './components/PortfolioFull/PortfolioFull';
 import {AddPurchase} from './components/AddPurchase/AddPurchase';
 import {ThemeProvider} from '@mui/material';
 import {
@@ -8,11 +7,8 @@ import {
     experimental_extendTheme as extendTheme,
     createTheme
 } from '@mui/material/styles';
-import {PortfolioByDate} from './components/PortfolioByDate/PortfolioByDate';
-import {PortfolioByYear} from './components/PortFolioByYear/PortfolioByYear';
 import {HeatMap} from './components/Heatmap/Heatmap';
 import {HeatMapPNL} from './components/HeatmapPNL/HeatmapPNL';
-import {PortfolioByMonth} from './components/PortfolioByMonth/PortfolioByMonth';
 import AppBar from './components/AppBar/AppBar';
 import {Login} from './components/Login/Login';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
@@ -27,7 +23,7 @@ import {Holdings} from './pages/Holdings/Holdings';
 import {Landing} from './pages/Landing/Landing';
 import {THEME} from './types/userPreferences';
 import usePreferences from './hooks/usePreferences';
-import {PortfolioByType} from './components/PortFolioByType/PortfolioByType';
+import {Portfolio} from './components/PortFolio/Portfolio';
 import './App.css';
 
 const fontFamily = [
@@ -87,7 +83,7 @@ function App() {
 
     const privateRoutes = [
         {path: '/', Component: Landing},
-        {path: '/portfolio', Component: PortfolioByType},
+        {path: '/portfolio', Component: Portfolio},
         {path: '/holdings', Component: Holdings},
         {path: '/dashboard', Component: Dashboard},
         {path: '/addPurchase', Component: AddPurchase},

@@ -32,7 +32,7 @@ export const PORTFOLIO_VIEW_NAMES = {
     [PORTFOLIO_VIEW.BY_YEAR]: 'By Year'
 };
 
-export const PortfolioByType = () => {
+export const Portfolio = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {isLoading} = useApp();
     const {updatePreferencesOnline} = usePreferences();
