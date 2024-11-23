@@ -23,7 +23,7 @@ import {Holdings} from './pages/Holdings/Holdings';
 import {Landing} from './pages/Landing/Landing';
 import {THEME} from './types/userPreferences';
 import usePreferences from './hooks/usePreferences';
-import {Portfolio} from './components/PortFolio/Portfolio';
+import {Portfolio} from './pages/PortFolio/Portfolio';
 import './App.css';
 
 const fontFamily = [

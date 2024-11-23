@@ -45,7 +45,7 @@ const ColumnFilter = () => {
                 return (
                     <FormControlLabel
                         key={key}
-                        sx={{minWidth: '240px'}}
+                        sx={{minWidth: '200px'}}
                         control={
                             <Checkbox
                                 disabled={value === 1}

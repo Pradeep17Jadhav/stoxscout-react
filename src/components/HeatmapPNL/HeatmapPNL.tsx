@@ -4,6 +4,7 @@ import {stockInfoGeneratorAll} from '../../helpers/price';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {StockInformation} from '../../types/transaction';
+import './styles.css';
 
 const generateColorsPNL = (percentDayChange: number): string => {
     if (percentDayChange < 0) {
@@ -87,19 +88,21 @@ export const HeatMapPNL = () => {
     }, [holdings, market, updateChart]);
 
     return (
-        <ResponsiveContainer className="heatmap" width="100%">
-            {chartData?.length && (
-                <Treemap
-                    data={chartData}
-                    dataKey="value"
-                    stroke="#000"
-                    isAnimationActive={false}
-                    aspectRatio={4 / 3}
-                    style={{color: '#ff000'}}
-                >
-                    <Label position="center" fill="#fff" />
-                </Treemap>
-            )}
-        </ResponsiveContainer>
+        <div className="heatmap">
+            <ResponsiveContainer width="100%">
+                {chartData?.length && (
+                    <Treemap
+                        data={chartData}
+                        dataKey="value"
+                        stroke="#000"
+                        isAnimationActive={false}
+                        aspectRatio={4 / 3}
+                        style={{color: '#ff000'}}
+                    >
+                        <Label position="center" fill="#fff" />
+                    </Treemap>
+                )}
+            </ResponsiveContainer>
+        </div>
     );
 };

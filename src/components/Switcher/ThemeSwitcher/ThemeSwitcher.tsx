@@ -20,15 +20,15 @@ export const ThemeSwitcher = ({onThemeChange, currentTheme = THEME.LIGHT}: Props
         width: 150,
         height: 34,
         padding: 0,
-        paddingLeft: 7,
-        paddingRight: 7,
+        paddingLeft: 0,
+        paddingRight: 0,
         '& .MuiSwitch-switchBase': {
-            margin: 1,
+            margin: 0,
             padding: 0,
-            transform: 'translateX(6px)',
+            transform: 'translateX(0px)',
             '&.Mui-checked': {
                 color: '#fff',
-                transform: 'translateX(112px)',
+                transform: 'translateX(118px)',
                 '& .MuiSwitch-thumb:before': {
                     backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
                         '#fff'

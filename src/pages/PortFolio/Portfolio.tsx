@@ -1,21 +1,21 @@
-import FilterListIcon from '@mui/icons-material/FilterList';
-import TodayIcon from '@mui/icons-material/Today';
+import {useCallback, useMemo, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import {ButtonWithPopover} from '../Buttons/ButtonWithPopover/ButtonWithPopover';
-import {useApp} from '../../hooks/useApp';
-import {useCallback, useMemo, useState} from 'react';
-import Box from '@mui/material/Box/Box';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import TodayIcon from '@mui/icons-material/Today';
 import {Radio, RadioGroup} from '@mui/material';
-import {PortfolioByDate} from '../PortfolioByDate/PortfolioByDate';
-import {PortfolioByMonth} from '../PortfolioByMonth/PortfolioByMonth';
-import {PortfolioByYear} from '../PortFolioByYear/PortfolioByYear';
-import {PortfolioFull} from '../PortfolioFull/PortfolioFull';
-import ColumnFilter from '../ColumnFilter/ColumnFilter';
-import {useDispatch} from 'react-redux';
+import Box from '@mui/material/Box/Box';
+import {ButtonWithPopover} from '../../components/Buttons/ButtonWithPopover/ButtonWithPopover';
+import {PortfolioByDate} from '../../components/PortfolioByDate/PortfolioByDate';
+import {PortfolioByMonth} from '../../components/PortfolioByMonth/PortfolioByMonth';
+import {PortfolioByYear} from '../../components/PortFolioByYear/PortfolioByYear';
+import {PortfolioFull} from '../../components/PortfolioFull/PortfolioFull';
+import ColumnFilter from '../../components/ColumnFilter/ColumnFilter';
 import {AppDispatch} from '../../redux/store/store';
 import usePreferences from '../../hooks/usePreferences';
+import {useApp} from '../../hooks/useApp';
 import './styles.css';
 
 enum PORTFOLIO_VIEW {
@@ -36,7 +36,7 @@ export const Portfolio = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {isLoading} = useApp();
     const {updatePreferencesOnline} = usePreferences();
-    const [currentView, setCurrentView] = useState<PORTFOLIO_VIEW>(PORTFOLIO_VIEW.BY_DATE);
+    const [currentView, setCurrentView] = useState<PORTFOLIO_VIEW>(PORTFOLIO_VIEW.FULL);
 
     const handleRadioChange = useCallback(
         (view: PORTFOLIO_VIEW) => () => {
@@ -61,7 +61,7 @@ export const Portfolio = () => {
                         return (
                             <FormControlLabel
                                 key={view}
-                                sx={{minWidth: '240px'}}
+                                sx={{minWidth: '200px'}}
                                 control={
                                     <Radio
                                         checked={PORTFOLIO_VIEW_NAMES[currentView] === view}
@@ -107,6 +107,7 @@ export const Portfolio = () => {
                     buttonText={`Viewing investments ${PORTFOLIO_VIEW_NAMES[currentView]}`}
                     Icon={getCalenderIcon}
                     Content={getFilterContent}
+                    width={240}
                 />
                 <ButtonWithPopover
                     buttonText="Filter"
