@@ -11,7 +11,7 @@ import {Radio, RadioGroup} from '@mui/material';
 import {PortfolioByDate} from '../PortfolioByDate/PortfolioByDate';
 import {PortfolioByMonth} from '../PortfolioByMonth/PortfolioByMonth';
 import {PortfolioByYear} from '../PortFolioByYear/PortfolioByYear';
-import {Portfolio} from '../../pages/Portfolio/Portfolio';
+import {PortfolioFull} from '../PortfolioFull/PortfolioFull';
 import ColumnFilter from '../ColumnFilter/ColumnFilter';
 import {useDispatch} from 'react-redux';
 import {AppDispatch} from '../../redux/store/store';
@@ -87,7 +87,7 @@ export const PortfolioByType = () => {
         } else if (currentView === PORTFOLIO_VIEW.BY_YEAR) {
             return <PortfolioByYear />;
         } else {
-            return <Portfolio />;
+            return <PortfolioFull />;
         }
     }, [currentView]);
 

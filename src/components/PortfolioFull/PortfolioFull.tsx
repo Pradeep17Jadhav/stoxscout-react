@@ -2,8 +2,8 @@ import {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {sort} from '../../helpers/sort';
 import {StockInformation} from '../../types/transaction';
-import {HoldingTable, SortData} from '../../components/HoldingTable/HoldingTable';
-import {HoldingInformation} from '../../components/HoldingInformation/HoldingInformation';
+import {HoldingTable, SortData} from '../HoldingTable/HoldingTable';
+import {HoldingInformation} from '../HoldingInformation/HoldingInformation';
 import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import {DashboardPreferences} from '../../types/userPreferences';
@@ -13,7 +13,7 @@ import {useApp} from '../../hooks/useApp';
 
 import './styles.css';
 
-export const Portfolio = () => {
+export const PortfolioFull = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {stocksInfo} = usePortfolio();
     const {holdingSummary, preferences} = useUser();

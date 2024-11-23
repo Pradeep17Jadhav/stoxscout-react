@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {Portfolio} from './pages/Portfolio/Portfolio';
+import {PortfolioFull} from './components/PortfolioFull/PortfolioFull';
 import {AddPurchase} from './components/AddPurchase/AddPurchase';
 import {ThemeProvider} from '@mui/material';
 import {
@@ -46,21 +46,6 @@ const fontFamily = [
     '"Segoe UI Symbol"'
 ].join(',');
 
-const privateRoutes = [
-    {path: '/', Component: Landing},
-    {path: '/portfolio', Component: Portfolio},
-    {path: '/holdings', Component: Holdings},
-    {path: '/dashboard', Component: Dashboard},
-    {path: '/addPurchase', Component: AddPurchase},
-    {path: '/portfolioByType', Component: PortfolioByType},
-    {path: '/portfolioByDate', Component: PortfolioByDate},
-    {path: '/portfolioByMonth', Component: PortfolioByMonth},
-    {path: '/portfolioByYear', Component: PortfolioByYear},
-    {path: '/heatmap', Component: HeatMap},
-    {path: '/heatmapPNL', Component: HeatMapPNL},
-    {path: '/upload', Component: HoldingsUploader}
-];
-
 const lightTheme = createTheme({
     typography: {
         fontFamily
@@ -99,6 +84,17 @@ function App() {
             }),
         []
     );
+
+    const privateRoutes = [
+        {path: '/', Component: Landing},
+        {path: '/portfolio', Component: PortfolioByType},
+        {path: '/holdings', Component: Holdings},
+        {path: '/dashboard', Component: Dashboard},
+        {path: '/addPurchase', Component: AddPurchase},
+        {path: '/heatmap', Component: HeatMap},
+        {path: '/heatmapPNL', Component: HeatMapPNL},
+        {path: '/upload', Component: HoldingsUploader}
+    ];
 
     return (
         <CssVarsProvider theme={extendedTheme}>

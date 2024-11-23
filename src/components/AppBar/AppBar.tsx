@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListIcon from '@mui/icons-material/List';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {grey} from '@mui/material/colors';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -76,10 +77,7 @@ const AppBar = () => {
     const pages = useMemo(
         () => [
             {to: '/dashboard', label: 'Dashboard', Icon: DashboardIcon},
-            {to: '/', label: 'Holdings', Icon: ListIcon},
-            {to: '/portfolioByDate', label: 'Days', Icon: CalendarTodayIcon},
-            {to: '/portfolioByMonth', label: 'Months', Icon: TodayIcon},
-            {to: '/portfolioByYear', label: 'Years', Icon: CalendarMonthIcon},
+            {to: '/', label: 'Holdings', Icon: ListAltOutlinedIcon},
             {to: '/heatmapPNL', label: 'Charts', Icon: LeaderboardIcon},
             {to: '/addPurchase', label: 'Add Purchase', Icon: AddShoppingCartIcon},
             {to: '/upload', label: 'Upload', Icon: CloudUploadIcon}
