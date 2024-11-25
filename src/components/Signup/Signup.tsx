@@ -44,7 +44,7 @@ export const Signup = () => {
     return isAuthenticated ? (
         <></>
     ) : (
-        <div className="signup-container">
+        <div className="credential-container">
             <h2>Signup</h2>
             <form onSubmit={handleSignup}>
                 <TextField

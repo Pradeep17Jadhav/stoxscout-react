@@ -1,13 +1,3 @@
-.login-container {
-    text-align: center;
-    margin: 96px auto;
-    max-width: 540px;
-    min-width: 180px;
-    border-radius: 16px;
-    padding: 32px;
-    box-shadow: var(--container-box-shadow);
-}
-
 .form-item {
     margin-bottom: 32px !important;
 }

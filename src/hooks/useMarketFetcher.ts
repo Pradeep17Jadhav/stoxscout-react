@@ -27,7 +27,7 @@ const useMarketData = () => {
         const intervalId = setInterval(() => {
             if (!isMarketTime()) return;
             fetchMarketData();
-        }, 20000);
+        }, 25000);
         return () => clearInterval(intervalId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthenticated]);

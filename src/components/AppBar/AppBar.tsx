@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useCallback, useEffect} from 'react';
+import React, {useState, useMemo, useCallback, useEffect, useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import classnames from 'classnames';
 import {useNavigate, useLocation} from 'react-router-dom';
@@ -36,7 +36,8 @@ const AppBar = () => {
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [popoverAnchor, setPopoverAnchor] = useState<null | HTMLElement>(null);
-    const [updatedAgo, setUpdatedAgo] = useState(getUpdatedAgo(marketLastUpdated));
+    const [updatedAgo, setUpdatedAgo] = useState('');
+    const marketLastUpdatedRef = useRef(marketLastUpdated);
 
     const handleOpenNavMenu = useCallback(
         (event: React.MouseEvent<HTMLElement>) => setAnchorElNav(event.currentTarget),
@@ -107,19 +108,20 @@ const AppBar = () => {
         [handlePopoverClose, logoutUser, navigate]
     );
 
-    const refreshLastUpdatedValue = useCallback(
-        () => setUpdatedAgo(getUpdatedAgo(marketLastUpdated)),
-        [marketLastUpdated]
-    );
+    useEffect(() => {
+        marketLastUpdatedRef.current = marketLastUpdated;
+    }, [marketLastUpdated]);
 
     useEffect(() => {
-        refreshLastUpdatedValue();
+        const intervalId = setInterval(() => setUpdatedAgo(getUpdatedAgo(marketLastUpdatedRef.current)), 1000);
+        return () => clearInterval(intervalId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [marketLastUpdated]);
+    }, []);
 
     const lastUpdatedTimestamp = useMemo(
         () =>
-            isAuthenticated && (
+            isAuthenticated &&
+            updatedAgo && (
                 <span className="updatedTime">
                     <AccessTimeIcon />
                     {updatedAgo}

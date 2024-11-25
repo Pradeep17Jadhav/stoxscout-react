@@ -23,11 +23,16 @@ const main = async () => {
     const userStockList = await loadUserStockList();
     if (window.location.hostname === 'www.nseindia.com') {
         holdingsMarketDataNSE = await Promise.all(
-            userStockList.nse.map(async (symbol) => {
-                const api = `https://www.nseindia.com/api/quote-equity?symbol=${symbol}`;
-                const data = await fetchData(api);
-                return extractPriceInfoNSE(data);
-            })
+            userStockList.nse
+                .map(async (symbol) => {
+                    const api = `https://www.nseindia.com/api/quote-equity?symbol=${symbol}`;
+                    const data = await fetchData(api);
+                    if (!data.priceInfo) {
+                        return null;
+                    }
+                    return extractPriceInfoNSE(data);
+                })
+                .filter((data) => !!data)
         );
         const requiredIndices = ['NIFTY 50', 'NIFTY MIDCAP 50', 'NIFTY SMLCAP 50', 'NIFTY BANK', 'NIFTY IT'];
         const indices = await fetchData('https://www.nseindia.com/api/allIndices');
