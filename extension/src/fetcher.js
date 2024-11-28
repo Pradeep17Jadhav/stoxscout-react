@@ -2,16 +2,15 @@ const FREQUENCY = 60000;
 
 const startFetching = () => {
     main();
-    if (window.location.hostname === 'www.nseindia.com' || window.location.hostname === 'www.bseindia.com') {
-        setInterval(main, FREQUENCY);
-    }
+    setInterval(() => {
+        if (isMarketHour()) {
+            main();
+        }
+    }, FREQUENCY);
 };
 
 const main = async () => {
-    if (
-        !isMarketHour() ||
-        !(window.location.hostname === 'www.nseindia.com' || window.location.hostname === 'www.bseindia.com')
-    ) {
+    if (!(window.location.hostname === 'www.nseindia.com' || window.location.hostname === 'www.bseindia.com')) {
         return;
     }
 
