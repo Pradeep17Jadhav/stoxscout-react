@@ -1,5 +1,6 @@
 import React, {useState, useMemo, useCallback, useEffect, useRef} from 'react';
 import {useDispatch} from 'react-redux';
+import {isMobile} from 'react-device-detect';
 import classnames from 'classnames';
 import {useNavigate, useLocation} from 'react-router-dom';
 import {IconButton, Menu, MenuItem, Tooltip, Box, Avatar, Typography, Container, Toolbar, Popover} from '@mui/material';
@@ -74,7 +75,8 @@ const AppBar = () => {
     const pages = useMemo(
         () => [
             {to: '/dashboard', label: 'Dashboard', Icon: DashboardIcon},
-            {to: '/', label: 'Holdings', Icon: ListAltOutlinedIcon},
+            ...(isMobile ? [{to: '/holdings', label: 'Holdings', Icon: ListAltOutlinedIcon}] : []),
+            {to: '/portfolio', label: 'Portfolio', Icon: ListAltOutlinedIcon},
             {to: '/heatmapPNL', label: 'Charts', Icon: LeaderboardIcon},
             {to: '/addPurchase', label: 'Add Purchase', Icon: AddShoppingCartIcon},
             {to: '/upload', label: 'Upload', Icon: CloudUploadIcon}
@@ -172,7 +174,6 @@ const AppBar = () => {
                 <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                     <IconButton
                         size="large"
-                        aria-label="account of current user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
                         onClick={handleOpenNavMenu}
@@ -215,6 +216,7 @@ const AppBar = () => {
                             </Tooltip>
                         ))}
                 </Box>
+
                 {lastUpdatedTimestamp}
                 {isAuthenticated && (
                     <Tooltip title="Advance Decline Ratio">
