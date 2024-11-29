@@ -2,4 +2,6 @@
     display: flex;
     justify-content: right;
     height: 48px;
+    z-index: 3;
+    background-color: var(--mui-palette-background-default);
 }

@@ -4,6 +4,7 @@ import {Button, Typography, Box} from '@mui/material';
 import {uploadHoldings} from '../../api/holdingsAPI';
 import {useNavigate} from 'react-router-dom';
 import {Purchase} from '../../types/purchase';
+import './styles.css';
 
 const HoldingsUploader = () => {
     const [error, setError] = useState<string | null>(null);
@@ -98,20 +99,22 @@ const HoldingsUploader = () => {
     );
 
     return (
-        <Box sx={{padding: 2}}>
-            <Typography variant="h6" gutterBottom>
-                {'1. Go to '}
-                <a href="https://console.zerodha.com/portfolio/holdings" target="_blank" rel="noreferrer">
-                    {'https://console.zerodha.com/portfolio/holdings'}
-                </a>{' '}
-                and login to your Zerodha account
-                <br /> 2. Click on &quot;Download: XLSX&quot; link (just above the holdings table)
-                <br /> 3. Save the file on you computer. This file contains info of your holdings on Zerodha
-                <br /> 4. Come back to this page
-                <br /> 5. Click on the Select XLSX File button and select the file you just downloaded.
-                <br /> 6. Sit back and relax! You file is NOT uploaded to our server. Only the data related to your
-                holdings is sent.
-            </Typography>
+        <div className="general-container">
+            <div className="holding-uploader-points">
+                <Typography variant="h6" gutterBottom>
+                    {'1. Go to '}
+                    <a href="https://console.zerodha.com/portfolio/holdings" target="_blank" rel="noreferrer">
+                        {'https://console.zerodha.com/portfolio/holdings'}
+                    </a>{' '}
+                    and login to your Zerodha account
+                    <br /> 2. Click on &quot;Download: XLSX&quot; link (just above the holdings table)
+                    <br /> 3. Save the file on you computer. This file contains info of your holdings on Zerodha
+                    <br /> 4. Come back to this page
+                    <br /> 5. Click on the Select XLSX File button and select the file you just downloaded.
+                    <br /> 6. Sit back and relax! You file is NOT uploaded to our server. Only the data related to your
+                    holdings is sent.
+                </Typography>
+            </div>
             <input type="file" accept=".xlsx" onChange={handleFileChange} style={{display: 'none'}} id="file-upload" />
             <label htmlFor="file-upload">
                 <Button variant="contained" component="span">
@@ -127,7 +130,7 @@ const HoldingsUploader = () => {
                     ))}
                 </div>
             )}
-        </Box>
+        </div>
     );
 };
 
