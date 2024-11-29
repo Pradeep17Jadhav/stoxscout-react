@@ -1,20 +1,20 @@
 import {Button, Popover, SvgIconTypeMap} from '@mui/material';
-import {useCallback, useState} from 'react';
+import {cloneElement, ReactElement, useCallback, useState} from 'react';
 import {OverridableComponent} from '@mui/material/OverridableComponent';
 import './styles.css';
 
 type Props = {
+    children: ReactElement;
     buttonText: string;
     Icon: OverridableComponent<SvgIconTypeMap<object, 'svg'>> & {
         muiName: string;
     };
-    Content: () => JSX.Element;
     onClose?: () => void;
     width?: number;
     height?: number;
 };
 
-export const ButtonWithPopover = ({buttonText, Icon, Content, onClose, width, height}: Props) => {
+export const ButtonWithPopover = ({children, buttonText, Icon, onClose, width, height}: Props) => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [open, setOpen] = useState(false);
 
@@ -23,7 +23,7 @@ export const ButtonWithPopover = ({buttonText, Icon, Content, onClose, width, he
         setOpen((open) => !open);
     }, []);
 
-    const handleClose = useCallback(() => {
+    const handlePopoverClose = useCallback(() => {
         setAnchorEl(null);
         setOpen(false);
         onClose?.();
@@ -45,14 +45,14 @@ export const ButtonWithPopover = ({buttonText, Icon, Content, onClose, width, he
                     vertical: 'top',
                     horizontal: 'right'
                 }}
-                onClose={handleClose}
+                onClose={handlePopoverClose}
                 sx={{
                     width: width || 300,
                     height: height || 500
                 }}
                 disableScrollLock
             >
-                {<Content />}
+                {cloneElement(children, {handlePopoverClose})}
             </Popover>
         </span>
     );

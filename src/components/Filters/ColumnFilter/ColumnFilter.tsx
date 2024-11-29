@@ -1,10 +1,10 @@
 import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import {Checkbox, FormControlLabel, Box} from '@mui/material';
-import {DEFAULT_COLUMNS} from '../../types/userPreferences';
-import {COLUMNS} from '../../types/transaction';
-import usePreferences from '../../hooks/usePreferences';
-import {AppDispatch} from '../../redux/store/store';
+import {DEFAULT_COLUMNS} from '../../../types/userPreferences';
+import {COLUMNS} from '../../../types/transaction';
+import usePreferences from '../../../hooks/usePreferences';
+import {AppDispatch} from '../../../redux/store/store';
 
 const ColumnFilter = () => {
     const dispatch = useDispatch<AppDispatch>();

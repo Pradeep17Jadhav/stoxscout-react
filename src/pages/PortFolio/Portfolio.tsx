@@ -1,36 +1,21 @@
 import {useCallback, useMemo, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TodayIcon from '@mui/icons-material/Today';
-import {Radio, RadioGroup} from '@mui/material';
-import Box from '@mui/material/Box/Box';
 import {ButtonWithPopover} from '../../components/Buttons/ButtonWithPopover/ButtonWithPopover';
 import {PortfolioByDate} from '../../components/PortfolioByDate/PortfolioByDate';
 import {PortfolioByMonth} from '../../components/PortfolioByMonth/PortfolioByMonth';
 import {PortfolioByYear} from '../../components/PortFolioByYear/PortfolioByYear';
 import {PortfolioFull} from '../../components/PortfolioFull/PortfolioFull';
-import ColumnFilter from '../../components/ColumnFilter/ColumnFilter';
+import ColumnFilter from '../../components/Filters/ColumnFilter/ColumnFilter';
+import PortfolioViewFilter from '../../components/Filters/PortfolioViewFilter/PortfolioViewFilter';
 import {AppDispatch} from '../../redux/store/store';
 import usePreferences from '../../hooks/usePreferences';
 import {useApp} from '../../hooks/useApp';
 import './styles.css';
-
-enum PORTFOLIO_VIEW {
-    FULL = 1,
-    BY_DATE = 2,
-    BY_MONTH = 3,
-    BY_YEAR = 4
-}
-
-export const PORTFOLIO_VIEW_NAMES = {
-    [PORTFOLIO_VIEW.FULL]: 'Full',
-    [PORTFOLIO_VIEW.BY_DATE]: 'By Date',
-    [PORTFOLIO_VIEW.BY_MONTH]: 'By Month',
-    [PORTFOLIO_VIEW.BY_YEAR]: 'By Year'
-};
+import {PORTFOLIO_VIEW, PORTFOLIO_VIEW_NAMES} from '../../types/portfolio';
 
 export const Portfolio = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -38,46 +23,13 @@ export const Portfolio = () => {
     const {updatePreferencesOnline} = usePreferences();
     const [currentView, setCurrentView] = useState<PORTFOLIO_VIEW>(PORTFOLIO_VIEW.FULL);
 
-    const handleRadioChange = useCallback(
-        (view: PORTFOLIO_VIEW) => () => {
-            setCurrentView(view);
-        },
-        []
-    );
-
     const onFilterPopoverClose = useCallback(() => {
         dispatch(updatePreferencesOnline());
     }, [dispatch, updatePreferencesOnline]);
 
-    const getFilterContent = useCallback(
-        () => (
-            <Box p={2} overflow="auto">
-                <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                >
-                    {Object.entries(PORTFOLIO_VIEW_NAMES).map(([key, view]) => {
-                        return (
-                            <FormControlLabel
-                                key={view}
-                                sx={{minWidth: '200px'}}
-                                control={
-                                    <Radio
-                                        checked={PORTFOLIO_VIEW_NAMES[currentView] === view}
-                                        onChange={handleRadioChange(parseInt(key) as PORTFOLIO_VIEW)}
-                                        color="primary"
-                                    />
-                                }
-                                label={view}
-                            />
-                        );
-                    })}
-                </RadioGroup>
-            </Box>
-        ),
-        [currentView, handleRadioChange]
-    );
+    const handleCurrentViewChange = useCallback((view: PORTFOLIO_VIEW) => {
+        setCurrentView(view);
+    }, []);
 
     const viewBySelection = useMemo(() => {
         if (currentView === PORTFOLIO_VIEW.BY_DATE) {
@@ -106,15 +58,13 @@ export const Portfolio = () => {
                 <ButtonWithPopover
                     buttonText={`Viewing investments ${PORTFOLIO_VIEW_NAMES[currentView]}`}
                     Icon={getCalenderIcon}
-                    Content={getFilterContent}
                     width={240}
-                />
-                <ButtonWithPopover
-                    buttonText="Filter"
-                    Icon={FilterListIcon}
-                    Content={ColumnFilter}
-                    onClose={onFilterPopoverClose}
-                />
+                >
+                    <PortfolioViewFilter onCurrentViewChange={handleCurrentViewChange} currentView={currentView} />
+                </ButtonWithPopover>
+                <ButtonWithPopover buttonText="Filter" Icon={FilterListIcon} onClose={onFilterPopoverClose}>
+                    <ColumnFilter />
+                </ButtonWithPopover>
             </div>
             {viewBySelection}
         </>
