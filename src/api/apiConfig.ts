@@ -10,8 +10,11 @@ const endpoints = {
     indices: `${API_URL}/api/indices`,
     userData: `${API_URL}/api/userData`,
     preference: `${API_URL}/api/preference`,
-    holdingsList: `${API_URL}/userHoldingsList`,
-    user: `${API_URL}/api/user`
+    user: `${API_URL}/api/user`,
+    forgotPassword: `${API_URL}/api/forgotPassword`,
+    verifyOtp: `${API_URL}/api/verifyOtp`,
+    updatePassword: `${API_URL}/api/updatePassword`,
+    holdingsList: `${API_URL}/userHoldingsList`
 } as const;
 
 type Endpoints = typeof endpoints;
