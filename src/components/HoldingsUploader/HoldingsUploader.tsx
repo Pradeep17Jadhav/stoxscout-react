@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import * as XLSX from 'xlsx';
 import {Button, Typography, Box} from '@mui/material';
-import {uploadHoldings} from '../../api/holdingsAPI';
+import {bulkAddHoldings} from '../../api/holdingsAPI';
 import {useNavigate} from 'react-router-dom';
 import {Purchase} from '../../types/purchase';
 import './styles.css';
@@ -53,7 +53,7 @@ const HoldingsUploader = () => {
             }
             try {
                 if (newHoldings.length) {
-                    await uploadHoldings(newHoldings);
+                    await bulkAddHoldings(newHoldings);
                     setError('Holdings added successfully, redirecting back to dashboard in 5 seconds!');
                     setTimeout(() => navigate('/'), 5000);
                 }

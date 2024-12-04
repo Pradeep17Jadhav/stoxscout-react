@@ -4,8 +4,8 @@
     text-align: center;
     margin: 96px auto;
     gap: 32px;
-    max-width: 540px;
-    min-width: 180px;
+    max-width: 960px;
+    min-width: 720px;
     border-radius: 8px;
     padding: 32px;
     box-shadow: var(--container-box-shadow);

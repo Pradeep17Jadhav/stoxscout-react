@@ -1,0 +1,14 @@
+.transaction-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.transaction-item-element {
+    margin-right: 16px !important;
+}
+
+.clearTransactionButton {
+    display: flex;
+    height: 32px;
+    padding: 16px 0;
+}

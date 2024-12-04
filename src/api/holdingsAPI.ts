@@ -30,7 +30,7 @@ export const addPurchase = async (purchase: Purchase) => {
     return data;
 };
 
-export const uploadHoldings = async (holdings: Purchase[]) => {
+export const bulkAddHoldings = async (holdings: Purchase[]) => {
     const {response, data} = await authRequest(endpoints.upload, {
         method: HttpMethod.POST,
         body: holdings
