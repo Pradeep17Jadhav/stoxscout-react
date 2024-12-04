@@ -1,24 +1,22 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import dayjs, {Dayjs} from 'dayjs';
 import {
-    Alert,
     Autocomplete,
     AutocompleteRenderInputParams,
     Button,
     Checkbox,
     FormControlLabel,
-    Snackbar,
     TextField
 } from '@mui/material';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {addPurchase} from '../../api/holdingsAPI';
+import {useAlert} from '../../hooks/useAlert';
 import {getHoldingsList} from '../../api/marketAPI';
 import './styles.css';
 
 export const AddPurchase = () => {
+    const {showSnackBar} = useAlert();
     const [saving, setSaving] = useState(false);
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackMessage, setSnackMessage] = useState('');
     const [symbol, setSymbol] = useState('');
     const [holdingList, setHoldingList] = useState<string[]>([]);
     const [quantity, setQuantity] = useState('');
@@ -31,10 +29,9 @@ export const AddPurchase = () => {
         getHoldingsList()
             .then((stockList: any) => setHoldingList(stockList.nse))
             .catch(() => {
-                setSnackMessage('Something went wrong. Please try again!');
-                setSnackbarOpen(true);
+                showSnackBar('Cannot load stock list. Please add your stock name manually.', 'error');
             });
-    }, []);
+    }, [showSnackBar]);
 
     const isValidForm = useMemo(() => {
         return symbol !== '' && dateAdded?.isValid() && quantity !== '' && avgPrice !== '';
@@ -64,24 +61,20 @@ export const AddPurchase = () => {
                 isGift,
                 isIPO
             })
-                .then(() => setSnackMessage('Purchase added successfully!'))
-                .catch(() => setSnackMessage('Purchase saving failed. Please try again!'))
+                .then(() => showSnackBar('Purchase added successfully!'))
+                .catch(() => showSnackBar('Purchase saving failed. Please try again!', 'error'))
                 .finally(() => {
                     setSaving(false);
-                    setSnackbarOpen(true);
                 });
         },
-        [avgPrice, dateAdded, holdingList, isGift, isIPO, quantity, symbol]
+        [avgPrice, dateAdded, holdingList, isGift, isIPO, quantity, showSnackBar, symbol]
     );
-
-    const handleSnackbarClose = useCallback(() => {
-        setSnackbarOpen(false);
-    }, []);
 
     const onSymbolChange = useCallback(
         (_: unknown, newValue: string | null) => setSymbol(newValue ? newValue.toUpperCase().trim() : ''),
         []
     );
+
     const onSymbolInput = useCallback((e: any) => setSymbol(e.target.value.toUpperCase().trim()), []);
     const onQuantityChange = useCallback((e: any) => setQuantity(e.target.value), []);
     const onAvgPriceChange = useCallback((e: any) => setAvgPrice(e.target.value), []);
@@ -140,16 +133,6 @@ export const AddPurchase = () => {
                     </Button>
                 </div>
             </form>
-            <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={6000}
-                onClose={handleSnackbarClose}
-                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-            >
-                <Alert onClose={handleSnackbarClose} severity="success" variant="filled" sx={{width: '100%'}}>
-                    {snackMessage}
-                </Alert>
-            </Snackbar>
         </div>
     );
 };

@@ -17,6 +17,10 @@
   height: 100%;
 }
 
+.text-link {
+  cursor: pointer;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -1,25 +1,22 @@
-import TextField from '@mui/material/TextField/TextField';
-import OTPInput from '../../OTPInput/OTPInput';
 import {useCallback, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import TextField from '@mui/material/TextField/TextField';
 import Typography from '@mui/material/Typography/Typography';
 import Button from '@mui/material/Button/Button';
 import InputAdornment from '@mui/material/InputAdornment/InputAdornment';
 import IconButton from '@mui/material/IconButton/IconButton';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
-import {forgotPasswordAPI, updatePasswordAPI, verifyOtpAPI} from '../../../api/authAPI';
-import Snackbar from '@mui/material/Snackbar/Snackbar';
-import Alert, {AlertColor} from '@mui/material/Alert/Alert';
-import {validatePassword} from '../../../helpers/authHelpers';
+import {forgotPasswordAPI, updatePasswordAPI, verifyOtpAPI} from '../../api/authAPI';
+import OTPInput from '../OTPInput/OTPInput';
+import {validatePassword} from '../../helpers/authHelpers';
+import {useAlert} from '../../hooks/useAlert';
 
 const OTP_LENGTH = 6;
 
-type Props = {
-    toggleForgotPassword: () => void;
-};
-
-export const ForgotPassword = ({toggleForgotPassword}: Props) => {
+export const ForgotPassword = () => {
+    const navigate = useNavigate();
+    const {showSnackBar} = useAlert();
     const [email, setEmail] = useState('');
-    const [snackBarSeverity, setSnackBarSeverity] = useState<AlertColor>('success');
     const [generatingOtp, setGeneratingOtp] = useState(false);
     const [verifyingOtp, setVerifyingOtp] = useState(false);
     const [updatingPassword, setUpdatingPassword] = useState(false);
@@ -30,8 +27,6 @@ export const ForgotPassword = ({toggleForgotPassword}: Props) => {
     const [resetToken, setResetToken] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [isValid, setIsValid] = useState(false);
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackMessage, setSnackMessage] = useState('');
     const [error, setError] = useState<string | null>(null);
 
     const clearForm = useCallback(() => {
@@ -47,8 +42,8 @@ export const ForgotPassword = ({toggleForgotPassword}: Props) => {
 
     const returnToLoginScreen = useCallback(() => {
         clearForm();
-        toggleForgotPassword();
-    }, [clearForm, toggleForgotPassword]);
+        navigate('/login');
+    }, [clearForm, navigate]);
 
     const togglePasswordVisibility = useCallback(() => {
         setShowPassword((prev) => !prev);
@@ -58,19 +53,15 @@ export const ForgotPassword = ({toggleForgotPassword}: Props) => {
         setGeneratingOtp(true);
         forgotPasswordAPI(email)
             .then(() => {
-                setSnackBarSeverity('success');
-                setSnackMessage(`OTP sent to ${email}`);
-                setSnackbarOpen(true);
+                showSnackBar(`OTP sent to ${email}`);
                 setOtpGenerated(true);
             })
             .catch((error: any) => {
-                setSnackBarSeverity('error');
-                setSnackMessage(error.message);
-                setSnackbarOpen(true);
+                showSnackBar(error.message, 'error');
                 clearForm();
             })
             .finally(() => setGeneratingOtp(false));
-    }, [clearForm, email]);
+    }, [clearForm, email, showSnackBar]);
 
     const submitOtp = useCallback(async () => {
         setVerifyingOtp(true);
@@ -82,35 +73,25 @@ export const ForgotPassword = ({toggleForgotPassword}: Props) => {
             })
             .catch((error: any) => {
                 setOtp('');
-                setSnackBarSeverity('error');
-                setSnackMessage(error.message);
-                setSnackbarOpen(true);
+                showSnackBar(error.message, 'error');
             })
             .finally(() => setVerifyingOtp(false));
-    }, [email, otp]);
+    }, [email, otp, showSnackBar]);
 
     const updatePassword = useCallback(async () => {
         setUpdatingPassword(true);
         updatePasswordAPI(resetToken, password)
             .then(() => {
-                setSnackBarSeverity('success');
-                setSnackMessage('Password updated successfully! Redirecting you to login page in 5 secondsa!');
-                setSnackbarOpen(true);
+                showSnackBar('Password updated successfully! Redirecting you to login page in 5 seconds!');
                 clearForm();
                 setTimeout(() => returnToLoginScreen(), 5000);
             })
             .catch((error: any) => {
-                setSnackBarSeverity('error');
-                setSnackMessage(error.message);
-                setSnackbarOpen(true);
+                showSnackBar(error.message, 'error');
                 returnToLoginScreen();
             })
             .finally(() => setUpdatingPassword(false));
-    }, [resetToken, password, clearForm, returnToLoginScreen]);
-
-    const handleSnackbarClose = useCallback(() => {
-        setSnackbarOpen(false);
-    }, []);
+    }, [resetToken, password, showSnackBar, clearForm, returnToLoginScreen]);
 
     const validatePasswords = useCallback((password: string, repeatPassword: string) => {
         const errors = validatePassword(password, repeatPassword);
@@ -140,7 +121,7 @@ export const ForgotPassword = ({toggleForgotPassword}: Props) => {
     );
 
     return (
-        <>
+        <div className="credential-container">
             <h2>Reset Password</h2>
             {!resetToken && !otpGenerated && (
                 <>
@@ -240,19 +221,9 @@ export const ForgotPassword = ({toggleForgotPassword}: Props) => {
                     )}
                 </>
             )}
-            <Typography variant="body2" className="form-item">
-                <a onClick={returnToLoginScreen}>Back to Login</a>
+            <Typography className="form-item" variant="body2" onClick={returnToLoginScreen}>
+                <span className="text-link">Back to Login</span>
             </Typography>
-            <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={6000}
-                onClose={handleSnackbarClose}
-                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-            >
-                <Alert onClose={handleSnackbarClose} severity={snackBarSeverity} variant="filled" sx={{width: '100%'}}>
-                    {snackMessage}
-                </Alert>
-            </Snackbar>
-        </>
+        </div>
     );
 };

@@ -24,6 +24,8 @@ import {Landing} from './pages/Landing/Landing';
 import {THEME} from './types/userPreferences';
 import usePreferences from './hooks/usePreferences';
 import {Portfolio} from './pages/PortFolio/Portfolio';
+import {ForgotPassword} from './components/ForgotPassword/ForgotPassword';
+import {SnackBar} from './components/SnackBar/SnackBar';
 import './App.css';
 
 const fontFamily = [
@@ -116,9 +118,11 @@ function App() {
                                         ))}
                                         <Route path="/login" element={<Login />}></Route>
                                         <Route path="/signup" element={<Signup />}></Route>
+                                        <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
                                     </Routes>
                                 </div>
                             </div>
+                            <SnackBar />
                         </AppUpdater>
                     </LocalizationProvider>
                 </BrowserRouter>
