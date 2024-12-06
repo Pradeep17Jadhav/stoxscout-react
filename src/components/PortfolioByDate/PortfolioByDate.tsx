@@ -54,8 +54,8 @@ export const PortfolioByDate = () => {
     return (
         <>
             {dateWiseStocksInfo.map((dateWiseStocksInfoItem) => (
-                <div className="day-container" key={`${dateWiseStocksInfoItem.date}`}>
-                    <div className="datePurchased">{getFormattedDate(dateWiseStocksInfoItem.date)}</div>
+                <div key={dateWiseStocksInfoItem.date}>
+                    <h4 className="purchasedDateTitle">{getFormattedDate(dateWiseStocksInfoItem.date)}</h4>
                     <div>
                         <div>
                             <HoldingTable

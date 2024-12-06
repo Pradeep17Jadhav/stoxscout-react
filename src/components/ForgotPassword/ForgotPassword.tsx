@@ -121,7 +121,7 @@ export const ForgotPassword = () => {
     );
 
     return (
-        <div className="credential-container">
+        <div className="elevated-container">
             <h2>Reset Password</h2>
             {!resetToken && !otpGenerated && (
                 <>

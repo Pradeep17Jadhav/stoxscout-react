@@ -5,12 +5,6 @@
     sans-serif !important;
 }
 
-.main-content {
-  display: flex;
-  flex-direction: column;
-  height: calc(100% - 64px);
-}
-
 .app-container {
   display: flex;
   flex-direction: column;
@@ -19,6 +13,67 @@
 
 .text-link {
   cursor: pointer;
+}
+
+.center {
+  margin: auto !important;
+}
+
+.primary-button {
+  border-radius: 64px !important;
+  padding: 12px 64px !important;
+  background-color: var(--magnyfire-background-primary) !important;
+  color: #fff !important;
+}
+
+.primary-button:hover {
+  background-color: #1565c0 !important;
+}
+
+.primary-button:disabled {
+  background-color: var(--magnyfire-background-disabled) !important;
+  color: var(--magnyfire-text-disabled) !important;
+}
+
+.secondary-button {
+  border-radius: 64px !important;
+  padding: 12px 64px !important;
+}
+
+.elevated-container {
+  text-align: center;
+  margin: 96px auto;
+  max-width: 540px;
+  min-width: 180px;
+  border-radius: 16px;
+  padding: 48px;
+  border: 3px solid #1d1d1d;
+  backdrop-filter: blur(10px);
+  background: var(--magnyfire-container-background);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: var(--magnyfire-container-shadow);
+}
+
+.elevated-full-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 960px;
+  min-width: 320px;
+  border-radius: 0px;
+  padding: 48px;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(35deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: none;
+  border-bottom: none;
+  height: 100%;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.form-item {
+  margin-bottom: 32px !important;
 }
 
 .App-logo {

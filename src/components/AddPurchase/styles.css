@@ -1,14 +1,25 @@
-.addPurchase-container {
+.elevated-container.addPurchase-container {
+    margin: 96px auto;
+    max-width: 960px;
+    min-width: 320px;
+    border-radius: 8px;
+}
+
+@media (max-width: 900px) {
+    .elevated-container.addPurchase-container {
+        margin: 0px;
+        padding: 32px 16px;
+        border: none;
+        box-shadow: none;
+        background: none;
+    }
+}
+
+.add-purchase-form {
     display: flex;
     flex-direction: column;
-    text-align: center;
-    margin: 96px auto;
     gap: 32px;
-    max-width: 960px;
-    min-width: 720px;
-    border-radius: 8px;
-    padding: 32px;
-    box-shadow: var(--container-box-shadow);
+    text-align: center;
 }
 
 .holding-uploader {

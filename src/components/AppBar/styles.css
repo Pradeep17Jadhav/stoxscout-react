@@ -4,7 +4,7 @@
     color: var(--mui-palette-text-primary);
     top: 0;
     position: sticky;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 3px, rgba(0, 0, 0, 0.24) 0px 0dvh 2px;
+    border-bottom: var(--magnyfire-border);
 }
 
 .appbar-container .updatedTime {

@@ -50,6 +50,25 @@ const lightTheme = createTheme({
     },
     palette: {
         mode: 'light'
+    },
+    components: {
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    '& .MuiOutlinedInput-notchedOutline': {
+                        borderRadius: '0',
+                        borderColor: 'var(--magnyfire-border-color-1)'
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'var(--magnyfire-background-primary)'
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'var(--magnyfire-background-focused)',
+                        color: '#fff !important'
+                    }
+                }
+            }
+        }
     }
 });
 
@@ -61,6 +80,25 @@ const darkTheme = createTheme({
         mode: 'dark',
         background: {
             paper: '#101010'
+        }
+    },
+    components: {
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    '& .MuiOutlinedInput-notchedOutline': {
+                        borderRadius: '0',
+                        borderColor: 'var(--magnyfire-border-color-1)'
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'var(--magnyfire-background-primary)'
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'var(--magnyfire-background-focused)',
+                        color: '#fff !important'
+                    }
+                }
+            }
         }
     }
 });
@@ -103,24 +141,22 @@ function App() {
                             <Loader />
                             <div className="app-container">
                                 <AppBar />
-                                <div className="main-content">
-                                    <Routes>
-                                        {privateRoutes.map(({path, Component}) => (
-                                            <Route
-                                                key={path}
-                                                path={path}
-                                                element={
-                                                    <PrivateRoute>
-                                                        <Component />
-                                                    </PrivateRoute>
-                                                }
-                                            />
-                                        ))}
-                                        <Route path="/login" element={<Login />}></Route>
-                                        <Route path="/signup" element={<Signup />}></Route>
-                                        <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
-                                    </Routes>
-                                </div>
+                                <Routes>
+                                    {privateRoutes.map(({path, Component}) => (
+                                        <Route
+                                            key={path}
+                                            path={path}
+                                            element={
+                                                <PrivateRoute>
+                                                    <Component />
+                                                </PrivateRoute>
+                                            }
+                                        />
+                                    ))}
+                                    <Route path="/login" element={<Login />}></Route>
+                                    <Route path="/signup" element={<Signup />}></Route>
+                                    <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
+                                </Routes>
                             </div>
                             <SnackBar />
                         </AppUpdater>

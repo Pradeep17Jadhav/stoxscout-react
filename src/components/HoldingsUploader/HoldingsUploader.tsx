@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import * as XLSX from 'xlsx';
-import {Button, Typography, Box} from '@mui/material';
+import {Button, Typography} from '@mui/material';
 import {bulkAddHoldings} from '../../api/holdingsAPI';
 import {useNavigate} from 'react-router-dom';
 import {Purchase} from '../../types/purchase';
@@ -99,9 +99,9 @@ const HoldingsUploader = () => {
     );
 
     return (
-        <div className="general-container">
+        <div className="elevated-container">
             <div className="holding-uploader-points">
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="body1" gutterBottom>
                     {'1. Go to '}
                     <a href="https://console.zerodha.com/portfolio/holdings" target="_blank" rel="noreferrer">
                         {'https://console.zerodha.com/portfolio/holdings'}
@@ -117,7 +117,7 @@ const HoldingsUploader = () => {
             </div>
             <input type="file" accept=".xlsx" onChange={handleFileChange} style={{display: 'none'}} id="file-upload" />
             <label htmlFor="file-upload">
-                <Button variant="contained" component="span">
+                <Button className="primary-button" variant="contained" component="span">
                     Select XLSX File
                 </Button>
             </label>

@@ -8,6 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton/IconButton';
 import {LocalPurchaseTransaction} from '../../../types/purchase';
 import './styles.css';
+import Grid from '@mui/material/Grid/Grid';
 
 type Props = {
     localPurchaseTransaction: LocalPurchaseTransaction;
@@ -40,63 +41,80 @@ const PurchaseTransactionItem = ({localPurchaseTransaction, updateTransaction, r
 
     return (
         <div className="transaction-container">
-            <DatePicker
-                className="transaction-item-element"
-                label="Date purchased"
-                value={localPurchaseTransaction.dateAdded}
-                onChange={onDateChange}
-                format="DD/MM/YYYY"
-            />
-            <TextField
-                className="transaction-item-element"
-                label="Quantity"
-                variant="outlined"
-                type="number"
-                value={localPurchaseTransaction.quantity}
-                placeholder="5"
-                onChange={onQuantityChange}
-                InputProps={{
-                    inputProps: {
-                        min: 0
-                    }
-                }}
-            />
-            <TextField
-                className="transaction-item-element"
-                label="Average Price"
-                variant="outlined"
-                type="number"
-                value={localPurchaseTransaction.avgPrice}
-                placeholder="1234.55"
-                onChange={onAvgPriceChange}
-            />
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        checked={localPurchaseTransaction.isIPO}
-                        onChange={onIsIPOChange}
-                        name="isIPO"
-                        color="primary"
+            <Grid container spacing={2} justifyContent="center" alignItems="center">
+                <Grid item xs={12} sm={6} md={3}>
+                    <DatePicker
+                        className="transaction-item-element"
+                        label="Date purchased"
+                        value={localPurchaseTransaction.dateAdded}
+                        onChange={onDateChange}
+                        format="DD/MM/YYYY"
+                        slotProps={{
+                            textField: {fullWidth: true}
+                        }}
                     />
-                }
-                label="IPO "
-            />
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        checked={localPurchaseTransaction.isGift}
-                        onChange={onIsGiftChange}
-                        name="isGift"
-                        color="primary"
+                </Grid>
+                <Grid item xs={12} sm={6} md={3}>
+                    <TextField
+                        className="transaction-item-element"
+                        label="Quantity"
+                        variant="outlined"
+                        type="number"
+                        value={localPurchaseTransaction.quantity}
+                        placeholder="5"
+                        onChange={onQuantityChange}
+                        fullWidth
+                        InputProps={{
+                            inputProps: {
+                                min: 0
+                            }
+                        }}
                     />
-                }
-                label="Gift"
-            />
-            <span className="clearTransactionButton">
-                <IconButton size="small" color="error" onClick={removeTransaction}>
-                    <ClearIcon />
-                </IconButton>
-            </span>
+                </Grid>
+                <Grid item xs={12} sm={6} md={3}>
+                    <TextField
+                        className="transaction-item-element"
+                        label="Average Price"
+                        variant="outlined"
+                        type="number"
+                        value={localPurchaseTransaction.avgPrice}
+                        placeholder="1234.55"
+                        onChange={onAvgPriceChange}
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3}>
+                    <div className="transactionItemRight">
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={localPurchaseTransaction.isIPO}
+                                    onChange={onIsIPOChange}
+                                    name="isIPO"
+                                    color="primary"
+                                />
+                            }
+                            label="IPO "
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={localPurchaseTransaction.isGift}
+                                    onChange={onIsGiftChange}
+                                    name="isGift"
+                                    color="primary"
+                                />
+                            }
+                            label="Gift"
+                        />
+                        <span className="clearTransactionButton">
+                            <IconButton size="small" color="error" onClick={removeTransaction}>
+                                <ClearIcon />
+                            </IconButton>
+                        </span>
+                    </div>
+                </Grid>
+            </Grid>
         </div>
     );
 };

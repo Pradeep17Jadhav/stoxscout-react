@@ -43,47 +43,51 @@ export const Login = () => {
     return isAuthenticated ? (
         <></>
     ) : (
-        <div className="credential-container">
-            <>
-                <h2>Login</h2>
-                <form onSubmit={handleLogin}>
-                    <TextField
-                        className="form-item"
-                        label="Username"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={username}
-                        onChange={onSetUsername}
-                        autoComplete="username"
-                        required
-                    />
-                    <TextField
-                        className="form-item"
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        fullWidth
-                        margin="normal"
-                        value={password}
-                        onChange={onSetPassword}
-                        autoComplete="current-password"
-                        required
-                    />
-                    {error && (
-                        <Typography className="form-item" color="error">
-                            {error}
-                        </Typography>
-                    )}
-                    <Button variant="contained" color="primary" className="form-item" type="submit" disabled={logging}>
-                        Login
-                    </Button>
-
-                    <Typography variant="body2" className="form-item" onClick={forgotPasswordHandler}>
-                        <span className="text-link">Forgot password</span>
+        <div className="elevated-container">
+            <h2>Login</h2>
+            <form onSubmit={handleLogin}>
+                <TextField
+                    className="form-item"
+                    label="Username"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={username}
+                    onChange={onSetUsername}
+                    autoComplete="username"
+                    required
+                />
+                <TextField
+                    className="form-item"
+                    label="Password"
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+                    margin="normal"
+                    value={password}
+                    onChange={onSetPassword}
+                    autoComplete="current-password"
+                    required
+                />
+                {error && (
+                    <Typography className="form-item" color="error">
+                        {error}
                     </Typography>
-                </form>
-            </>
+                )}
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className="primary-button form-item"
+                    type="submit"
+                    disabled={logging}
+                >
+                    Login
+                </Button>
+
+                <Typography variant="body2" className="form-item" onClick={forgotPasswordHandler}>
+                    <span className="text-link">Forgot password</span>
+                </Typography>
+            </form>
         </div>
     );
 };

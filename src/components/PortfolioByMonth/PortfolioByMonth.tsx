@@ -10,8 +10,6 @@ import {useUser} from '../../hooks/useUser';
 import {getFormattedDate} from '../../helpers/dateUtils';
 import usePreferences from '../../hooks/usePreferences';
 
-import './styles.css';
-
 export const PortfolioByMonth = () => {
     const {market} = usePortfolio();
     const {dashboardVisibleColumns} = usePreferences();
@@ -54,8 +52,8 @@ export const PortfolioByMonth = () => {
     return (
         <>
             {monthWiseStocksInfo.map((monthWiseStocksInfoItem) => (
-                <div className="month-container" key={`${monthWiseStocksInfoItem.monthYear}`}>
-                    <div className="monthPurchased">{getFormattedDate(monthWiseStocksInfoItem.monthYear)}</div>
+                <div key={`${monthWiseStocksInfoItem.monthYear}`}>
+                    <h4 className="purchasedDateTitle">{getFormattedDate(monthWiseStocksInfoItem.monthYear)}</h4>
                     <div>
                         <div>
                             <HoldingTable

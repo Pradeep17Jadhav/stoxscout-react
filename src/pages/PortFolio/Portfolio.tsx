@@ -14,8 +14,8 @@ import PortfolioViewFilter from '../../components/Filters/PortfolioViewFilter/Po
 import {AppDispatch} from '../../redux/store/store';
 import usePreferences from '../../hooks/usePreferences';
 import {useApp} from '../../hooks/useApp';
-import './styles.css';
 import {PORTFOLIO_VIEW, PORTFOLIO_VIEW_NAMES} from '../../types/portfolio';
+import './styles.css';
 
 export const Portfolio = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -53,13 +53,9 @@ export const Portfolio = () => {
     }, [currentView]);
 
     return !isLoading ? (
-        <>
+        <div className="main-content">
             <div className="menu-items">
-                <ButtonWithPopover
-                    buttonText={`Viewing investments ${PORTFOLIO_VIEW_NAMES[currentView]}`}
-                    Icon={getCalenderIcon}
-                    width={240}
-                >
+                <ButtonWithPopover buttonText={PORTFOLIO_VIEW_NAMES[currentView]} Icon={getCalenderIcon} width={240}>
                     <PortfolioViewFilter onCurrentViewChange={handleCurrentViewChange} currentView={currentView} />
                 </ButtonWithPopover>
                 <ButtonWithPopover buttonText="Filter" Icon={FilterListIcon} onClose={onFilterPopoverClose}>
@@ -67,7 +63,7 @@ export const Portfolio = () => {
                 </ButtonWithPopover>
             </div>
             {viewBySelection}
-        </>
+        </div>
     ) : (
         <></>
     );

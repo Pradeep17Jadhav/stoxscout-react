@@ -9,8 +9,6 @@ import {usePortfolio} from '../../hooks/usePortfolio';
 import {useUser} from '../../hooks/useUser';
 import usePreferences from '../../hooks/usePreferences';
 
-import './styles.css';
-
 export const PortfolioByYear = () => {
     const {market} = usePortfolio();
     const {dashboardVisibleColumns} = usePreferences();
@@ -53,8 +51,8 @@ export const PortfolioByYear = () => {
     return (
         <>
             {yearWiseStocksInfo.map((yearWiseStocksInfoItem) => (
-                <div className="year-container" key={`${yearWiseStocksInfoItem.year}`}>
-                    <div className="yearPurchased">{yearWiseStocksInfoItem.year}</div>
+                <div key={yearWiseStocksInfoItem.year}>
+                    <h4 className="purchasedDateTitle">{yearWiseStocksInfoItem.year}</h4>
                     <div>
                         <div>
                             <HoldingTable

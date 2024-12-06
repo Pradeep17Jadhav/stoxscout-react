@@ -1,10 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {TextField, Typography} from '@mui/material';
+import {Button, TextField, Typography} from '@mui/material';
 import {useAuth} from '../../hooks/useAuth';
-import {PrimaryButton} from '../Buttons/PrimaryButton/PrimaryButton';
-
-import './styles.css';
 
 export const Signup = () => {
     const [loading, setLoading] = useState(false);
@@ -44,7 +41,7 @@ export const Signup = () => {
     return isAuthenticated ? (
         <></>
     ) : (
-        <div className="credential-container">
+        <div className="elevated-container">
             <h2>Signup</h2>
             <form onSubmit={handleSignup}>
                 <TextField
@@ -97,9 +94,15 @@ export const Signup = () => {
                         ))}
                     </div>
                 )}
-                <PrimaryButton className="form-item" type="submit" disabled={loading}>
+                <Button
+                    className="primary-button form-item"
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={loading}
+                >
                     Signup
-                </PrimaryButton>
+                </Button>
             </form>
         </div>
     );

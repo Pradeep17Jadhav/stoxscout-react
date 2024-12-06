@@ -1,7 +1,14 @@
+.main-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 65px);
+}
+
 .menu-items {
     display: flex;
     justify-content: right;
     height: 48px;
     z-index: 3;
     background-color: var(--mui-palette-background-default);
+    border-bottom: var(--magnyfire-border);
 }

@@ -12,3 +12,9 @@
     height: 32px;
     padding: 16px 0;
 }
+
+.transactionItemRight {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

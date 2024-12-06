@@ -232,8 +232,9 @@ export const AddPurchase = () => {
     }, [onPaste]);
 
     return (
-        <form onSubmit={handleAddMore}>
-            <div className="addPurchase-container">
+        <div className="elevated-container addPurchase-container">
+            <h2>Add Purchase</h2>
+            <form className="add-purchase-form" onSubmit={handleAddMore}>
                 <Autocomplete
                     className="symbol-autocomplete"
                     freeSolo
@@ -252,13 +253,25 @@ export const AddPurchase = () => {
                     />
                 ))}
 
-                <Button startIcon={<AddIcon />} onClick={addLocalTransaction}>
+                <Button
+                    className="secondary-button center"
+                    variant="outlined"
+                    startIcon={<AddIcon />}
+                    onClick={addLocalTransaction}
+                    sx={{width: 'auto'}}
+                >
                     Add Transaction
                 </Button>
-                <Button type="submit" variant="contained" disabled={!isValidForm || saving} fullWidth={false}>
+                <Button
+                    className="primary-button center"
+                    type="submit"
+                    variant="contained"
+                    disabled={!isValidForm || saving}
+                    sx={{width: 'auto'}}
+                >
                     {saving ? 'Saving...' : 'Add Purchase'}
                 </Button>
-            </div>
-        </form>
+            </form>
+        </div>
     );
 };
