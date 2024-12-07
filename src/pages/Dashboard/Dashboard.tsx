@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid/Grid';
 import Paper from '@mui/material/Paper/Paper';
 import Stack from '@mui/material/Stack/Stack';
 import Switch from '@mui/material/Switch/Switch';
+import {useUser} from '../../hooks/useUser';
 import './styles.css';
 
 export const Dashboard = () => {
@@ -25,6 +26,7 @@ export const Dashboard = () => {
         advanced,
         declined
     } = useChartsData();
+    const {holdings} = useUser();
 
     const generateWidgetTitle = useCallback(
         (title: string) => (
@@ -44,12 +46,14 @@ export const Dashboard = () => {
                     {generateWidgetTitle('Top Gainers')}
                     <HoldingTable
                         stocksInfo={todaysTopFiveList.gainers}
+                        holdings={holdings}
                         visibleColumns={isMobile ? [1, 4, 9, 10] : [1, 3, 4, 9, 10]}
                     />
                 </Paper>
                 <Paper className="widget">
                     {generateWidgetTitle('Top Losers')}
                     <HoldingTable
+                        holdings={holdings}
                         stocksInfo={todaysTopFiveList.losers}
                         visibleColumns={isMobile ? [1, 4, 9, 10] : [1, 3, 4, 9, 10]}
                     />
@@ -72,7 +76,7 @@ export const Dashboard = () => {
                 </Paper>
             </>
         ),
-        [advanced, declined, generateWidgetTitle, todaysTopFiveList.gainers, todaysTopFiveList.losers]
+        [advanced, declined, generateWidgetTitle, holdings, todaysTopFiveList.gainers, todaysTopFiveList.losers]
     );
 
     return stocksInfo.length ? (

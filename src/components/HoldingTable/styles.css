@@ -6,3 +6,13 @@
     background: var(--table-header-hover);
     cursor: pointer;
 }
+
+.table-row-options {
+    height: 24px;
+    width: 34px;
+    padding: 0 8px !important;
+}
+
+.table-row-options button {
+    height: 32px;
+}

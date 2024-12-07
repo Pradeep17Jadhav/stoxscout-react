@@ -60,6 +60,7 @@ export const PortfolioByDate = () => {
                         <div>
                             <HoldingTable
                                 stocksInfo={dateWiseStocksInfoItem.stocksInfo}
+                                holdings={holdings}
                                 onSort={onSort}
                                 date={dateWiseStocksInfoItem.date}
                                 visibleColumns={dashboardVisibleColumns}

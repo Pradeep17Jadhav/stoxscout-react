@@ -8,7 +8,7 @@ export const SnackBar = () => {
     return (
         <Snackbar
             open={snackBarOpen}
-            autoHideDuration={6000}
+            autoHideDuration={10000}
             onClose={closeSnackBar}
             anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
         >

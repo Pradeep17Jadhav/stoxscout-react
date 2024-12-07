@@ -57,6 +57,7 @@ export const PortfolioByYear = () => {
                         <div>
                             <HoldingTable
                                 stocksInfo={yearWiseStocksInfoItem.stocksInfo}
+                                holdings={holdings}
                                 onSort={onSort}
                                 year={yearWiseStocksInfoItem.year}
                                 visibleColumns={dashboardVisibleColumns}

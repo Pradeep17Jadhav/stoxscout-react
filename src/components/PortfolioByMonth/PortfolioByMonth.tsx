@@ -58,6 +58,7 @@ export const PortfolioByMonth = () => {
                         <div>
                             <HoldingTable
                                 stocksInfo={monthWiseStocksInfoItem.stocksInfo}
+                                holdings={holdings}
                                 monthYear={monthWiseStocksInfoItem.monthYear}
                                 onSort={onSort}
                                 visibleColumns={dashboardVisibleColumns}

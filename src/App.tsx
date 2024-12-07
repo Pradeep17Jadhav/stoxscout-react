@@ -68,6 +68,22 @@ const lightTheme = createTheme({
                     }
                 }
             }
+        },
+        MuiDialog: {
+            styleOverrides: {
+                paper: {
+                    backgroundImage: 'none',
+                    backgroundColor: 'var(--background-color-2)',
+                    boxShadow: 'var(--magnyfire-container-shadow)'
+                }
+            }
+        },
+        MuiDialogTitle: {
+            styleOverrides: {
+                root: {
+                    padding: '24px'
+                }
+            }
         }
     }
 });
@@ -80,6 +96,12 @@ const darkTheme = createTheme({
         mode: 'dark',
         background: {
             paper: '#101010'
+        },
+        text: {
+            primary: 'var(--magnyfire-text-primary)'
+        },
+        action: {
+            active: 'var(--magnyfire-text-primary)'
         }
     },
     components: {
@@ -97,6 +119,22 @@ const darkTheme = createTheme({
                         borderColor: 'var(--magnyfire-background-focused)',
                         color: '#fff !important'
                     }
+                }
+            }
+        },
+        MuiDialog: {
+            styleOverrides: {
+                paper: {
+                    backgroundImage: 'none',
+                    backgroundColor: 'var(--background-color-2)',
+                    boxShadow: 'var(--magnyfire-container-shadow)'
+                }
+            }
+        },
+        MuiDialogTitle: {
+            styleOverrides: {
+                root: {
+                    padding: '24px'
                 }
             }
         }

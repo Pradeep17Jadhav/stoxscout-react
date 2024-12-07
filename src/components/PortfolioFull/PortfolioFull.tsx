@@ -16,7 +16,7 @@ import './styles.css';
 export const PortfolioFull = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {stocksInfo} = usePortfolio();
-    const {holdingSummary, preferences} = useUser();
+    const {holdingSummary, preferences, holdings} = useUser();
     const {dashboardPreferences, dashboardVisibleColumns, updateDashboardPreferences} = usePreferences();
     const [sortedStockInfo, setSortedStockInfo] = useState<StockInformation[]>(stocksInfo);
     const {isLoading} = useApp();
@@ -50,7 +50,12 @@ export const PortfolioFull = () => {
 
     return !isLoading ? (
         <>
-            <HoldingTable stocksInfo={sortedStockInfo} onSort={onSort} visibleColumns={dashboardVisibleColumns} />
+            <HoldingTable
+                stocksInfo={sortedStockInfo}
+                holdings={holdings}
+                onSort={onSort}
+                visibleColumns={dashboardVisibleColumns}
+            />
             <HoldingInformation holdingSummary={holdingSummary} />
         </>
     ) : (

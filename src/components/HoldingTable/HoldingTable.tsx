@@ -1,12 +1,15 @@
 import {useCallback, useState} from 'react';
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import {IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
 import {formatPrice} from '../../helpers/price';
-import {COLUMNS, SORT_ORDER, StockInformation} from '../../types/transaction';
+import {COLUMNS, Holdings, SORT_ORDER, StockInformation} from '../../types/transaction';
 import {DEFAULT_COLUMNS} from '../../types/userPreferences';
+import StockEditor from './StockEditor/StockEditor';
 import './styles.css';
 
 type Props = {
     stocksInfo: StockInformation[];
+    holdings: Holdings;
     date?: string;
     monthYear?: string;
     year?: string;
@@ -22,9 +25,11 @@ export type SortData = {
     year?: string;
 };
 
-export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visibleColumns}: Props) => {
+export const HoldingTable = ({stocksInfo, holdings, date, monthYear, year, onSort, visibleColumns}: Props) => {
     const [sortedBy, setSortedBy] = useState<DEFAULT_COLUMNS>(DEFAULT_COLUMNS.SYMBOL);
     const [orderBy, setOrderBy] = useState<SORT_ORDER>(SORT_ORDER.DESC);
+    const [activeSymbol, setActiveSymbol] = useState<string | null>(null);
+    const [stockEditorOpen, setStockEditorOpen] = useState<boolean>(false);
 
     const sortByColumn = useCallback(
         (column: DEFAULT_COLUMNS) => {
@@ -42,6 +47,14 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
         },
         [date, monthYear, onSort, orderBy, sortedBy, year]
     );
+
+    const changeHoveredRow = useCallback(
+        (symbol: string | null) => () => !stockEditorOpen && setActiveSymbol(symbol),
+        [stockEditorOpen]
+    );
+    const handleStockEdit = useCallback(() => {
+        setStockEditorOpen(true);
+    }, []);
 
     const sortBySymbol = useCallback(() => sortByColumn(DEFAULT_COLUMNS.SYMBOL), [sortByColumn]);
     const sortByQuantity = useCallback(() => sortByColumn(DEFAULT_COLUMNS.QUANTITY), [sortByColumn]);
@@ -142,6 +155,7 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
                                 {COLUMNS[DEFAULT_COLUMNS.MAX_DAYS]}
                             </TableCell>
                         )}
+                        <TableCell />
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -149,6 +163,8 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
                         <TableRow
                             key={`${stockInfo.symbol}_${stockInfo.quantity}_${stockInfo.investedValue}`}
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                            onMouseEnter={changeHoveredRow(stockInfo.symbol)}
+                            onMouseLeave={changeHoveredRow(null)}
                         >
                             {shouldShowColumn(DEFAULT_COLUMNS.SYMBOL) && (
                                 <TableCell component="th" scope="row">
@@ -204,10 +220,23 @@ export const HoldingTable = ({stocksInfo, date, monthYear, year, onSort, visible
                             {shouldShowColumn(DEFAULT_COLUMNS.MAX_DAYS) && (
                                 <TableCell align="right">{stockInfo.daysMax}</TableCell>
                             )}
+                            <TableCell className="table-row-options">
+                                {activeSymbol === stockInfo.symbol && (
+                                    <IconButton size="small" onClick={handleStockEdit}>
+                                        <EditIcon />
+                                    </IconButton>
+                                )}
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
+            <StockEditor
+                open={stockEditorOpen}
+                setOpen={setStockEditorOpen}
+                holdings={holdings}
+                activeSymbol={activeSymbol}
+            />
         </TableContainer>
     );
 };
