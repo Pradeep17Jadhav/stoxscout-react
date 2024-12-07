@@ -76,6 +76,10 @@
   margin-bottom: 32px !important;
 }
 
+.linear-process-container {
+  min-height: 4px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

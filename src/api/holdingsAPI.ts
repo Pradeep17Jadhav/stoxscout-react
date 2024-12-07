@@ -1,6 +1,7 @@
 import {Purchase} from '../types/purchase';
 import {authRequest, HttpMethod} from '.';
 import {endpoints} from './apiConfig';
+import {EditableTransaction} from '../types/transaction';
 
 export const getUserHoldings = async () => {
     const {response, data} = await authRequest(endpoints.holdings);
@@ -43,6 +44,29 @@ export const bulkAddHoldings = async (holdings: Purchase[]) => {
     }
     if (!response.ok) {
         throw new Error('Failed to add holdings.');
+    }
+    return data;
+};
+
+export const editHolding = async (symbol: string, updatedTransactions: EditableTransaction[]) => {
+    const {response, data} = await authRequest(endpoints.editHolding, {
+        method: HttpMethod.POST,
+        body: {
+            symbol,
+            updatedTransactions
+        }
+    });
+    if (response.status === 500) {
+        if (data.message === 'incorrect_payload') {
+            throw new Error('Bad Request: Please try again with correct details.');
+        }
+        throw new Error('Transaction update failed. Please try again.');
+    }
+    if (response.status === 404) {
+        throw new Error('The holding you are trying to update does not exist.');
+    }
+    if (!response.ok) {
+        throw new Error('Transaction update failed. Please try again.');
     }
     return data;
 };

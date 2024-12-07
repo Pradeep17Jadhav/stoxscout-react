@@ -11,20 +11,25 @@ const useHoldingsFetcher = () => {
     const {isAuthenticated} = useAuth();
     const checkCommonErrors = useCommonErrorChecker();
 
+    const fetchUserHoldings = async () => {
+        if (!isAuthenticated) return;
+        try {
+            const response = await getUserHoldings();
+            const transformedHoldings = transformTypes(response);
+            dispatch(updateUserHoldings(transformedHoldings));
+        } catch (error) {
+            checkCommonErrors(error);
+        }
+    };
+
     useEffect(() => {
-        const fetchUserHoldings = async () => {
-            if (!isAuthenticated) return;
-            try {
-                const response = await getUserHoldings();
-                const transformedHoldings = transformTypes(response);
-                dispatch(updateUserHoldings(transformedHoldings));
-            } catch (error) {
-                checkCommonErrors(error);
-            }
-        };
         fetchUserHoldings();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthenticated]);
+
+    return {
+        refreshHoldings: fetchUserHoldings
+    };
 };
 
 export default useHoldingsFetcher;

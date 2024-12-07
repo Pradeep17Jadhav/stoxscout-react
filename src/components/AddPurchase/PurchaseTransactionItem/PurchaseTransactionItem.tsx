@@ -17,17 +17,17 @@ type Props = {
 };
 
 const PurchaseTransactionItem = ({localPurchaseTransaction, updateTransaction, removeTransaction}: Props) => {
+    const onDateChange = useCallback(
+        (newValue: Dayjs | null) =>
+            updateTransaction({dateAdded: newValue || dayjs(new Date().toISOString().split('T')[0])}),
+        [updateTransaction]
+    );
     const onQuantityChange = useCallback(
         (e: any) => updateTransaction({quantity: e.target.value}),
         [updateTransaction]
     );
     const onAvgPriceChange = useCallback(
         (e: any) => updateTransaction({avgPrice: e.target.value}),
-        [updateTransaction]
-    );
-    const onDateChange = useCallback(
-        (newValue: Dayjs | null) =>
-            updateTransaction({dateAdded: newValue || dayjs(new Date().toISOString().split('T')[0])}),
         [updateTransaction]
     );
     const onIsIPOChange = useCallback(
@@ -94,7 +94,7 @@ const PurchaseTransactionItem = ({localPurchaseTransaction, updateTransaction, r
                                     color="primary"
                                 />
                             }
-                            label="IPO "
+                            label="IPO"
                         />
                         <FormControlLabel
                             control={

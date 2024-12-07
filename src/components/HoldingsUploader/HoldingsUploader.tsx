@@ -4,9 +4,11 @@ import {Button, Typography} from '@mui/material';
 import {bulkAddHoldings} from '../../api/holdingsAPI';
 import {useNavigate} from 'react-router-dom';
 import {Purchase} from '../../types/purchase';
+import useHoldingsFetcher from '../../hooks/useHoldingsFetcher';
 import './styles.css';
 
 const HoldingsUploader = () => {
+    const {refreshHoldings} = useHoldingsFetcher();
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
@@ -55,6 +57,7 @@ const HoldingsUploader = () => {
                 if (newHoldings.length) {
                     await bulkAddHoldings(newHoldings);
                     setError('Holdings added successfully, redirecting back to dashboard in 5 seconds!');
+                    refreshHoldings();
                     setTimeout(() => navigate('/'), 5000);
                 }
             } catch (err: unknown) {
@@ -63,7 +66,7 @@ const HoldingsUploader = () => {
                 }
             }
         },
-        [navigate]
+        [navigate, refreshHoldings]
     );
 
     const handleFileChange = useCallback(
