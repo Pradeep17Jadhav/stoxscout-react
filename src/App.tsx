@@ -26,6 +26,7 @@ import usePreferences from './hooks/usePreferences';
 import {Portfolio} from './pages/PortFolio/Portfolio';
 import {ForgotPassword} from './components/ForgotPassword/ForgotPassword';
 import {SnackBar} from './components/SnackBar/SnackBar';
+import SIPCalculator from './components/SIPCalculator/SIPCalculator';
 import './App.css';
 
 const fontFamily = [
@@ -167,7 +168,8 @@ function App() {
         {path: '/addPurchase', Component: AddPurchase},
         {path: '/heatmap', Component: HeatMap},
         {path: '/heatmapPNL', Component: HeatMapPNL},
-        {path: '/upload', Component: HoldingsUploader}
+        {path: '/upload', Component: HoldingsUploader},
+        {path: '/SIPCalculator', Component: SIPCalculator}
     ];
 
     return (

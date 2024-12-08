@@ -116,10 +116,10 @@ export const calculateCAGR = (days: number, invested: number, currentValue: numb
     return parseFloat(cagr.toFixed(2));
 };
 
-export const formatPrice = (price: number) => {
+export const formatPrice = (price: number, minimumFractionDigits?: number) => {
     return price.toLocaleString('en-IN', {
         maximumFractionDigits: 2,
-        minimumFractionDigits: 2
+        minimumFractionDigits: minimumFractionDigits === undefined ? 2 : minimumFractionDigits
     });
 };
 
