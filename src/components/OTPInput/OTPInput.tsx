@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Box, styled} from '@mui/material';
 import {Input as BaseInput} from '@mui/base/Input';
 import './styles.css';
@@ -64,6 +64,10 @@ interface Props {
 
 const OTPInput = ({length, value, onChange, onlyNumber}: Props) => {
     const inputRefs = useRef<HTMLInputElement[]>(new Array(length).fill(null));
+
+    useEffect(() => {
+        focusInput(0);
+    }, []);
 
     const focusInput = (targetIndex: number) => {
         inputRefs.current[targetIndex]?.focus();

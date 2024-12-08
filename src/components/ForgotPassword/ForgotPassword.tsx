@@ -49,51 +49,63 @@ export const ForgotPassword = () => {
         setShowPassword((prev) => !prev);
     }, []);
 
-    const generateOtp = useCallback(async () => {
-        setGeneratingOtp(true);
-        forgotPasswordAPI(emailOrUsername)
-            .then(() => {
-                const isEmail = emailOrUsername.indexOf('@') !== -1 && emailOrUsername.indexOf('.') !== -1;
-                const message = `OTP sent to email address ${isEmail ? emailOrUsername : ` associated with ${emailOrUsername}`}`;
-                showSnackBar(message);
-                setOtpGenerated(true);
-            })
-            .catch((error: any) => {
-                showSnackBar(error.message, 'error');
-                clearForm();
-            })
-            .finally(() => setGeneratingOtp(false));
-    }, [clearForm, emailOrUsername, showSnackBar]);
+    const generateOtp = useCallback(
+        async (e: React.FormEvent) => {
+            e.preventDefault();
+            setGeneratingOtp(true);
+            forgotPasswordAPI(emailOrUsername)
+                .then(() => {
+                    const isEmail = emailOrUsername.indexOf('@') !== -1 && emailOrUsername.indexOf('.') !== -1;
+                    const message = `OTP sent to email address ${isEmail ? emailOrUsername : ` associated with ${emailOrUsername}`}`;
+                    showSnackBar(message);
+                    setOtpGenerated(true);
+                })
+                .catch((error: any) => {
+                    showSnackBar(error.message, 'error');
+                    clearForm();
+                })
+                .finally(() => setGeneratingOtp(false));
+        },
+        [clearForm, emailOrUsername, showSnackBar]
+    );
 
-    const submitOtp = useCallback(async () => {
-        setVerifyingOtp(true);
-        verifyOtpAPI(emailOrUsername, parseInt(otp))
-            .then(({resetToken}) => {
-                if (emailOrUsername) {
-                    setResetToken(resetToken);
-                }
-            })
-            .catch((error: any) => {
-                setOtp('');
-                showSnackBar(error.message, 'error');
-            })
-            .finally(() => setVerifyingOtp(false));
-    }, [emailOrUsername, otp, showSnackBar]);
+    const submitOtp = useCallback(
+        async (e: React.FormEvent) => {
+            e.preventDefault();
+            setVerifyingOtp(true);
+            verifyOtpAPI(emailOrUsername, parseInt(otp))
+                .then(({resetToken}) => {
+                    if (emailOrUsername) {
+                        setResetToken(resetToken);
+                    }
+                })
+                .catch((error: any) => {
+                    setOtp('');
+                    showSnackBar(error.message, 'error');
+                })
+                .finally(() => setVerifyingOtp(false));
+        },
+        [emailOrUsername, otp, showSnackBar]
+    );
 
-    const updatePassword = useCallback(async () => {
-        setUpdatingPassword(true);
-        updatePasswordAPI(resetToken, password)
-            .then(() => {
-                showSnackBar('Password updated successfully! Redirecting you to login page in 5 seconds!');
-                clearForm();
-                setTimeout(() => returnToLoginScreen(), 5000);
-            })
-            .catch((error: any) => {
-                showSnackBar(error.message, 'error');
-                returnToLoginScreen();
-            })
-            .finally(() => setUpdatingPassword(false));
-    }, [resetToken, password, showSnackBar, clearForm, returnToLoginScreen]);
+    const updatePassword = useCallback(
+        async (e: React.FormEvent) => {
+            e.preventDefault();
+            setUpdatingPassword(true);
+            updatePasswordAPI(resetToken, password)
+                .then(() => {
+                    showSnackBar('Password updated successfully! Now you can login with your new credentials.');
+                    clearForm();
+                    returnToLoginScreen();
+                })
+                .catch((error: any) => {
+                    showSnackBar(error.message, 'error');
+                    returnToLoginScreen();
+                })
+                .finally(() => setUpdatingPassword(false));
+        },
+        [resetToken, password, showSnackBar, clearForm, returnToLoginScreen]
+    );
 
     const validatePasswords = useCallback((password: string, repeatPassword: string) => {
         const errors = validatePassword(password, repeatPassword);
@@ -126,7 +138,7 @@ export const ForgotPassword = () => {
         <div className="elevated-container">
             <h2>Reset Password</h2>
             {!resetToken && !otpGenerated && (
-                <>
+                <form onSubmit={generateOtp}>
                     <TextField
                         className="form-item"
                         label="Email or Username"
@@ -145,14 +157,13 @@ export const ForgotPassword = () => {
                         className="form-item"
                         type="submit"
                         disabled={!emailOrUsername || generatingOtp}
-                        onClick={generateOtp}
                     >
                         {generatingOtp ? 'Generating OTP' : 'Generate OTP'}
                     </Button>
-                </>
+                </form>
             )}
             {otpGenerated && !resetToken && (
-                <>
+                <form onSubmit={submitOtp}>
                     <Typography variant="body2" className="form-item">
                         Enter OTP received on your email address
                     </Typography>
@@ -163,14 +174,13 @@ export const ForgotPassword = () => {
                         className="form-item"
                         type="submit"
                         disabled={generatingOtp || otp.length !== OTP_LENGTH}
-                        onClick={submitOtp}
                     >
                         {verifyingOtp ? 'Verifying' : 'Submit'}
                     </Button>
-                </>
+                </form>
             )}
             {resetToken && (
-                <>
+                <form onSubmit={updatePassword}>
                     <TextField
                         className="form-item"
                         label="New Password"
@@ -181,6 +191,7 @@ export const ForgotPassword = () => {
                         value={password}
                         onChange={onSetNewPassword}
                         required
+                        autoFocus
                     />
                     <TextField
                         className="form-item"
@@ -208,7 +219,6 @@ export const ForgotPassword = () => {
                         className="form-item"
                         type="submit"
                         disabled={updatingPassword || !isValid}
-                        onClick={updatePassword}
                     >
                         {updatingPassword ? 'Updating Password' : 'Update Password'}
                     </Button>
@@ -221,7 +231,7 @@ export const ForgotPassword = () => {
                             ))}
                         </div>
                     )}
-                </>
+                </form>
             )}
             <Typography className="form-item" variant="body2" onClick={returnToLoginScreen}>
                 <span className="text-link">Back to Login</span>
