@@ -16,7 +16,7 @@ const OTP_LENGTH = 6;
 export const ForgotPassword = () => {
     const navigate = useNavigate();
     const {showSnackBar} = useAlert();
-    const [email, setEmail] = useState('');
+    const [emailOrUsername, setEmailOrUsername] = useState('');
     const [generatingOtp, setGeneratingOtp] = useState(false);
     const [verifyingOtp, setVerifyingOtp] = useState(false);
     const [updatingPassword, setUpdatingPassword] = useState(false);
@@ -31,7 +31,7 @@ export const ForgotPassword = () => {
 
     const clearForm = useCallback(() => {
         setOtp('');
-        setEmail('');
+        setEmailOrUsername('');
         setShowPassword(false);
         setPassword('');
         setRepeatPassword('');
@@ -51,9 +51,11 @@ export const ForgotPassword = () => {
 
     const generateOtp = useCallback(async () => {
         setGeneratingOtp(true);
-        forgotPasswordAPI(email)
+        forgotPasswordAPI(emailOrUsername)
             .then(() => {
-                showSnackBar(`OTP sent to ${email}`);
+                const isEmail = emailOrUsername.indexOf('@') !== -1 && emailOrUsername.indexOf('.') !== -1;
+                const message = `OTP sent to email address ${isEmail ? emailOrUsername : ` associated with ${emailOrUsername}`}`;
+                showSnackBar(message);
                 setOtpGenerated(true);
             })
             .catch((error: any) => {
@@ -61,13 +63,13 @@ export const ForgotPassword = () => {
                 clearForm();
             })
             .finally(() => setGeneratingOtp(false));
-    }, [clearForm, email, showSnackBar]);
+    }, [clearForm, emailOrUsername, showSnackBar]);
 
     const submitOtp = useCallback(async () => {
         setVerifyingOtp(true);
-        verifyOtpAPI(email, parseInt(otp))
+        verifyOtpAPI(emailOrUsername, parseInt(otp))
             .then(({resetToken}) => {
-                if (email) {
+                if (emailOrUsername) {
                     setResetToken(resetToken);
                 }
             })
@@ -76,7 +78,7 @@ export const ForgotPassword = () => {
                 showSnackBar(error.message, 'error');
             })
             .finally(() => setVerifyingOtp(false));
-    }, [email, otp, showSnackBar]);
+    }, [emailOrUsername, otp, showSnackBar]);
 
     const updatePassword = useCallback(async () => {
         setUpdatingPassword(true);
@@ -104,7 +106,7 @@ export const ForgotPassword = () => {
         }
     }, []);
 
-    const onSetEmail = useCallback((e: any) => setEmail(e.target.value), []);
+    const onSetEmail = useCallback((e: any) => setEmailOrUsername(e.target.value), []);
     const onSetNewPassword = useCallback(
         (e: any) => {
             setPassword(e.target.value);
@@ -127,11 +129,11 @@ export const ForgotPassword = () => {
                 <>
                     <TextField
                         className="form-item"
-                        label="Email"
+                        label="Email or Username"
                         variant="outlined"
                         fullWidth
                         margin="normal"
-                        value={email}
+                        value={emailOrUsername}
                         onChange={onSetEmail}
                         autoComplete="email"
                         required
@@ -142,7 +144,7 @@ export const ForgotPassword = () => {
                         color="primary"
                         className="form-item"
                         type="submit"
-                        disabled={!email || generatingOtp}
+                        disabled={!emailOrUsername || generatingOtp}
                         onClick={generateOtp}
                     >
                         {generatingOtp ? 'Generating OTP' : 'Generate OTP'}

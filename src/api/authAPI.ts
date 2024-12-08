@@ -79,27 +79,30 @@ const logoutAPI = async () => {
     return data;
 };
 
-const forgotPasswordAPI = async (email: string) => {
+const forgotPasswordAPI = async (emailOrUsername: string) => {
     const {response, data} = await request(endpoints.forgotPassword, {
         method: HttpMethod.POST,
-        body: {email}
+        body: {emailOrUsername}
     });
     if (response.status === 404) {
-        throw new Error(`Invalid email. No user is not registered with the email ${email}`);
+        throw new Error(`Invalid email or username. No user is not registered with ${emailOrUsername}`);
     }
     if (!response.ok || response.status === 500) {
-        throw new Error('Cannot send OTP to the email address. Please try later.');
+        throw new Error('Cannot send OTP to your email address. Please try later.');
     }
     return data;
 };
 
-const verifyOtpAPI = async (email: string, otp: number) => {
+const verifyOtpAPI = async (emailOrUsername: string, otp: number) => {
     const {response, data} = await request(endpoints.verifyOtp, {
         method: HttpMethod.POST,
-        body: {email, otp}
+        body: {emailOrUsername, otp}
     });
     if (response.status === 400) {
         throw new Error('Incorrect OTP entered. Please enter correct OTP.');
+    }
+    if (response.status === 404) {
+        throw new Error(`Invalid email or username. No user is not registered with ${emailOrUsername}`);
     }
     if (!response.ok || response.status === 500) {
         throw new Error('Could not verify OTP to the email address. Please try later.');
