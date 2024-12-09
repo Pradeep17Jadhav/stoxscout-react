@@ -7,6 +7,7 @@ import {IconButton, Menu, MenuItem, Tooltip, Box, Avatar, Typography, Container,
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CalculateIcon from '@mui/icons-material/Calculate';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import {grey} from '@mui/material/colors';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
@@ -79,7 +80,8 @@ const AppBar = () => {
             {to: '/portfolio', label: 'Portfolio', Icon: ListAltOutlinedIcon},
             {to: '/heatmapPNL', label: 'Charts', Icon: LeaderboardIcon},
             {to: '/addPurchase', label: 'Add Purchase', Icon: AddShoppingCartIcon},
-            {to: '/upload', label: 'Upload', Icon: CloudUploadIcon}
+            {to: '/upload', label: 'Upload', Icon: CloudUploadIcon},
+            {to: '/SIPCalculator', label: 'SIP Calculator', Icon: CalculateIcon}
         ],
         []
     );
