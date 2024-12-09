@@ -1,7 +1,7 @@
 .main-content {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 65px);
+    height: calc(100% - 69px);
 }
 
 .menu-items {
