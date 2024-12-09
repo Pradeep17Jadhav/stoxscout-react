@@ -8,6 +8,15 @@
     height: 400px;
 }
 
+.widget-small {
+    padding: 24px;
+    margin: 16px;
+    border-radius: 6px;
+    width: 100%;
+    min-width: 240px;
+    max-width: 540px;
+}
+
 .widget-title {
     padding-bottom: 8px;
 }

@@ -4,9 +4,25 @@ import {usePortfolio} from './usePortfolio';
 import {SORT_ORDER} from '../types/transaction';
 import {sort} from '../helpers/sort';
 import {DEFAULT_COLUMNS} from '../types/userPreferences';
+import {formatPrice} from '../helpers/price';
 
 export const useChartsData = () => {
     const {stocksInfo} = usePortfolio();
+
+    const bullsVsBears = useMemo(() => {
+        const bullsVsBears = stocksInfo.reduce(
+            (acc, stock) => {
+                stock.totalDayChange >= 0 ? (acc.bulls += stock.totalDayChange) : (acc.bears += stock.totalDayChange);
+                return acc;
+            },
+            {bulls: 0, bears: 0}
+        );
+        return {
+            bulls: formatPrice(bullsVsBears.bulls),
+            bears: formatPrice(Math.abs(bullsVsBears.bears)),
+            hasProfit: bullsVsBears.bulls + bullsVsBears.bears >= 0
+        };
+    }, [stocksInfo]);
 
     const getTotalProfitLoss = useCallback(
         (sortOrder: SORT_ORDER) => {
@@ -84,6 +100,7 @@ export const useChartsData = () => {
         totalProfitLossDescXAxis,
         chartSetting,
         advanced,
-        declined
+        declined,
+        bullsVsBears
     };
 };

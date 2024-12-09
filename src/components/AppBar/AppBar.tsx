@@ -89,6 +89,8 @@ const AppBar = () => {
 
     const settings = useMemo(() => (isAuthenticated ? ['Profile', 'Logout'] : ['Login', 'Signup']), [isAuthenticated]);
 
+    const handleLogoClicked = useCallback(() => navigate('/'), [navigate]);
+
     const handleMenuItemClick = useCallback(
         (setting: string) => () => {
             handlePopoverClose();
@@ -161,6 +163,7 @@ const AppBar = () => {
                         variant="h6"
                         noWrap
                         component="a"
+                        onClick={handleLogoClicked}
                         sx={{
                             mr: 2,
                             display: {xs: 'none', md: 'flex'},
@@ -168,7 +171,8 @@ const AppBar = () => {
                             fontWeight: 700,
                             letterSpacing: '.2rem',
                             color: 'inherit',
-                            textDecoration: 'none'
+                            textDecoration: 'none',
+                            cursor: 'pointer'
                         }}
                     >
                         <span className="profit">Magny</span>
