@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import {Button, TextField, Typography} from '@mui/material';
 import {useAuth} from '../../hooks/useAuth';
 import {useAlert} from '../../hooks/useAlert';
+import './styles.css';
 
 export const Signup = () => {
     const [signingUp, setSigningUp] = useState(false);
@@ -153,7 +154,7 @@ export const Signup = () => {
     return isAuthenticated ? (
         <></>
     ) : (
-        <div className="elevated-container">
+        <div className="elevated-container signup-container">
             <h2>Signup</h2>
             <form onSubmit={handleSignup}>
                 <TextField
