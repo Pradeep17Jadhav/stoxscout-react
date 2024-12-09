@@ -57,14 +57,14 @@ const registerAPI = async (name: string, username: string, email: string, passwo
     return data;
 };
 
-const loginAPI = async (username: string, password: string) => {
+const loginAPI = async (emailOrUsername: string, password: string) => {
     const {response, data} = await request(endpoints.login, {
         method: HttpMethod.POST,
-        body: {username, password}
+        body: {emailOrUsername, password}
     });
     if (response.status === 204) return null;
     if (response.status === 401) {
-        throw new Error('Invalid username or password. Please try again');
+        throw new Error('Invalid credentials. Please try again');
     }
     if (!response.ok) {
         throw new Error('Login failed. Please try again');

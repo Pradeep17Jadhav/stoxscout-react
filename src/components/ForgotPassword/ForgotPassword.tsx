@@ -15,7 +15,7 @@ const OTP_LENGTH = 6;
 
 export const ForgotPassword = () => {
     const navigate = useNavigate();
-    const {showSnackBar} = useAlert();
+    const {showSnackBar, showLinearProcess, hideLinearProcess} = useAlert();
     const [emailOrUsername, setEmailOrUsername] = useState('');
     const [generatingOtp, setGeneratingOtp] = useState(false);
     const [verifyingOtp, setVerifyingOtp] = useState(false);
@@ -53,8 +53,10 @@ export const ForgotPassword = () => {
         async (e: React.FormEvent) => {
             e.preventDefault();
             setGeneratingOtp(true);
+            showLinearProcess();
             forgotPasswordAPI(emailOrUsername)
                 .then(() => {
+                    hideLinearProcess();
                     const isEmail = emailOrUsername.indexOf('@') !== -1 && emailOrUsername.indexOf('.') !== -1;
                     const message = `OTP sent to email address ${isEmail ? emailOrUsername : ` associated with ${emailOrUsername}`}`;
                     showSnackBar(message);
@@ -62,49 +64,56 @@ export const ForgotPassword = () => {
                 })
                 .catch((error: any) => {
                     showSnackBar(error.message, 'error');
+                    hideLinearProcess(false);
                     clearForm();
                 })
                 .finally(() => setGeneratingOtp(false));
         },
-        [clearForm, emailOrUsername, showSnackBar]
+        [clearForm, emailOrUsername, hideLinearProcess, showLinearProcess, showSnackBar]
     );
 
     const submitOtp = useCallback(
         async (e: React.FormEvent) => {
             e.preventDefault();
+            showLinearProcess();
             setVerifyingOtp(true);
             verifyOtpAPI(emailOrUsername, parseInt(otp))
                 .then(({resetToken}) => {
                     if (emailOrUsername) {
                         setResetToken(resetToken);
                     }
+                    hideLinearProcess();
                 })
                 .catch((error: any) => {
                     setOtp('');
                     showSnackBar(error.message, 'error');
+                    hideLinearProcess(false);
                 })
                 .finally(() => setVerifyingOtp(false));
         },
-        [emailOrUsername, otp, showSnackBar]
+        [emailOrUsername, hideLinearProcess, otp, showLinearProcess, showSnackBar]
     );
 
     const updatePassword = useCallback(
         async (e: React.FormEvent) => {
             e.preventDefault();
+            showLinearProcess();
             setUpdatingPassword(true);
             updatePasswordAPI(resetToken, password)
                 .then(() => {
+                    hideLinearProcess();
                     showSnackBar('Password updated successfully! Now you can login with your new credentials.');
                     clearForm();
                     returnToLoginScreen();
                 })
                 .catch((error: any) => {
                     showSnackBar(error.message, 'error');
+                    hideLinearProcess(false);
                     returnToLoginScreen();
                 })
                 .finally(() => setUpdatingPassword(false));
         },
-        [resetToken, password, showSnackBar, clearForm, returnToLoginScreen]
+        [showLinearProcess, resetToken, password, hideLinearProcess, showSnackBar, clearForm, returnToLoginScreen]
     );
 
     const validatePasswords = useCallback((password: string, repeatPassword: string) => {
@@ -154,7 +163,7 @@ export const ForgotPassword = () => {
                     <Button
                         variant="contained"
                         color="primary"
-                        className="form-item"
+                        className="primary-button form-item"
                         type="submit"
                         disabled={!emailOrUsername || generatingOtp}
                     >
@@ -171,7 +180,7 @@ export const ForgotPassword = () => {
                     <Button
                         variant="contained"
                         color="primary"
-                        className="form-item"
+                        className="primary-button form-item"
                         type="submit"
                         disabled={generatingOtp || otp.length !== OTP_LENGTH}
                     >
@@ -216,7 +225,7 @@ export const ForgotPassword = () => {
                     <Button
                         variant="contained"
                         color="primary"
-                        className="form-item"
+                        className="primary-button form-item"
                         type="submit"
                         disabled={updatingPassword || !isValid}
                     >

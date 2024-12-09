@@ -53,6 +53,17 @@ const lightTheme = createTheme({
         mode: 'light'
     },
     components: {
+        MuiLinearProgress: {
+            styleOverrides: {
+                root: {
+                    transition: 'opacity 2s ease-out',
+                    backgroundColor: 'var(--magnyfire-background-primary)',
+                    '& .MuiLinearProgress-barColorPrimary': {
+                        backgroundColor: 'green'
+                    }
+                }
+            }
+        },
         MuiOutlinedInput: {
             styleOverrides: {
                 root: {
@@ -119,6 +130,17 @@ const darkTheme = createTheme({
                     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                         borderColor: 'var(--magnyfire-background-focused)',
                         color: '#fff !important'
+                    }
+                }
+            }
+        },
+        MuiLinearProgress: {
+            styleOverrides: {
+                root: {
+                    transition: 'opacity 2s ease-out',
+                    backgroundColor: 'var(--magnyfire-background-primary)',
+                    '& .MuiLinearProgress-barColorPrimary': {
+                        backgroundColor: 'green'
                     }
                 }
             }

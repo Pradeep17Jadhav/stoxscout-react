@@ -69,6 +69,12 @@ const OTPInput = ({length, value, onChange, onlyNumber}: Props) => {
         focusInput(0);
     }, []);
 
+    useEffect(() => {
+        if (value === '') {
+            focusInput(0);
+        }
+    }, [value]);
+
     const focusInput = (targetIndex: number) => {
         inputRefs.current[targetIndex]?.focus();
     };

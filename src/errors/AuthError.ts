@@ -3,7 +3,7 @@ export class AuthError extends Error {
 
     constructor(type: string) {
         super();
-        this.name = 'TokenError';
+        this.name = 'AuthError';
         this.type = type;
         this.message = 'Unauthorized. Please login again.';
 
@@ -11,6 +11,8 @@ export class AuthError extends Error {
             this.message = 'Your login has timed out. Please login again.';
         } else if (type === 'invalid_token') {
             this.message = 'Invalid session. Please login again.';
+        } else if (type === 'user_not_found') {
+            this.message = 'User not found. Please login again.';
         }
 
         Object.setPrototypeOf(this, AuthError.prototype);

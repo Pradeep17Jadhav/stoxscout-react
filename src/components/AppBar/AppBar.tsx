@@ -24,6 +24,7 @@ import {THEME} from '../../types/userPreferences';
 import usePreferences from '../../hooks/usePreferences';
 import {AppDispatch} from '../../redux/store/store';
 import './styles.css';
+import MagnyFireLinearProgress from '../LinearProgress/LinearProgress';
 
 const AppBar = () => {
     const location = useLocation();
@@ -73,15 +74,15 @@ const AppBar = () => {
 
     const convertToPrice = useCallback((strPrice: string) => parseFloat(strPrice.replace(/,/g, '')), []);
 
-    const pages = useMemo(
+    const publicPages = useMemo(() => [{to: '/SIPCalculator', label: 'SIP Calculator', Icon: CalculateIcon}], []);
+    const privatePages = useMemo(
         () => [
             {to: '/dashboard', label: 'Dashboard', Icon: DashboardIcon},
             ...(isMobile ? [{to: '/holdings', label: 'Holdings', Icon: ListAltOutlinedIcon}] : []),
             {to: '/portfolio', label: 'Portfolio', Icon: ListAltOutlinedIcon},
             {to: '/heatmapPNL', label: 'Charts', Icon: LeaderboardIcon},
             {to: '/addPurchase', label: 'Add Purchase', Icon: AddShoppingCartIcon},
-            {to: '/upload', label: 'Upload', Icon: CloudUploadIcon},
-            {to: '/SIPCalculator', label: 'SIP Calculator', Icon: CalculateIcon}
+            {to: '/upload', label: 'Upload', Icon: CloudUploadIcon}
         ],
         []
     );
@@ -153,137 +154,152 @@ const AppBar = () => {
     }, [handleMenuItemClick, isAuthenticated, name, onThemeChange, settings, theme]);
 
     return (
-        <Container className={classnames('appbar-container', showDark && 'dark')} maxWidth={false}>
-            <Toolbar disableGutters>
-                <Typography
-                    variant="h6"
-                    noWrap
-                    component="a"
-                    sx={{
-                        mr: 2,
-                        display: {xs: 'none', md: 'flex'},
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        letterSpacing: '.2rem',
-                        color: 'inherit',
-                        textDecoration: 'none'
-                    }}
-                >
-                    <span className="profit">Magny</span>
-                    <span className="loss">Fire</span>
-                </Typography>
-
-                <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
-                    <IconButton
-                        size="large"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleOpenNavMenu}
-                        color="inherit"
-                        disabled={!isAuthenticated}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left'
+        <>
+            <Container className={classnames('appbar-container', showDark && 'dark')} maxWidth={false}>
+                <Toolbar disableGutters>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="a"
+                        sx={{
+                            mr: 2,
+                            display: {xs: 'none', md: 'flex'},
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.2rem',
+                            color: 'inherit',
+                            textDecoration: 'none'
                         }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left'
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu('')}
-                        sx={{display: {xs: 'block', md: 'none'}}}
                     >
-                        {pages.map((page) => (
-                            <MenuItem key={page.label} onClick={handleCloseNavMenu(page.to)}>
-                                <Typography sx={{textAlign: 'center'}}>{page.label}</Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-                </Box>
+                        <span className="profit">Magny</span>
+                        <span className="loss">Fire</span>
+                    </Typography>
 
-                <Box sx={{flexGrow: 1, display: {xs: 'none', sm: 'flex'}}}>
-                    {isAuthenticated &&
-                        pages.map(({label, to, Icon}) => (
+                    <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
+                        <IconButton
+                            size="large"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                            disabled={!isAuthenticated}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left'
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left'
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu('')}
+                            sx={{display: {xs: 'block', md: 'none'}}}
+                        >
+                            {privatePages.map((page) => (
+                                <MenuItem key={page.label} onClick={handleCloseNavMenu(page.to)}>
+                                    <Typography sx={{textAlign: 'center'}}>{page.label}</Typography>
+                                </MenuItem>
+                            ))}
+                            {publicPages.map((page) => (
+                                <MenuItem key={page.label} onClick={handleCloseNavMenu(page.to)}>
+                                    <Typography sx={{textAlign: 'center'}}>{page.label}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+
+                    <Box sx={{flexGrow: 1, display: {xs: 'none', sm: 'flex'}}}>
+                        {isAuthenticated &&
+                            privatePages.map(({label, to, Icon}) => (
+                                <Tooltip key={label} title={label}>
+                                    <IconButton size="large" onClick={handleCloseNavMenu(to)} color="default">
+                                        <Icon />
+                                    </IconButton>
+                                </Tooltip>
+                            ))}
+                        {publicPages.map(({label, to, Icon}) => (
                             <Tooltip key={label} title={label}>
                                 <IconButton size="large" onClick={handleCloseNavMenu(to)} color="default">
                                     <Icon />
                                 </IconButton>
                             </Tooltip>
                         ))}
-                </Box>
-
-                {lastUpdatedTimestamp}
-                {isAuthenticated && (
-                    <Tooltip title="Advance Decline Ratio">
-                        <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-                            <div className="advanced-declined">
-                                <div className="profit advanced-declined-divider">{advanced}</div>
-                                <div className="loss">{declined}</div>
-                            </div>
-                        </Box>
-                    </Tooltip>
-                )}
-
-                {isAuthenticated && (
-                    <Box className="indices" sx={{display: {xs: 'none', md: 'flex'}}}>
-                        {indices.map((index) => (
-                            <IndexInfo key={index.indexSymbol} index={index} />
-                        ))}
-                        <IndexInfo
-                            index={{
-                                indexSymbol: 'Total P&L',
-                                current: convertToPrice(holdingSummary.totalPnl),
-                                percentChange: convertToPrice(holdingSummary.totalPnlPercentage)
-                            }}
-                        />
-                        <IndexInfo
-                            index={{
-                                indexSymbol: 'Day P&L',
-                                current: convertToPrice(holdingSummary.totalDayChange),
-                                percentChange: convertToPrice(holdingSummary.totalDayChangePercentage)
-                            }}
-                        />
                     </Box>
-                )}
 
-                <Box sx={{flexGrow: 0}}>
-                    <Tooltip title="Open settings">
-                        <IconButton onClick={handlePopoverOpen} sx={{p: 0}}>
-                            <Avatar alt={name} sx={{bgcolor: grey[600]}}>
-                                {name === 'User' ? undefined : name.slice(0, 1)}
-                            </Avatar>
-                        </IconButton>
-                    </Tooltip>
-                    <Popover
-                        open={Boolean(popoverAnchor)}
-                        anchorEl={popoverAnchor}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right'
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right'
-                        }}
-                        onClose={handlePopoverClose}
-                        sx={{
-                            width: 300,
-                            height: 500
-                        }}
-                        disableScrollLock
-                    >
-                        {userMenuItems}
-                    </Popover>
-                </Box>
-            </Toolbar>
-        </Container>
+                    {lastUpdatedTimestamp}
+                    {isAuthenticated && (
+                        <Tooltip title="Advance Decline Ratio">
+                            <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+                                <div className="advanced-declined">
+                                    <div className="profit advanced-declined-divider">{advanced}</div>
+                                    <div className="loss">{declined}</div>
+                                </div>
+                            </Box>
+                        </Tooltip>
+                    )}
+
+                    {isAuthenticated && (
+                        <Box className="indices" sx={{display: {xs: 'none', md: 'flex'}}}>
+                            {indices.map((index) => (
+                                <IndexInfo key={index.indexSymbol} index={index} />
+                            ))}
+                            <IndexInfo
+                                index={{
+                                    indexSymbol: 'Total P&L',
+                                    current: convertToPrice(holdingSummary.totalPnl),
+                                    percentChange: convertToPrice(holdingSummary.totalPnlPercentage)
+                                }}
+                            />
+                            <IndexInfo
+                                index={{
+                                    indexSymbol: 'Day P&L',
+                                    current: convertToPrice(holdingSummary.totalDayChange),
+                                    percentChange: convertToPrice(holdingSummary.totalDayChangePercentage)
+                                }}
+                            />
+                        </Box>
+                    )}
+
+                    <Box sx={{flexGrow: 0}}>
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={handlePopoverOpen} sx={{p: 0}}>
+                                <Avatar alt={name} sx={{bgcolor: grey[600]}}>
+                                    {name === 'User' ? undefined : name.slice(0, 1)}
+                                </Avatar>
+                            </IconButton>
+                        </Tooltip>
+                        <Popover
+                            open={Boolean(popoverAnchor)}
+                            anchorEl={popoverAnchor}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right'
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right'
+                            }}
+                            onClose={handlePopoverClose}
+                            sx={{
+                                width: 300,
+                                height: 500
+                            }}
+                            disableScrollLock
+                        >
+                            {userMenuItems}
+                        </Popover>
+                    </Box>
+                </Toolbar>
+            </Container>
+            <MagnyFireLinearProgress />
+        </>
     );
 };
 

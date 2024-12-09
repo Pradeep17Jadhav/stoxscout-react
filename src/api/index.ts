@@ -44,7 +44,7 @@ export const authRequest = async (url: string, options: ApiRequestOptions = {}) 
         };
     }
     const {response, data} = await request(url, options);
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 404) {
         throw new AuthError(data.type);
     }
     return {response, data};

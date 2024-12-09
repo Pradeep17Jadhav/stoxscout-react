@@ -9,7 +9,7 @@ import {setIsAuthenticated} from '../redux/actions/authActions';
 export type UseAuthType = {
     isAuthenticated: boolean;
     registerUser: (name: string, username: string, email: string, password: string) => void;
-    loginUser: (username: string, password: string) => void;
+    loginUser: (emailOrUsername: string, password: string) => void;
     logoutUser: () => void;
 };
 
@@ -29,8 +29,8 @@ export const useAuth = (): UseAuthType => {
     );
 
     const loginUser = useCallback(
-        async (username: string, password: string) => {
-            const res = await loginAPI(username, password);
+        async (emailOrUsername: string, password: string) => {
+            const res = await loginAPI(emailOrUsername, password);
             localStorage.setItem('token', res.token);
             dispatch(setIsAuthenticated(true));
             navigate('/');

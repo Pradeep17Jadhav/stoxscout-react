@@ -1,32 +1,37 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button, TextField, Typography} from '@mui/material';
 import {useAuth} from '../../hooks/useAuth';
+import {useAlert} from '../../hooks/useAlert';
 
 export const Signup = () => {
-    const [loading, setLoading] = useState(false);
+    const [signingUp, setSigningUp] = useState(false);
     const [username, setUsername] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const {registerUser, isAuthenticated} = useAuth();
+    const {showLinearProcess, hideLinearProcess} = useAlert();
     const navigate = useNavigate();
 
     const handleSignup = useCallback(
         async (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            setLoading(true);
+            setSigningUp(true);
+            showLinearProcess();
             try {
                 await registerUser(name.trim(), username.trim(), email.trim(), password.trim());
             } catch (err: unknown) {
                 if (err instanceof Error) {
                     setError(err.message);
                 }
+                hideLinearProcess(false);
             }
-            setLoading(false);
+            setSigningUp(false);
+            hideLinearProcess();
         },
-        [email, name, password, registerUser, username]
+        [email, hideLinearProcess, name, password, registerUser, showLinearProcess, username]
     );
 
     useEffect(() => {
@@ -37,6 +42,113 @@ export const Signup = () => {
     const onSetUsername = useCallback((e: any) => setUsername(e.target.value), []);
     const onSetEmail = useCallback((e: any) => setEmail(e.target.value), []);
     const onSetPassword = useCallback((e: any) => setPassword(e.target.value), []);
+
+    const {nameValid, nameError, nameHelperText} = useMemo(() => {
+        let nameHelperText = '';
+        let nameError = true;
+        let nameValid = false;
+        if (name === '') {
+            return {nameValid, nameError: false, nameHelperText};
+        }
+        if (name.length < 6 || name.length > 30) {
+            nameHelperText = 'Name should have 6 to 30 letters';
+        } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+            nameHelperText = 'Name should not have numbers and special characters';
+        } else {
+            nameError = false;
+            nameValid = true;
+        }
+        return {nameValid, nameError, nameHelperText};
+    }, [name]);
+
+    const {usernameValid, usernameError, usernameHelperText} = useMemo(() => {
+        let usernameHelperText = '';
+        let usernameError = true;
+        let usernameValid = false;
+        if (username === '') {
+            return {usernameValid, usernameError: false, usernameHelperText};
+        }
+        const errors = [];
+        if (username.length < 6 || username.length > 30) {
+            errors.push('be between 6 to 30 characters long');
+        }
+        if (/[^a-zA-Z0-9]/.test(username)) {
+            errors.push('not contain special characters or spaces');
+        }
+        if (errors.length > 0) {
+            usernameHelperText = `Username must ${errors.join(', ')}.`;
+        } else {
+            usernameError = false;
+            usernameValid = true;
+        }
+        return {usernameValid, usernameError, usernameHelperText};
+    }, [username]);
+
+    const {emailValid, emailError, emailHelperText} = useMemo(() => {
+        let emailHelperText = '';
+        let emailError = true;
+        let emailValid = false;
+        if (email === '') {
+            return {emailValid, emailError: false, emailHelperText};
+        }
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            emailHelperText = 'Please enter a valid email address.';
+        } else {
+            emailError = false;
+            emailValid = true;
+        }
+        return {emailValid, emailError, emailHelperText};
+    }, [email]);
+
+    const {passwordValid, passwordError, passwordHelperText} = useMemo(() => {
+        let passwordHelperText = '';
+        let passwordError = true;
+        let passwordValid = false;
+        if (password === '') {
+            return {passwordValid, passwordError: false, passwordHelperText};
+        }
+
+        const containsUsername = username && new RegExp(username, 'i').test(password);
+        const containsName = name
+            ? name.split(/\s+/).some((part) => password.toLowerCase().includes(part.toLowerCase()))
+            : false;
+
+        const errors = [];
+        if (password.length < 8 || password.length > 30) {
+            errors.push('be 8 to 30 characters long');
+        }
+        if (!/[A-Z]/.test(password)) {
+            errors.push('contain an uppercase letter');
+        }
+        if (!/[a-z]/.test(password)) {
+            errors.push('contain a lowercase letter');
+        }
+        if (!/\d/.test(password)) {
+            errors.push('contain a number');
+        }
+        if (!/[^a-zA-Z0-9]/.test(password)) {
+            errors.push('contain a special character');
+        }
+        if (/\s/.test(password)) {
+            errors.push('not contain spaces');
+        }
+        if (containsUsername || containsName) {
+            errors.push('not contain part of your name or username');
+        }
+        if (errors.length > 0) {
+            passwordHelperText = `Password must ${errors.join(', ')}.`;
+        } else {
+            passwordError = false;
+            passwordValid = true;
+        }
+        return {passwordValid, passwordError, passwordHelperText};
+    }, [name, password, username]);
+
+    const isFormValid = useMemo(
+        () => nameValid && usernameValid && emailValid && passwordValid,
+        [emailValid, nameValid, passwordValid, usernameValid]
+    );
 
     return isAuthenticated ? (
         <></>
@@ -53,6 +165,8 @@ export const Signup = () => {
                     value={name}
                     onChange={onSetName}
                     required
+                    error={nameError}
+                    helperText={nameHelperText}
                 />
                 <TextField
                     className="form-item"
@@ -63,6 +177,8 @@ export const Signup = () => {
                     value={username}
                     onChange={onSetUsername}
                     required
+                    error={usernameError}
+                    helperText={usernameHelperText}
                 />
                 <TextField
                     className="form-item"
@@ -73,6 +189,8 @@ export const Signup = () => {
                     value={email}
                     onChange={onSetEmail}
                     required
+                    error={emailError}
+                    helperText={emailHelperText}
                 />
                 <TextField
                     className="form-item"
@@ -84,6 +202,8 @@ export const Signup = () => {
                     value={password}
                     onChange={onSetPassword}
                     required
+                    error={passwordError}
+                    helperText={passwordHelperText}
                 />
                 {error && (
                     <div className="form-item">
@@ -99,7 +219,7 @@ export const Signup = () => {
                     variant="contained"
                     color="primary"
                     type="submit"
-                    disabled={loading}
+                    disabled={signingUp || !isFormValid}
                 >
                     Signup
                 </Button>

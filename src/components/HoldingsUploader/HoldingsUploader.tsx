@@ -2,15 +2,15 @@ import React, {useCallback, useState} from 'react';
 import * as XLSX from 'xlsx';
 import {Button, Typography} from '@mui/material';
 import {bulkAddHoldings} from '../../api/holdingsAPI';
-import {useNavigate} from 'react-router-dom';
 import {Purchase} from '../../types/purchase';
 import useHoldingsFetcher from '../../hooks/useHoldingsFetcher';
+import {useAlert} from '../../hooks/useAlert';
 import './styles.css';
 
 const HoldingsUploader = () => {
+    const [processing, setProcessing] = useState(false);
     const {refreshHoldings} = useHoldingsFetcher();
-    const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
+    const {showSnackBar, showLinearProcess, hideLinearProcess} = useAlert();
 
     const processSheetData = useCallback(
         async (data: any[]) => {
@@ -24,7 +24,9 @@ const HoldingsUploader = () => {
                 }
             }
             if (startRow === -1) {
-                alert('No valid header row found.');
+                showSnackBar('Error processing the file. Please check if contains valid holding details.', 'error');
+                setProcessing(false);
+                hideLinearProcess(false);
                 return;
             }
 
@@ -56,28 +58,42 @@ const HoldingsUploader = () => {
             try {
                 if (newHoldings.length) {
                     await bulkAddHoldings(newHoldings);
-                    setError('Holdings added successfully, redirecting back to dashboard in 5 seconds!');
+                    showSnackBar(
+                        `Success! Total ${newHoldings.length} holdings added to your portfolio. Visit Portfolio to view updated holdings.`
+                    );
                     refreshHoldings();
-                    setTimeout(() => navigate('/'), 5000);
+                    hideLinearProcess();
+                    setProcessing(false);
+                    return;
+                } else {
+                    showSnackBar('There are no holdings in your file to add.');
                 }
             } catch (err: unknown) {
                 if (err instanceof Error) {
-                    setError(err.message);
+                    showSnackBar(err.message, 'error');
                 }
             }
+            hideLinearProcess(false);
+            setProcessing(false);
         },
-        [navigate, refreshHoldings]
+        [hideLinearProcess, refreshHoldings, showSnackBar]
     );
 
     const handleFileChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
+            setProcessing(true);
+            showLinearProcess();
             const file = event.target.files?.[0];
             if (!file) {
-                setError('No file selected.');
+                showSnackBar('No file selected.', 'error');
+                setProcessing(false);
+                hideLinearProcess(false);
                 return;
             }
             if (file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-                setError('Please upload a valid .xlsx file.');
+                showSnackBar('Please upload a valid .xlsx file.', 'error');
+                setProcessing(false);
+                hideLinearProcess(false);
                 return;
             }
             const reader = new FileReader();
@@ -90,15 +106,19 @@ const HoldingsUploader = () => {
                     const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, {header: 1});
                     processSheetData(jsonData);
                 } catch (error) {
-                    setError('Error processing the file. Please check its content.');
+                    showSnackBar('Error processing the file. Please check if contains valid holding details.', 'error');
+                    setProcessing(false);
+                    hideLinearProcess(false);
                 }
             };
             reader.onerror = () => {
-                setError('Error reading the file. Please try again.');
+                showSnackBar('Error reading the file. Please try again.', 'error');
+                setProcessing(false);
+                hideLinearProcess(false);
             };
             reader.readAsArrayBuffer(file);
         },
-        [processSheetData]
+        [processSheetData, hideLinearProcess, showLinearProcess, showSnackBar]
     );
 
     return (
@@ -118,21 +138,12 @@ const HoldingsUploader = () => {
                     holdings is sent.
                 </Typography>
             </div>
-            <input type="file" accept=".xlsx" onChange={handleFileChange} style={{display: 'none'}} id="file-upload" />
+            <input type="file" accept=".xlsx" onInput={handleFileChange} style={{display: 'none'}} id="file-upload" />
             <label htmlFor="file-upload">
                 <Button className="primary-button" variant="contained" component="span">
-                    Select XLSX File
+                    {processing ? 'Processing the file...' : 'Select XLSX File'}
                 </Button>
             </label>
-            {error && (
-                <div>
-                    {error.split('. ').map((errMsg, index) => (
-                        <Typography key={index} color="error">
-                            {errMsg}
-                        </Typography>
-                    ))}
-                </div>
-            )}
         </div>
     );
 };

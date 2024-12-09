@@ -2,31 +2,36 @@ import {useCallback, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button, TextField, Typography} from '@mui/material';
 import {useAuth} from '../../hooks/useAuth';
+import {useAlert} from '../../hooks/useAlert';
 
 import './styles.css';
 
 export const Login = () => {
     const [logging, setLogging] = useState(false);
-    const [username, setUsername] = useState('');
+    const [emailOrUsername, setEmailOrUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const {loginUser, isAuthenticated} = useAuth();
     const navigate = useNavigate();
+    const {showLinearProcess, hideLinearProcess} = useAlert();
 
     const handleLogin = useCallback(
         async (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             setLogging(true);
+            showLinearProcess();
             try {
-                await loginUser(username, password);
+                await loginUser(emailOrUsername, password);
+                hideLinearProcess(true);
             } catch (err: unknown) {
                 if (err instanceof Error) {
                     setError(err.message);
                 }
+                hideLinearProcess(false);
             }
             setLogging(false);
         },
-        [loginUser, password, username]
+        [showLinearProcess, hideLinearProcess, loginUser, emailOrUsername, password]
     );
 
     const forgotPasswordHandler = useCallback(() => {
@@ -37,7 +42,7 @@ export const Login = () => {
         isAuthenticated && navigate('/');
     }, [isAuthenticated, navigate]);
 
-    const onSetUsername = useCallback((e: any) => setUsername(e.target.value), []);
+    const onSetEmailOrUsername = useCallback((e: any) => setEmailOrUsername(e.target.value), []);
     const onSetPassword = useCallback((e: any) => setPassword(e.target.value), []);
 
     return isAuthenticated ? (
@@ -48,13 +53,13 @@ export const Login = () => {
             <form onSubmit={handleLogin}>
                 <TextField
                     className="form-item"
-                    label="Username"
+                    label="Username or Email"
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    value={username}
-                    onChange={onSetUsername}
-                    autoComplete="username"
+                    value={emailOrUsername}
+                    onChange={onSetEmailOrUsername}
+                    autoComplete="email"
                     required
                 />
                 <TextField
