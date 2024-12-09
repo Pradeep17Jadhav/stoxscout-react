@@ -12,7 +12,7 @@ import {generateRandomNumericId} from '../../helpers/utils';
 import './styles.css';
 
 export const AddPurchase = () => {
-    const {showSnackBar} = useAlert();
+    const {showSnackBar, showLinearProcess, hideLinearProcess} = useAlert();
     const [saving, setSaving] = useState(false);
     const [symbol, setSymbol] = useState('');
     const [holdingList, setHoldingList] = useState<string[]>([]);
@@ -104,6 +104,7 @@ export const AddPurchase = () => {
                 return;
             }
             setSaving(true);
+            showLinearProcess();
             const newSymbol = symbol.trim().toUpperCase().split('-')[0];
             if (!holdingList.includes(newSymbol)) {
                 setHoldingList((holdingList) => [...holdingList, newSymbol]);
@@ -125,14 +126,26 @@ export const AddPurchase = () => {
                     showSnackBar(
                         `Purchase of ${newSymbol} with ${newPurchases.length} transactions added successfully!`
                     );
+                    hideLinearProcess();
                     setLocalPurchase(getDefaultLocalPurchase());
                 })
-                .catch(() => showSnackBar('Purchase saving failed. Please try again!', 'error'))
+                .catch(() => {
+                    showSnackBar('Purchase saving failed. Please try again!', 'error');
+                    hideLinearProcess(false);
+                })
                 .finally(() => {
                     setSaving(false);
                 });
         },
-        [holdingList, isValidForm, localPurchase.transactions, showSnackBar, symbol]
+        [
+            hideLinearProcess,
+            holdingList,
+            isValidForm,
+            localPurchase.transactions,
+            showLinearProcess,
+            showSnackBar,
+            symbol
+        ]
     );
 
     const onSymbolChange = useCallback(
