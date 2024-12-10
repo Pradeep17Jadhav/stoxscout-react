@@ -20,6 +20,7 @@
     flex-direction: column;
     gap: 32px;
     text-align: center;
+    align-items: center;
 }
 
 .holding-uploader {

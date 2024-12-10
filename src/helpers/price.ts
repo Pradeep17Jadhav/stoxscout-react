@@ -129,3 +129,64 @@ export const getProfitLossClassname = (price: string, isDark?: boolean) => {
     }
     return parseFloat(price) >= 0 ? 'profit' : 'loss';
 };
+
+export const numberToRupeesInWords = (num: number): string => {
+    if (num === 0) return 'Zero rupee';
+    if (num === 1) return 'One rupee';
+    const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    const teens = [
+        'Ten',
+        'Eleven',
+        'Twelve',
+        'Thirteen',
+        'Fourteen',
+        'Fifteen',
+        'Sixteen',
+        'Seventeen',
+        'Eighteen',
+        'Nineteen'
+    ];
+    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+    const scales = ['', 'Thousand', 'Lakh', 'Crore'];
+
+    const numberToWords = (n: number): string => {
+        if (n === 0) return 'Zero';
+        if (n < 10) return units[n];
+        if (n < 20) return teens[n - 10];
+        if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 ? ' ' + units[n % 10] : '');
+        if (n < 1000)
+            return units[Math.floor(n / 100)] + ' Hundred' + (n % 100 ? ' and ' + numberToWords(n % 100) : '');
+        return '';
+    };
+
+    const splitIntoGroups = (num: number): number[] => {
+        const groups: number[] = [];
+        let isThousandHandled = false;
+
+        while (num > 0) {
+            if (!isThousandHandled) {
+                groups.push(num % 1000);
+                num = Math.floor(num / 1000);
+                isThousandHandled = true;
+            } else {
+                groups.push(num % 100);
+                num = Math.floor(num / 100);
+            }
+        }
+
+        return groups.reverse();
+    };
+
+    const groups = splitIntoGroups(num);
+    let words = '';
+    for (let i = 0; i < groups.length; i++) {
+        if (groups[i]) {
+            words +=
+                (words ? ' ' : '') +
+                numberToWords(groups[i]) +
+                (scales[groups.length - i - 1] ? ' ' + scales[groups.length - i - 1] : '');
+        }
+    }
+
+    return words.trim() + ' Rupees';
+};

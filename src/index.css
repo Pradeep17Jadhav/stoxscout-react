@@ -78,10 +78,6 @@ h4 {
 }
 
 @media (max-width: 600px) {
-  html {
-    font-size: 18px;
-  }
-
   h1 {
     font-size: 2em;
   }
