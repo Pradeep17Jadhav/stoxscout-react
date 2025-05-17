@@ -70,13 +70,13 @@ const main = async () => {
 };
 
 const setMarketData = (req) =>
-    request('http://localhost:4000/api/market', {
+    request('magnyfire-server.vercel.app/api/market', {
         body: req,
         method: 'POST'
     });
 
 const setIndicesData = (req) =>
-    request('http://localhost:4000/api/indices', {
+    request('magnyfire-server.vercel.app/api/indices', {
         body: req,
         method: 'POST'
     });
@@ -124,15 +124,15 @@ const fetchData = async (api, config) => {
 };
 
 const loadUserStockList = async () => {
-    const url = 'http://localhost:4000/userHoldingsList';
+    const url = 'magnyfire-server.vercel.app/userHoldingsList';
     try {
         const token = localStorage.getItem('token');
-        let headers = token
-            ? {
-                  Authorization: `Bearer ${token}`
-              }
-            : {};
-
+        let headers = {};
+        if (token) {
+            headers = {
+                Authorization: `Bearer ${token}`
+            };
+        }
         const response = await fetch(url, {headers});
         if (!response.ok) {
             throw new Error('Failed to fetch data');
